@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import NendoroidCard from "@/components/catalog/NendoroidCard";
 import SearchBar from "@/components/search/SearchBar";
 import { nendoroids } from "@/data/nendoroids";
 
 export default function CatalogPage() {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") ?? "";
+
+  const [search, setSearch] = useState(initialSearch);
 
   const query = search.toLowerCase();
 
