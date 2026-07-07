@@ -11,6 +11,7 @@ import { nendoroids } from "@/data/nendoroids";
 import SearchResults from "@/components/search/SearchResults";
 import { useRouter } from "next/navigation";
 
+
 export default function Home() {
   const [search, setSearch] = useState("");
   const router = useRouter();
