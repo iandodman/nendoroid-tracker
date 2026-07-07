@@ -9,7 +9,7 @@ export default function Home() {
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
       <Header />
 
-      <SearchBar />
+      
 
       <ExploreCatalogButton />
 
