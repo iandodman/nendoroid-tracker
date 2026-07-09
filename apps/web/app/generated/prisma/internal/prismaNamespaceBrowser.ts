@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Nendoroid: 'Nendoroid'
+  Nendoroid: 'Nendoroid',
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -83,6 +84,19 @@ export const NendoroidScalarFieldEnum = {
 export type NendoroidScalarFieldEnum = (typeof NendoroidScalarFieldEnum)[keyof typeof NendoroidScalarFieldEnum]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  googleId: 'googleId',
+  name: 'name',
+  email: 'email',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -97,4 +111,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

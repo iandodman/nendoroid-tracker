@@ -46,3 +46,8 @@ export { Prisma }
  * 
  */
 export type Nendoroid = Prisma.NendoroidModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
