@@ -1,27 +1,23 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-import NendoroidCard from "@/components/catalog/NendoroidCard";
-import SearchBar from "@/components/search/SearchBar";
-import { nendoroids } from "@/data/nendoroids";
+import CatalogClient from "@/components/catalog/CatalogClient";
+import { prisma } from "@/lib/prisma";
 
-export default function CatalogPage() {
-  const searchParams = useSearchParams();
-  const initialSearch = searchParams.get("search") ?? "";
+type CatalogPageProps = {
+  searchParams: Promise<{
+    search?: string;
+  }>;
+};
 
-  const [search, setSearch] = useState(initialSearch);
+export default async function CatalogPage({
+  searchParams,
+}: CatalogPageProps) {
+  const { search } = await searchParams;
 
-  const query = search.toLowerCase();
-
-  const filteredNendoroids = nendoroids.filter((nendoroid) => {
-    return (
-      nendoroid.name.toLowerCase().includes(query) ||
-      nendoroid.series.toLowerCase().includes(query) ||
-      nendoroid.number.toLowerCase().includes(query)
-    );
+  const nendoroids = await prisma.nendoroid.findMany({
+    orderBy: {
+      number: "asc",
+    },
   });
 
   return (
@@ -38,17 +34,7 @@ export default function CatalogPage() {
         </h1>
       </header>
 
-      <SearchBar value={search} onChange={setSearch} />
-
-      {filteredNendoroids.length === 0 ? (
-        <p className="text-center text-zinc-400">No Nendoroids found.</p>
-      ) : (
-        <section className="grid grid-cols-2 gap-3">
-          {filteredNendoroids.map((nendoroid) => (
-            <NendoroidCard key={nendoroid.id} nendoroid={nendoroid} />
-          ))}
-        </section>
-      )}
+      <CatalogClient nendoroids={nendoroids} initialSearch={search ?? ""} />
     </main>
   );
 }
