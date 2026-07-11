@@ -36,40 +36,81 @@ const nendoroids = [
   },
 ];
 
+const sampleCollection = [
+  {
+    number: "2367",
+    quantity: 1,
+  },
+  {
+    number: "2368",
+    quantity: 1,
+  },
+  {
+    number: "2069",
+    quantity: 2,
+  },
+];
+
 async function main() {
-  // Seed del catálogo
   for (const nendoroid of nendoroids) {
     await prisma.nendoroid.upsert({
       where: {
         number: nendoroid.number,
       },
-
       update: {
         name: nendoroid.name,
         series: nendoroid.series,
         imageUrl: nendoroid.imageUrl,
       },
-
       create: nendoroid,
     });
   }
 
-  // Usuario de desarrollo
   const developmentUser = await prisma.user.upsert({
     where: {
       email: "dev@nendodex.local",
     },
-
     update: {},
-
     create: {
       email: "dev@nendodex.local",
       name: "Ian",
     },
   });
 
+  for (const item of sampleCollection) {
+    const nendoroid = await prisma.nendoroid.findUnique({
+      where: {
+        number: item.number,
+      },
+    });
+
+    if (!nendoroid) {
+      throw new Error(
+        `Nendoroid #${item.number} was not found while seeding the collection.`,
+      );
+    }
+
+    await prisma.collectionItem.upsert({
+      where: {
+        userId_nendoroidId: {
+          userId: developmentUser.id,
+          nendoroidId: nendoroid.id,
+        },
+      },
+      update: {
+        quantity: item.quantity,
+      },
+      create: {
+        userId: developmentUser.id,
+        nendoroidId: nendoroid.id,
+        quantity: item.quantity,
+      },
+    });
+  }
+
   console.log("✅ Catalog seeded successfully.");
   console.log(`✅ Development user ready: ${developmentUser.email}`);
+  console.log("✅ Sample collection seeded successfully.");
 }
 
 main()
