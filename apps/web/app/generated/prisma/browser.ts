@@ -27,3 +27,8 @@ export type Nendoroid = Prisma.NendoroidModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model CollectionItem
+ * 
+ */
+export type CollectionItem = Prisma.CollectionItemModel
