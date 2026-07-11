@@ -10,4 +10,5 @@
  */
 export type * from './models/Nendoroid'
 export type * from './models/User'
+export type * from './models/CollectionItem'
 export type * from './commonInputTypes'

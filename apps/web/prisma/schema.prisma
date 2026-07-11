@@ -13,22 +13,40 @@ datasource db {
 }
 
 model Nendoroid {
-  id        Int      @id @default(autoincrement())
-  number    String   @unique
-  name      String
-  series    String
-  imageUrl  String
+  id              Int              @id @default(autoincrement())
+  number          String           @unique
+  name            String
+  series          String
+  imageUrl        String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  collectionItems CollectionItem[]
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  googleId        String?          @unique
+  name            String
+  email           String           @unique
+  imageUrl        String?
+  collectionItems CollectionItem[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model User {
+model CollectionItem {
   id        Int      @id @default(autoincrement())
-  googleId  String?  @unique
-  name      String
-  email     String   @unique
-  imageUrl  String?
-
-  createdAt DateTime @default(now())
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  userId      Int
+  nendoroidId Int
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nendoroid Nendoroid @relation(fields: [nendoroidId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, nendoroidId])
+  @@index([nendoroidId])
 }
