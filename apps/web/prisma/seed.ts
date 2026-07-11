@@ -8,6 +8,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({
   adapter,
 });
+
 const nendoroids = [
   {
     number: "2367",
@@ -36,6 +37,7 @@ const nendoroids = [
 ];
 
 async function main() {
+  // Seed del catálogo
   for (const nendoroid of nendoroids) {
     await prisma.nendoroid.upsert({
       where: {
@@ -52,7 +54,22 @@ async function main() {
     });
   }
 
+  // Usuario de desarrollo
+  const developmentUser = await prisma.user.upsert({
+    where: {
+      email: "dev@nendodex.local",
+    },
+
+    update: {},
+
+    create: {
+      email: "dev@nendodex.local",
+      name: "Ian",
+    },
+  });
+
   console.log("✅ Catalog seeded successfully.");
+  console.log(`✅ Development user ready: ${developmentUser.email}`);
 }
 
 main()
