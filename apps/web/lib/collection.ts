@@ -15,3 +15,11 @@ export async function getUserCollection(userId: number) {
     },
   });
 }
+
+export async function getUserCollectionCount(userId: number) {
+  return prisma.collectionItem.count({
+    where: {
+      userId,
+    },
+  });
+}
