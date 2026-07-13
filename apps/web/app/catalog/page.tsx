@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BottomNavigation from "@/components/navigation/BottomNavigation";
 
 import CatalogClient from "@/components/catalog/CatalogClient";
 import { prisma } from "@/lib/prisma";
@@ -35,6 +36,7 @@ export default async function CatalogPage({
       </header>
 
       <CatalogClient nendoroids={nendoroids} initialSearch={search ?? ""} />
+      <BottomNavigation />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { nendoroids } from "@/data/nendoroids";
+import BottomNavigation from "@/components/navigation/BottomNavigation";
 
 type Props = {
   params: Promise<{
@@ -35,6 +36,8 @@ export default async function NendoroidDetailPage({ params }: Props) {
       <p className="mt-2 text-zinc-400">#{nendoroid.number}</p>
 
       <p className="mt-1 text-zinc-500">{nendoroid.series}</p>
+      <BottomNavigation />
+
     </main>
   );
 }
