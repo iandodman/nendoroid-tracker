@@ -6,7 +6,9 @@ import { prisma } from "@/lib/prisma";
 
 const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
-export async function addToCollection(nendoroidNumber: string) {
+export async function addToCollection(
+  nendoroidNumber: string,
+): Promise<void> {
   const user = await prisma.user.findUnique({
     where: {
       email: DEVELOPMENT_USER_EMAIL,
@@ -27,7 +29,7 @@ export async function addToCollection(nendoroidNumber: string) {
     throw new Error(`Nendoroid #${nendoroidNumber} not found.`);
   }
 
-  const collectionItem = await prisma.collectionItem.upsert({
+  await prisma.collectionItem.upsert({
     where: {
       userId_nendoroidId: {
         userId: user.id,
@@ -45,6 +47,4 @@ export async function addToCollection(nendoroidNumber: string) {
   revalidatePath("/");
   revalidatePath("/collection");
   revalidatePath(`/catalog/${nendoroid.number}`);
-
-  return collectionItem;
 }
