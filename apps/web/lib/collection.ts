@@ -23,3 +23,17 @@ export async function getUserCollectionCount(userId: number) {
     },
   });
 }
+
+export async function getUserCollectionItem(
+  userId: number,
+  nendoroidId: number,
+) {
+  return prisma.collectionItem.findUnique({
+    where: {
+      userId_nendoroidId: {
+        userId,
+        nendoroidId,
+      },
+    },
+  });
+}

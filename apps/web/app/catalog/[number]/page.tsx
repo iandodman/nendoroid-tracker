@@ -1,9 +1,11 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-import BottomNavigation from "@/components/navigation/BottomNavigation";
 import { addToCollection } from "@/app/actions/collection";
-import { nendoroids } from "@/data/nendoroids";
+import { getUserCollectionItem } from "@/lib/collection";
+import { prisma } from "@/lib/prisma";
+
+const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
 type Props = {
   params: Promise<{
@@ -14,11 +16,44 @@ type Props = {
 export default async function NendoroidDetailPage({ params }: Props) {
   const { number } = await params;
 
-  const nendoroid = nendoroids.find((item) => item.number === number);
+  const nendoroid = await prisma.nendoroid.findUnique({
+    where: {
+      number,
+    },
+  });
 
   if (!nendoroid) {
-    return <p>Nendoroid not found.</p>;
+    return (
+      <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
+        <Link
+          href="/catalog"
+          className="text-sm text-zinc-400 hover:text-zinc-200"
+        >
+          ← Back to catalog
+        </Link>
+
+        <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
+          <h1 className="text-xl font-bold">
+            Nendoroid not found
+          </h1>
+
+          <p className="mt-2 text-sm text-zinc-400">
+            The requested Nendoroid does not exist in the catalog.
+          </p>
+        </section>
+      </main>
+    );
   }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: DEVELOPMENT_USER_EMAIL,
+    },
+  });
+
+  const collectionItem = user
+    ? await getUserCollectionItem(user.id, nendoroid.id)
+    : null;
 
   const addCurrentNendoroid = addToCollection.bind(
     null,
@@ -27,17 +62,26 @@ export default async function NendoroidDetailPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <Link href="/catalog" className="text-sm text-zinc-400">
+      <Link
+        href="/catalog"
+        className="text-sm text-zinc-400 hover:text-zinc-200"
+      >
         ← Back to catalog
       </Link>
 
-      <Image
-        src={nendoroid.imageUrl}
-        alt={nendoroid.name}
-        width={500}
-        height={500}
-        className="mt-6 aspect-square w-full rounded-2xl object-cover"
-      />
+      {nendoroid.imageUrl ? (
+        <Image
+          src={nendoroid.imageUrl}
+          alt={nendoroid.name}
+          width={500}
+          height={500}
+          className="mt-6 aspect-square w-full rounded-2xl object-cover"
+        />
+      ) : (
+        <div className="mt-6 flex aspect-square w-full items-center justify-center rounded-2xl bg-zinc-900 text-zinc-500">
+          No image
+        </div>
+      )}
 
       <h1 className="mt-6 text-3xl font-bold">
         {nendoroid.name}
@@ -51,16 +95,26 @@ export default async function NendoroidDetailPage({ params }: Props) {
         {nendoroid.series}
       </p>
 
-      <form action={addCurrentNendoroid} className="mt-6">
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200"
-        >
-          Add to collection
-        </button>
-      </form>
+      {collectionItem ? (
+        <section className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <p className="font-semibold text-zinc-50">
+            ✓ In your collection
+          </p>
 
-      <BottomNavigation />
+          <p className="mt-1 text-sm text-zinc-400">
+            Quantity: {collectionItem.quantity}
+          </p>
+        </section>
+      ) : (
+        <form action={addCurrentNendoroid} className="mt-6">
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200"
+          >
+            Add to collection
+          </button>
+        </form>
+      )}
     </main>
   );
 }
