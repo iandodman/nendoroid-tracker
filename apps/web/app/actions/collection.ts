@@ -6,9 +6,9 @@ import { prisma } from "@/lib/prisma";
 
 const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
-export async function addToCollection(
+async function getDevelopmentUserAndNendoroid(
   nendoroidNumber: string,
-): Promise<void> {
+) {
   const user = await prisma.user.findUnique({
     where: {
       email: DEVELOPMENT_USER_EMAIL,
@@ -29,6 +29,24 @@ export async function addToCollection(
     throw new Error(`Nendoroid #${nendoroidNumber} not found.`);
   }
 
+  return {
+    user,
+    nendoroid,
+  };
+}
+
+function revalidateCollectionPages(nendoroidNumber: string) {
+  revalidatePath("/");
+  revalidatePath("/collection");
+  revalidatePath(`/catalog/${nendoroidNumber}`);
+}
+
+export async function addToCollection(
+  nendoroidNumber: string,
+): Promise<void> {
+  const { user, nendoroid } =
+    await getDevelopmentUserAndNendoroid(nendoroidNumber);
+
   await prisma.collectionItem.upsert({
     where: {
       userId_nendoroidId: {
@@ -44,7 +62,40 @@ export async function addToCollection(
     },
   });
 
-  revalidatePath("/");
-  revalidatePath("/collection");
-  revalidatePath(`/catalog/${nendoroid.number}`);
+  revalidateCollectionPages(nendoroid.number);
+}
+
+export async function increaseCollectionQuantity(
+  nendoroidNumber: string,
+): Promise<void> {
+  const { user, nendoroid } =
+    await getDevelopmentUserAndNendoroid(nendoroidNumber);
+
+  const collectionItem = await prisma.collectionItem.findUnique({
+    where: {
+      userId_nendoroidId: {
+        userId: user.id,
+        nendoroidId: nendoroid.id,
+      },
+    },
+  });
+
+  if (!collectionItem) {
+    throw new Error(
+      `Nendoroid #${nendoroidNumber} is not in the user's collection.`,
+    );
+  }
+
+  await prisma.collectionItem.update({
+    where: {
+      id: collectionItem.id,
+    },
+    data: {
+      quantity: {
+        increment: 1,
+      },
+    },
+  });
+
+  revalidateCollectionPages(nendoroid.number);
 }

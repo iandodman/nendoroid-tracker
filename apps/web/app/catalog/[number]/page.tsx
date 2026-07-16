@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { addToCollection } from "@/app/actions/collection";
+import {
+  addToCollection,
+  increaseCollectionQuantity,
+} from "@/app/actions/collection";
 import { getUserCollectionItem } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
@@ -33,9 +36,7 @@ export default async function NendoroidDetailPage({ params }: Props) {
         </Link>
 
         <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
-          <h1 className="text-xl font-bold">
-            Nendoroid not found
-          </h1>
+          <h1 className="text-xl font-bold">Nendoroid not found</h1>
 
           <p className="mt-2 text-sm text-zinc-400">
             The requested Nendoroid does not exist in the catalog.
@@ -59,6 +60,12 @@ export default async function NendoroidDetailPage({ params }: Props) {
     null,
     nendoroid.number,
   );
+
+  const increaseCurrentNendoroid =
+    increaseCollectionQuantity.bind(
+      null,
+      nendoroid.number,
+    );
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
@@ -104,6 +111,18 @@ export default async function NendoroidDetailPage({ params }: Props) {
           <p className="mt-1 text-sm text-zinc-400">
             Quantity: {collectionItem.quantity}
           </p>
+
+          <form
+            action={increaseCurrentNendoroid}
+            className="mt-4"
+          >
+            <button
+              type="submit"
+              className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
+            >
+              Add another
+            </button>
+          </form>
         </section>
       ) : (
         <form action={addCurrentNendoroid} className="mt-6">
