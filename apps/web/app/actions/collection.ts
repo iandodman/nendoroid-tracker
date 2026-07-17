@@ -99,3 +99,46 @@ export async function increaseCollectionQuantity(
 
   revalidateCollectionPages(nendoroid.number);
 }
+
+export async function decreaseCollectionQuantity(
+  nendoroidNumber: string,
+): Promise<void> {
+  const { user, nendoroid } =
+    await getDevelopmentUserAndNendoroid(nendoroidNumber);
+
+  const collectionItem = await prisma.collectionItem.findUnique({
+    where: {
+      userId_nendoroidId: {
+        userId: user.id,
+        nendoroidId: nendoroid.id,
+      },
+    },
+  });
+
+  if (!collectionItem) {
+    throw new Error(
+      `Nendoroid #${nendoroidNumber} is not in the user's collection.`,
+    );
+  }
+
+  if (collectionItem.quantity === 1) {
+    await prisma.collectionItem.delete({
+      where: {
+        id: collectionItem.id,
+      },
+    });
+  } else {
+    await prisma.collectionItem.update({
+      where: {
+        id: collectionItem.id,
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+      },
+    });
+  }
+
+  revalidateCollectionPages(nendoroid.number);
+}

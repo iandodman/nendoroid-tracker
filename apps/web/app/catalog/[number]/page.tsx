@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   addToCollection,
+  decreaseCollectionQuantity,
   increaseCollectionQuantity,
 } from "@/app/actions/collection";
 import { getUserCollectionItem } from "@/lib/collection";
@@ -66,6 +67,11 @@ export default async function NendoroidDetailPage({ params }: Props) {
       null,
       nendoroid.number,
     );
+  const decreaseCurrentNendoroid =
+    decreaseCollectionQuantity.bind(
+      null,
+      nendoroid.number,
+    );
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
@@ -108,21 +114,35 @@ export default async function NendoroidDetailPage({ params }: Props) {
             ✓ In your collection
           </p>
 
-          <p className="mt-1 text-sm text-zinc-400">
-            Quantity: {collectionItem.quantity}
+          <p className="mt-4 text-sm text-zinc-400">
+            Quantity
           </p>
 
-          <form
-            action={increaseCurrentNendoroid}
-            className="mt-4"
-          >
-            <button
-              type="submit"
-              className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
-            >
-              Add another
-            </button>
-          </form>
+          <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+            <form action={decreaseCurrentNendoroid}>
+              <button
+                type="submit"
+                aria-label="Decrease quantity"
+                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800"
+              >
+                −
+              </button>
+            </form>
+
+            <span className="min-w-10 text-center text-xl font-bold text-zinc-50">
+              {collectionItem.quantity}
+            </span>
+
+            <form action={increaseCurrentNendoroid}>
+              <button
+                type="submit"
+                aria-label="Increase quantity"
+                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800"
+              >
+                +
+              </button>
+            </form>
+          </div>
         </section>
       ) : (
         <form action={addCurrentNendoroid} className="mt-6">
