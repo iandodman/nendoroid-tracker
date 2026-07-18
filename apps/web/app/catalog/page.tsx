@@ -1,8 +1,10 @@
 import Link from "next/link";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
 
 import CatalogClient from "@/components/catalog/CatalogClient";
+import BottomNavigation from "@/components/navigation/BottomNavigation";
 import { prisma } from "@/lib/prisma";
+
+const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
 type CatalogPageProps = {
   searchParams: Promise<{
@@ -15,11 +17,42 @@ export default async function CatalogPage({
 }: CatalogPageProps) {
   const { search } = await searchParams;
 
+  const user = await prisma.user.findUnique({
+    where: {
+      email: DEVELOPMENT_USER_EMAIL,
+    },
+  });
+
   const nendoroids = await prisma.nendoroid.findMany({
     orderBy: {
       number: "asc",
     },
   });
+
+  const collectionItems = user
+    ? await prisma.collectionItem.findMany({
+        where: {
+          userId: user.id,
+        },
+        select: {
+          nendoroidId: true,
+          quantity: true,
+        },
+      })
+    : [];
+
+  const collectionQuantityByNendoroidId = new Map(
+    collectionItems.map((item) => [
+      item.nendoroidId,
+      item.quantity,
+    ]),
+  );
+
+  const catalogNendoroids = nendoroids.map((nendoroid) => ({
+    ...nendoroid,
+    collectionQuantity:
+      collectionQuantityByNendoroidId.get(nendoroid.id) ?? 0,
+  }));
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
@@ -35,7 +68,11 @@ export default async function CatalogPage({
         </h1>
       </header>
 
-      <CatalogClient nendoroids={nendoroids} initialSearch={search ?? ""} />
+      <CatalogClient
+        nendoroids={catalogNendoroids}
+        initialSearch={search ?? ""}
+      />
+
       <BottomNavigation />
     </main>
   );
