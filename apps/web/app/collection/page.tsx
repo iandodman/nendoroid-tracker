@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import CollectionCard from "@/components/collection/CollectionCard";
+import CollectionClient from "@/components/collection/CollectionClient";
 import Header from "@/components/layout/Header";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import { getUserCollection } from "@/lib/collection";
@@ -53,19 +53,23 @@ export default async function CollectionPage() {
           </p>
         </div>
 
-        <div className="mb-6 grid grid-cols-2 gap-3">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
-            <p className="text-sm text-zinc-400">Unique Nendoroids</p>
+        <div className="mb-4 grid grid-cols-2 gap-2">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5">
+            <p className="text-xs text-zinc-500">
+              Unique Nendoroids
+            </p>
 
-            <p className="mt-1 text-2xl font-bold">
+            <p className="mt-0.5 text-lg font-semibold">
               {uniqueNendoroids}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
-            <p className="text-sm text-zinc-400">Total figures</p>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5">
+            <p className="text-xs text-zinc-500">
+              Total figures
+            </p>
 
-            <p className="mt-1 text-2xl font-bold">
+            <p className="mt-0.5 text-lg font-semibold">
               {totalFigures}
             </p>
           </div>
@@ -87,11 +91,7 @@ export default async function CollectionPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {collection.map((item) => (
-              <CollectionCard key={item.id} item={item} />
-            ))}
-          </div>
+          <CollectionClient collection={collection} />
         )}
       </section>
 
