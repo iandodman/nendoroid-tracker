@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 import NendoroidCard from "@/components/catalog/NendoroidCard";
 import SearchBar from "@/components/search/SearchBar";
 import type { Nendoroid } from "@/types/nendoroid";
 
+export type CatalogNendoroid = Nendoroid & {
+  collectionQuantity: number;
+};
+
 type CatalogClientProps = {
-  nendoroids: Nendoroid[];
+  nendoroids: CatalogNendoroid[];
   initialSearch?: string;
 };
 
@@ -18,7 +21,7 @@ export default function CatalogClient({
 }: CatalogClientProps) {
   const [search, setSearch] = useState(initialSearch);
 
-  const query = search.toLowerCase();
+  const query = search.trim().toLowerCase();
 
   const filteredNendoroids = nendoroids.filter((nendoroid) => {
     return (
@@ -33,11 +36,16 @@ export default function CatalogClient({
       <SearchBar value={search} onChange={setSearch} />
 
       {filteredNendoroids.length === 0 ? (
-        <p className="text-center text-zinc-400">No Nendoroids found.</p>
+        <p className="text-center text-zinc-400">
+          No Nendoroids found.
+        </p>
       ) : (
-        <section className="grid grid-cols-2 gap-3">
+        <section className="grid grid-cols-2 items-stretch gap-3">
           {filteredNendoroids.map((nendoroid) => (
-            <NendoroidCard key={nendoroid.id} nendoroid={nendoroid} />
+            <NendoroidCard
+              key={nendoroid.id}
+              nendoroid={nendoroid}
+            />
           ))}
         </section>
       )}
