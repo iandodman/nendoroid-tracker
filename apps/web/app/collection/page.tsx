@@ -20,6 +20,7 @@ export default async function CollectionPage() {
 
         <section className="mt-8">
           <h1 className="text-2xl font-bold">My collection</h1>
+
           <p className="mt-3 text-zinc-400">
             Development user not found.
           </p>
@@ -32,6 +33,13 @@ export default async function CollectionPage() {
 
   const collection = await getUserCollection(user.id);
 
+  const uniqueNendoroids = collection.length;
+
+  const totalFigures = collection.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
       <Header />
@@ -41,9 +49,26 @@ export default async function CollectionPage() {
           <h1 className="text-2xl font-bold">My collection</h1>
 
           <p className="mt-1 text-sm text-zinc-400">
-            {collection.length}{" "}
-            {collection.length === 1 ? "Nendoroid" : "Nendoroids"}
+            An overview of your Nendoroid collection.
           </p>
+        </div>
+
+        <div className="mb-6 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+            <p className="text-sm text-zinc-400">Unique Nendoroids</p>
+
+            <p className="mt-1 text-2xl font-bold">
+              {uniqueNendoroids}
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+            <p className="text-sm text-zinc-400">Total figures</p>
+
+            <p className="mt-1 text-2xl font-bold">
+              {totalFigures}
+            </p>
+          </div>
         </div>
 
         {collection.length === 0 ? (
