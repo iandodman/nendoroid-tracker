@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 import CollectionCard from "@/components/collection/CollectionCard";
-import SearchBar from "@/components/search/SearchBar";
-import SortSelect, {
-  type SortOption,
-} from "@/components/sorting/SortSelect";
+import CollectionToolbar, {
+  type CollectionFilter,
+} from "@/components/collection/CollectionToolbar";
+import type { SortOption } from "@/components/sorting/SortSelect";
 import type { getUserCollection } from "@/lib/collection";
 
 type CollectionItem = Awaited<
@@ -58,17 +58,25 @@ export default function CollectionClient({
   const [search, setSearch] = useState("");
   const [sort, setSort] =
     useState<CollectionSort>("recently-added");
+  const [filter, setFilter] =
+    useState<CollectionFilter>("all");
 
   const query = search.trim().toLowerCase();
 
   const filteredCollection = collection.filter((item) => {
-    const { nendoroid } = item;
+    const { nendoroid, quantity } = item;
 
-    return (
+    const matchesSearch =
       nendoroid.name.toLowerCase().includes(query) ||
       nendoroid.series.toLowerCase().includes(query) ||
-      nendoroid.number.toLowerCase().includes(query)
-    );
+      nendoroid.number.toLowerCase().includes(query);
+
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "single-copy" && quantity === 1) ||
+      (filter === "duplicates" && quantity > 1);
+
+    return matchesSearch && matchesFilter;
   });
 
   const sortedCollection = [...filteredCollection].sort(
@@ -112,21 +120,20 @@ export default function CollectionClient({
     },
   );
 
+  const hasActiveSearch = query.length > 0;
+  const hasActiveFilter = filter !== "all";
+
   return (
     <>
-      <div className="mb-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_220px]">
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-          label="Search collection"
-        />
-
-        <SortSelect
-          value={sort}
-          options={collectionSortOptions}
-          onChange={setSort}
-        />
-      </div>
+      <CollectionToolbar
+        search={search}
+        onSearchChange={setSearch}
+        sort={sort}
+        sortOptions={collectionSortOptions}
+        onSortChange={setSort}
+        filter={filter}
+        onFilterChange={setFilter}
+      />
 
       {sortedCollection.length === 0 ? (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
@@ -135,7 +142,11 @@ export default function CollectionClient({
           </h2>
 
           <p className="mt-2 text-sm text-zinc-400">
-            Try searching by name, number, or series.
+            {hasActiveSearch && hasActiveFilter
+              ? "Try changing your search or collection filter."
+              : hasActiveFilter
+                ? "No collection items match this filter."
+                : "Try searching by name, number, or series."}
           </p>
         </div>
       ) : (
