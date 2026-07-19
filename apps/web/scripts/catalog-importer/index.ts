@@ -4,6 +4,7 @@ import {
   writeJsonFile,
   writeTextFile,
 } from "./write-json";
+import { normalizeGoodSmileProduct } from "./normalizer";
 
 function getProductId(): string {
   const productId = process.argv[2]?.trim();
@@ -53,27 +54,33 @@ async function main(): Promise<void> {
     productId,
     productUrl,
   );
+  const normalizedProduct =
+  normalizeGoodSmileProduct(product);
 
   await writeJsonFile(
-    `data/catalog/${productId}.json`,
+    `data/catalog/${productId}.raw.json`,
     product,
   );
 
-  console.log("Parsed product:");
-  console.log(`- Name: ${product.name}`);
-  console.log(`- Number: ${product.number}`);
-  console.log(`- Series: ${product.series ?? "Unknown"}`);
-  console.log(
-    `- Manufacturer: ${product.manufacturer ?? "Unknown"}`,
+  await writeJsonFile(
+    `data/catalog/${productId}.normalized.json`,
+    normalizedProduct,
   );
-  console.log(
-    `- Product type: ${product.productType ?? "Unknown"}`,
-  );
-  console.log(
-    `- Release dates: ${product.releaseDates.length}`,
-  );
-  console.log(`- Releases: ${product.releases.length}`);
 
+  console.log("Normalized product:");
+  console.log(`- Name: ${normalizedProduct.name}`);
+  console.log(`- Number: ${normalizedProduct.number}`);
+  console.log(
+    `- Release date: ${
+      normalizedProduct.releaseDate ?? "Unknown"
+    }`,
+  );
+  console.log(
+    `- Raw output: data/catalog/${productId}.raw.json`,
+  );
+  console.log(
+    `- Normalized output: data/catalog/${productId}.normalized.json`,
+  );
   const missingFields: Array<
     [field: string, value: unknown]
   > = [
