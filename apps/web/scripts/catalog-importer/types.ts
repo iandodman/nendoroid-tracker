@@ -4,7 +4,7 @@ export interface RawGoodSmileProduct {
   officialUrl: string;
 
   name: string;
-  number?: string;
+  number: string;
   series?: string;
   manufacturer?: string;
   distributedBy?: string;

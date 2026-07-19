@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1746",
+  "officialUrl": "https://www.goodsmile.com/en/product/1746",
+  "name": "Nendoroid Nozomu Itoshiki 1.5",
+  "number": "342a",
+  "series": "Zoku Sayonara, Zetsubou-Sensei",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20130520/3918/23963/large/faf9161fa6a37f2d2917151295958b21.jpg",
+  "price": 3981,
+  "currency": "JPY",
+  "specifications": "Painted ABS & PVC non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Hiroshi (Sakurazensen)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1746",
+      "name": "Nendoroid Nozomu Itoshiki 1.5",
+      "price": 3981,
+      "reservationDeadline": "2010-01-01T00:00:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

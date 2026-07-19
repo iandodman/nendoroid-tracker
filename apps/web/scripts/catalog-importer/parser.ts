@@ -37,10 +37,24 @@ interface ViewItemDataLayerEntry {
   items?: ProductAnalyticsItem[];
 }
 
+interface ProductDefinitionData {
+  number?: string;
+  series?: string;
+  specifications?: string;
+  sculptor?: string;
+  productionCooperation?: string;
+  relatedInformation?: string;
+  manufacturer?: string;
+  distributedBy?: string;
+}
+
 /**
- * Finds the dataLayer.push(...) call corresponding to the product view event.
+ * Finds the dataLayer.push(...) call corresponding to the
+ * product view event.
  */
-function extractViewItemEntry(html: string): ViewItemDataLayerEntry {
+function extractViewItemEntry(
+  html: string,
+): ViewItemDataLayerEntry {
   const $ = cheerio.load(html);
 
   const scripts = $("script")
@@ -55,26 +69,36 @@ function extractViewItemEntry(html: string): ViewItemDataLayerEntry {
       continue;
     }
 
-    const marker = 'dataLayer.push({"event":"view_item"';
+    const marker =
+      'dataLayer.push({"event":"view_item"';
+
     const markerIndex = script.indexOf(marker);
 
     if (markerIndex === -1) {
       continue;
     }
 
-    const openingParenthesisIndex = script.indexOf("(", markerIndex);
+    const openingParenthesisIndex = script.indexOf(
+      "(",
+      markerIndex,
+    );
 
     if (openingParenthesisIndex === -1) {
       continue;
     }
 
-    const json = extractBalancedArgument(script, openingParenthesisIndex);
+    const json = extractBalancedArgument(
+      script,
+      openingParenthesisIndex,
+    );
 
     try {
       return JSON.parse(json) as ViewItemDataLayerEntry;
-    } catch (error) {
+    } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : "Unknown JSON parsing error";
+        error instanceof Error
+          ? error.message
+          : "Unknown JSON parsing error";
 
       throw new Error(
         `Unable to parse the Good Smile view_item data: ${message}`,
@@ -88,8 +112,8 @@ function extractViewItemEntry(html: string): ViewItemDataLayerEntry {
 }
 
 /**
- * Extracts the JSON argument from a function call while respecting
- * nested objects, arrays and quoted strings.
+ * Extracts the JSON argument from a function call while
+ * respecting nested objects, arrays and quoted strings.
  */
 function extractBalancedArgument(
   source: string,
@@ -168,30 +192,88 @@ function makeAbsoluteUrl(
   }
 }
 
-function isRerelease(sourceReleaseId: string, name: string): boolean {
-  return /R\d+$/i.test(sourceReleaseId) || name.includes("(Rerelease)");
-}
-
-interface ProductDefinitionData {
-  series?: string;
-  specifications?: string;
-  sculptor?: string;
-  productionCooperation?: string;
-  relatedInformation?: string;
-  manufacturer?: string;
-  distributedBy?: string;
+function isRerelease(
+  sourceReleaseId: string,
+  name: string,
+): boolean {
+  return (
+    /R\d+$/i.test(sourceReleaseId) ||
+    /\(Rerelease\)/i.test(name)
+  );
 }
 
 function normalizeText(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-function extractDefinitionData(html: string): ProductDefinitionData {
+/**
+ * Nendoroid numbers are identifiers, not numeric values.
+ *
+ * Valid examples:
+ * 000
+ * 342a
+ * 342b
+ * 2367
+ * 1234-DX
+ */
+function isValidNendoroidNumber(
+  value: string,
+): boolean {
+  return /^\d+[A-Za-z0-9-]*$/.test(value);
+}
+
+function extractNendoroidNumber(
+  $: cheerio.CheerioAPI,
+): string | undefined {
+  const productHeading = $("h1")
+    .filter((_, element) => {
+      const text = normalizeText($(element).text());
+
+      return /^Nendoroid\b/i.test(text);
+    })
+    .first();
+
+  if (productHeading.length === 0) {
+    return undefined;
+  }
+
+  const productContainer = productHeading.parent();
+
+  const directNumberCandidate = productContainer
+    .find("li")
+    .map((_, element) =>
+      normalizeText($(element).text()),
+    )
+    .get()
+    .find(isValidNendoroidNumber);
+
+  if (directNumberCandidate) {
+    return directNumberCandidate;
+  }
+
+  const nearbyText = productHeading
+    .nextAll()
+    .slice(0, 5)
+    .map((_, element) =>
+      normalizeText($(element).text()),
+    )
+    .get();
+
+  return nearbyText.find(isValidNendoroidNumber);
+}
+
+function extractDefinitionData(
+  html: string,
+): ProductDefinitionData {
   const $ = cheerio.load(html);
-  const result: ProductDefinitionData = {};
+
+  const result: ProductDefinitionData = {
+    number: extractNendoroidNumber($),
+  };
 
   $("dt").each((_, element) => {
     const term = normalizeText($(element).text());
+
     const description = normalizeText(
       $(element).next("dd").text(),
     );
@@ -228,6 +310,9 @@ function extractDefinitionData(html: string): ProductDefinitionData {
       case "distributed by":
         result.distributedBy = description;
         break;
+
+      default:
+        break;
     }
   });
 
@@ -242,6 +327,7 @@ function parseReleaseDates(
   }
 
   const releaseDates: RawGoodSmileReleaseDate[] = [];
+
   const pattern =
     /\[(Available|Rerelease)\s*:\s*(\d{1,2})\/(\d{4})\]/gi;
 
@@ -271,7 +357,12 @@ function parseReleaseDates(
     });
   }
 
-  return releaseDates;
+  return releaseDates.sort((left, right) => {
+    const leftValue = left.year * 100 + left.month;
+    const rightValue = right.year * 100 + right.month;
+
+    return leftValue - rightValue;
+  });
 }
 
 export function parseGoodSmileProduct(
@@ -281,22 +372,31 @@ export function parseGoodSmileProduct(
 ): RawGoodSmileProduct {
   const analytics = extractViewItemEntry(html);
   const definitionData = extractDefinitionData(html);
+
   const releaseDates = parseReleaseDates(
     definitionData.relatedInformation,
-    );
-  const analyticsItems = analytics.ecommerce?.items ?? [];
+  );
+
+  const analyticsItems =
+    analytics.ecommerce?.items ?? [];
+
   const productItems = analytics.items ?? [];
 
   const originalAnalyticsItem =
-    analyticsItems.find((item) => item.item_id === sourceId) ??
     analyticsItems.find(
-      (item) => item.item_id && !/R\d+$/i.test(item.item_id),
+      (item) => item.item_id === sourceId,
+    ) ??
+    analyticsItems.find(
+      (item) =>
+        item.item_id &&
+        !/R\d+$/i.test(item.item_id),
     ) ??
     analyticsItems[0];
 
   const originalProductItem =
     productItems.find(
-      (item) => item.product_master_code === sourceId,
+      (item) =>
+        item.product_master_code === sourceId,
     ) ??
     productItems.find(
       (item) =>
@@ -310,34 +410,58 @@ export function parseGoodSmileProduct(
     originalAnalyticsItem?.item_name;
 
   if (!name) {
-    throw new Error("The product name could not be extracted.");
+    throw new Error(
+      "The product name could not be extracted.",
+    );
   }
 
   const manufacturer =
-  definitionData.manufacturer ??
-  originalAnalyticsItem?.item_brand;
+    definitionData.manufacturer ??
+    originalAnalyticsItem?.item_brand;
 
-  const releases: RawGoodSmileRelease[] = productItems
-    .filter(
-      (
-        item,
-      ): item is ProductAnalyticsItem & {
-        product_master_code: string;
-        product_name: string;
-      } =>
-        Boolean(item.product_master_code) &&
-        Boolean(item.product_name),
-    )
-    .map((item) => ({
-      sourceReleaseId: item.product_master_code,
-      name: item.product_name,
-      price: item.price,
-      reservationDeadline: item.reservation_deadline,
-      isRerelease: isRerelease(
-        item.product_master_code,
-        item.product_name,
-      ),
-    }));
+  const productType =
+    originalAnalyticsItem?.item_category2;
+
+  if (
+    !productType ||
+    !productType.toLowerCase().includes("nendoroid")
+  ) {
+    throw new Error(
+      `Product ${sourceId} is not recognized as a Nendoroid. Product type: ${
+        productType ?? "Unknown"
+      }`,
+    );
+  }
+
+  if (!definitionData.number) {
+    throw new Error(
+      `The Nendoroid number could not be extracted for product ${sourceId}.`,
+    );
+  }
+
+  const releases: RawGoodSmileRelease[] =
+    productItems
+      .filter(
+        (
+          item,
+        ): item is ProductAnalyticsItem & {
+          product_master_code: string;
+          product_name: string;
+        } =>
+          Boolean(item.product_master_code) &&
+          Boolean(item.product_name),
+      )
+      .map((item) => ({
+        sourceReleaseId: item.product_master_code,
+        name: item.product_name,
+        price: item.price,
+        reservationDeadline:
+          item.reservation_deadline,
+        isRerelease: isRerelease(
+          item.product_master_code,
+          item.product_name,
+        ),
+      }));
 
   return {
     source: "goodsmile",
@@ -345,28 +469,33 @@ export function parseGoodSmileProduct(
     officialUrl,
 
     name,
+    number: definitionData.number,
     series: definitionData.series,
     manufacturer,
     distributedBy: definitionData.distributedBy,
+
     category: originalAnalyticsItem?.item_category,
-    productType: originalAnalyticsItem?.item_category2,
+    productType,
+
     mainImageUrl: makeAbsoluteUrl(
-        originalProductItem?.image_url,
-        officialUrl,
+      originalProductItem?.image_url,
+      officialUrl,
     ),
+
     price:
-        originalProductItem?.price ??
-        originalAnalyticsItem?.price,
+      originalProductItem?.price ??
+      originalAnalyticsItem?.price,
+
     currency: analytics.ecommerce?.currency,
 
     specifications: definitionData.specifications,
     sculptor: definitionData.sculptor,
     productionCooperation:
-        definitionData.productionCooperation,
+      definitionData.productionCooperation,
     relatedInformation:
-        definitionData.relatedInformation,
-    
+      definitionData.relatedInformation,
+
     releaseDates,
     releases,
-    };
+  };
 }
