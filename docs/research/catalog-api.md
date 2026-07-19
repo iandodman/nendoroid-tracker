@@ -1,84 +1,95 @@
-# Catalog API Research
+## Good Smile Company
 
-## Goal
+### Summary
 
-Evaluate external data sources for building the Nendoroid catalog.
+Status: Primary candidate
 
-The catalog is a core part of Nendodex, so the data source must be evaluated carefully before designing the database schema or implementing the synchronization process.
+Good Smile is currently the preferred source for the NendoDex catalog.
 
-## Candidate APIs
+Research indicates that the official website provides:
 
-### Tenji
+- Catalog browsing without authentication.
+- Stable pagination using `limit` and `offset`.
+- Product detail pages with rich metadata.
+- Coverage including recent releases and early Nendoroids.
 
-Tenji is an open-source, unofficial REST API for MyFigureCollection.
+### Catalog discovery
 
-MyFigureCollection does not appear to provide a modern official public API, so Tenji exists as a third-party solution to expose MFC data through REST endpoints.
+Catalog pages load additional products through the endpoint:
 
-## Questions to Answer
+/search/list
 
-* Is the API public?
-* Does it require authentication?
-* Can we search specifically for Nendoroids?
-* What fields are returned?
-* Are images included?
-* Are characters, series and manufacturers structured?
-* Are release dates available?
-* Are there rate limits?
-* Does the API fetch live data or serve cached data?
-* Is it stable enough for this project?
+using:
 
-## Findings
+- limit
+- offset
 
-### Tenji
+The response is HTML rather than JSON.
 
-Pros:
+Each product card exposes:
 
-* Focused on MyFigureCollection data.
-* Open-source.
-* Could provide structured figure data.
-* Designed specifically to compensate for the lack of an official MyFigureCollection API.
+- Official product ID
+- Product URL
+- Product name
+- Manufacturer
+- Main image
+- Display number (when applicable)
+- Product labels (Rerelease, Bonus, etc.)
 
-Cons:
+### Product detail pages
 
-* Not official.
-* Public documentation appears limited.
-* Repository activity seems low.
-* It is unclear whether the API fetches live data or serves cached data.
-* Stability needs to be verified with real requests.
+Each product page provides significantly more information, including:
 
-Current assessment:
+- Official name
+- Series
+- Product number
+- Manufacturer
+- Description
+- Included parts
+- Gallery images
+- Sculptor
+- Production cooperation
+- Release history
+- Bonus information
+- Product specifications
 
-Tenji is worth investigating, but it should not be chosen as the main catalog source until real API responses are tested.
+### Product scope
 
-## Architecture Considerations
+The catalog is broader than standard Nendoroids.
 
-Nendodex should not depend on an external API at runtime for normal user interactions.
+Observed product lines include:
 
-Preferred flow:
+- Nendoroid
+- Nendoroid Basic
+- Nendoroid Doll
+- Nendoroid Doll Outfit Set
+- Nendoroid Surprise
+- Nendoroid Plus
+- Accessories
+- Bundled products
 
-External source
-→ Catalog synchronization process
-→ Nendodex PostgreSQL database
-→ Nendodex API
-→ Web application
+A normalization step will classify imported products before they are added to the application database.
 
-This approach allows the application to keep working even if the external API is temporarily unavailable.
+### Proposed import architecture
 
-## Next Steps
+Good Smile
+↓
+Catalog discovery
+↓
+Product page extraction
+↓
+Normalization
+↓
+Classification
+↓
+Validation
+↓
+PostgreSQL
+↓
+NendoDex
 
-* Find Tenji API documentation.
-* Test real API requests.
-* Save example responses.
-* Check whether recently released Nendoroids are available.
-* Decide whether Tenji is reliable enough for catalog synchronization.
+### Decision
 
-## Current Research Direction
+Good Smile will be used as the primary catalog source for the first version of NendoDex.
 
-Tenji can retrieve item details when a MyFigureCollection item ID is known, but it does not appear to provide a public search endpoint for discovering all Nendoroids.
-
-MyFigureCollection item IDs are not the same as official Nendoroid numbers, so sequential crawling by Nendoroid number is not possible through MFC item URLs.
-
-Good Smile Company appears to provide an official Nendoroid category listing, making it a stronger candidate for discovering catalog items.
-
-Next step:
-- Investigate whether Good Smile product listing pages can be used to build the initial catalog.
+Additional sources (Tenji, NendoGuide, Nendoroid Heaven, etc.) may be used only for validation or to detect missing products in the future.
