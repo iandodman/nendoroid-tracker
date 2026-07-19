@@ -31,7 +31,7 @@ export default function SortSelect<T extends string>({
         id="sort-select"
         value={value}
         onChange={(event) => onChange(event.target.value as T)}
-        className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-4 text-sm text-zinc-100 outline-none focus:border-zinc-600"
+        className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-100 outline-none focus:border-zinc-600"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

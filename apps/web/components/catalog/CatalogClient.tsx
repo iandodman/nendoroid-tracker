@@ -4,6 +4,9 @@ import { useState } from "react";
 
 import NendoroidCard from "@/components/catalog/NendoroidCard";
 import SearchBar from "@/components/search/SearchBar";
+import SortSelect, {
+  type SortOption,
+} from "@/components/sorting/SortSelect";
 import type { Nendoroid } from "@/types/nendoroid";
 
 export type CatalogNendoroid = Nendoroid & {
@@ -15,11 +18,37 @@ type CatalogClientProps = {
   initialSearch?: string;
 };
 
+type CatalogSort =
+  | "number-asc"
+  | "number-desc"
+  | "name-asc"
+  | "name-desc";
+
+const sortOptions: SortOption<CatalogSort>[] = [
+  {
+    value: "number-asc",
+    label: "Number ascending",
+  },
+  {
+    value: "number-desc",
+    label: "Number descending",
+  },
+  {
+    value: "name-asc",
+    label: "Name A-Z",
+  },
+  {
+    value: "name-desc",
+    label: "Name Z-A",
+  },
+];
+
 export default function CatalogClient({
   nendoroids,
   initialSearch = "",
 }: CatalogClientProps) {
   const [search, setSearch] = useState(initialSearch);
+  const [sort, setSort] = useState<CatalogSort>("number-asc");
 
   const query = search.trim().toLowerCase();
 
@@ -31,9 +60,40 @@ export default function CatalogClient({
     );
   });
 
+  const sortedNendoroids = [...filteredNendoroids].sort(
+    (firstNendoroid, secondNendoroid) => {
+      switch (sort) {
+        case "number-asc":
+          return (
+            Number(firstNendoroid.number) -
+            Number(secondNendoroid.number)
+          );
+
+        case "number-desc":
+          return (
+            Number(secondNendoroid.number) -
+            Number(firstNendoroid.number)
+          );
+
+        case "name-asc":
+          return firstNendoroid.name.localeCompare(
+            secondNendoroid.name,
+          );
+
+        case "name-desc":
+          return secondNendoroid.name.localeCompare(
+            firstNendoroid.name,
+          );
+
+        default:
+          return 0;
+      }
+    },
+  );
+
   return (
     <>
-      <div className="mb-6">
+      <div className="mb-4">
         <SearchBar
           value={search}
           onChange={setSearch}
@@ -41,13 +101,21 @@ export default function CatalogClient({
         />
       </div>
 
-      {filteredNendoroids.length === 0 ? (
+      <div className="mb-6">
+        <SortSelect
+          value={sort}
+          options={sortOptions}
+          onChange={setSort}
+        />
+      </div>
+
+      {sortedNendoroids.length === 0 ? (
         <p className="text-center text-zinc-400">
           No Nendoroids found.
         </p>
       ) : (
         <section className="grid grid-cols-2 items-stretch gap-3">
-          {filteredNendoroids.map((nendoroid) => (
+          {sortedNendoroids.map((nendoroid) => (
             <NendoroidCard
               key={nendoroid.id}
               nendoroid={nendoroid}

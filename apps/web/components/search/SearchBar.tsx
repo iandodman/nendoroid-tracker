@@ -23,7 +23,7 @@ export default function SearchBar({
 
       <div className="flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 p-2 focus-within:border-zinc-600">
         <input
-          className="min-w-0 flex-1 bg-transparent px-3 py-3 text-base outline-none placeholder:text-zinc-500"
+          className="min-w-0 flex-1 bg-transparent px-3 py-2 text-base outline-none placeholder:text-zinc-500"
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={(event) => {
