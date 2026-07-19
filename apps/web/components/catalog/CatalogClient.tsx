@@ -33,7 +33,13 @@ export default function CatalogClient({
 
   return (
     <>
-      <SearchBar value={search} onChange={setSearch} />
+      <div className="mb-6">
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+          label="Search catalog"
+        />
+      </div>
 
       {filteredNendoroids.length === 0 ? (
         <p className="text-center text-zinc-400">

@@ -3,6 +3,8 @@ type SearchBarProps = {
   onChange: (value: string) => void;
   onSubmit?: () => void;
   showSubmitButton?: boolean;
+  label?: string;
+  placeholder?: string;
 };
 
 export default function SearchBar({
@@ -10,11 +12,13 @@ export default function SearchBar({
   onChange,
   onSubmit,
   showSubmitButton = false,
+  label = "Search",
+  placeholder = "Search by name, number or series",
 }: SearchBarProps) {
   return (
-    <section className="mb-6">
+    <section>
       <label className="mb-2 block text-sm text-zinc-400">
-        Search catalog
+        {label}
       </label>
 
       <div className="flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 p-2 focus-within:border-zinc-600">
@@ -27,7 +31,7 @@ export default function SearchBar({
               onSubmit?.();
             }
           }}
-          placeholder="Search by name, number or series"
+          placeholder={placeholder}
         />
 
         {showSubmitButton && (

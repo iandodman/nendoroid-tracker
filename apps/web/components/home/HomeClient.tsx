@@ -50,13 +50,15 @@ export default function HomeClient({
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
       <Header />
-
-      <SearchBar
+      <div className="mb-6">
+        <SearchBar
         value={search}
         onChange={setSearch}
         onSubmit={handleSearchSubmit}
         showSubmitButton
-      />
+        />
+      </div>
+      
 
       <SearchResults nendoroids={quickResults} />
 
