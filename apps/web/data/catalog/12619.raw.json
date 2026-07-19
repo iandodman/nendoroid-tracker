@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "12619",
+  "officialUrl": "https://www.goodsmile.com/en/product/12619",
+  "name": "Nendoroid Alexander",
+  "number": "2251",
+  "series": "ELDEN RING",
+  "manufacturer": "Max Factory",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20230908/14934/120803/large/8a2f7f9f2b99a4e1a5996dce472ec03a.jpg",
+  "price": 7800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 90mm in height.",
+  "sculptor": "POLY-TOYS",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "12619",
+      "name": "Nendoroid Alexander",
+      "price": 7800,
+      "reservationDeadline": "2023-11-01T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

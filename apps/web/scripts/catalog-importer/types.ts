@@ -37,3 +37,17 @@ export interface RawGoodSmileReleaseDate {
   year: number;
   rawLabel: string;
 }
+
+export interface NormalizedCatalogProduct {
+  source: "goodsmile";
+  sourceId: string;
+  officialUrl: string;
+
+  number: string;
+  name: string;
+  series?: string;
+  manufacturer?: string;
+  imageUrl?: string;
+
+  releaseDate?: string;
+}
