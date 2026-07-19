@@ -1,0 +1,61 @@
+{
+  "source": "goodsmile",
+  "sourceId": "56111",
+  "officialUrl": "https://www.goodsmile.com/en/product/56111",
+  "name": "Nendoroid Frieren",
+  "series": "Frieren: Beyond Journey's End",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/56111/ZFz5s8Ki2emG3DTykJWLYBq4gtSdj9Cr.jpg",
+  "price": 6500,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Pumpkin",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 07/2024][Rerelease:08/2026][Rerelease:05/2025]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 7,
+      "year": 2024,
+      "rawLabel": "[Available: 07/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 8,
+      "year": 2026,
+      "rawLabel": "[Rerelease:08/2026]"
+    },
+    {
+      "type": "rerelease",
+      "month": 5,
+      "year": 2025,
+      "rawLabel": "[Rerelease:05/2025]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "56111R2",
+      "name": "Nendoroid Frieren (Rerelease)",
+      "price": 6500,
+      "reservationDeadline": "2024-02-14T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "56111R1",
+      "name": "Nendoroid Frieren (Rerelease)",
+      "price": 6500,
+      "reservationDeadline": "2024-02-14T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "56111",
+      "name": "Nendoroid Frieren",
+      "price": 6500,
+      "reservationDeadline": "2024-02-14T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}
