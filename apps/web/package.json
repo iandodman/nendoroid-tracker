@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import:product": "tsx scripts/catalog-importer/index.ts"
+    "import:product": "tsx scripts/catalog-importer/index.ts",
+    "discover:catalog": "tsx scripts/catalog-importer/discover-catalog.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
