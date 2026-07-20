@@ -1,4 +1,5 @@
 import "dotenv/config";
+
 import { fetchProductHtml } from "./fetch-product";
 import { normalizeGoodSmileProduct } from "./normalizer";
 import { parseGoodSmileProduct } from "./parser";
@@ -8,35 +9,42 @@ import {
   writeTextFile,
 } from "./write-json";
 
-function getProductId(): string {
-  const productId = process.argv[2]?.trim();
+function getProductIds(): string[] {
+  const productIds = process.argv
+    .slice(2)
+    .map((productId) => productId.trim())
+    .filter(Boolean);
 
-  if (!productId) {
+  if (productIds.length === 0) {
     throw new Error(
-      "A Good Smile product ID is required. Example: npm run import:product -- 56111",
+      "At least one Good Smile product ID is required. Example: npm run import:product -- 56111 56112",
     );
   }
 
-  if (!/^[a-zA-Z0-9]+$/.test(productId)) {
+  const invalidProductId = productIds.find(
+    (productId) => !/^[a-zA-Z0-9]+$/.test(productId),
+  );
+
+  if (invalidProductId) {
     throw new Error(
-      `Invalid Good Smile product ID: "${productId}".`,
+      `Invalid Good Smile product ID: "${invalidProductId}".`,
     );
   }
 
-  return productId;
+  return productIds;
 }
 
 function buildProductUrl(productId: string): string {
   return `https://www.goodsmile.com/en/product/${productId}`;
 }
 
-async function main(): Promise<void> {
-  const productId = getProductId();
+async function importProduct(
+  productId: string,
+): Promise<void> {
   const productUrl = buildProductUrl(productId);
 
-  console.log(
-    `Downloading Good Smile product ${productId}...`,
-  );
+  console.log("");
+  console.log(`Importing Good Smile product ${productId}...`);
 
   const html = await fetchProductHtml(productUrl);
 
@@ -49,8 +57,6 @@ async function main(): Promise<void> {
     `Downloaded ${html.length.toLocaleString()} characters.`,
   );
 
-  console.log("Parsing product data...");
-
   const product = parseGoodSmileProduct(
     html,
     productId,
@@ -59,14 +65,6 @@ async function main(): Promise<void> {
 
   const normalizedProduct =
     normalizeGoodSmileProduct(product);
-
-  const normalizedReleaseDate =
-    normalizedProduct.releaseYear &&
-    normalizedProduct.releaseMonth
-      ? `${normalizedProduct.releaseYear}-${String(
-          normalizedProduct.releaseMonth,
-        ).padStart(2, "0")}`
-      : "Unknown";
 
   await writeJsonFile(
     `data/catalog/${productId}.raw.json`,
@@ -78,60 +76,65 @@ async function main(): Promise<void> {
     normalizedProduct,
   );
 
-  console.log("Normalized product:");
-  console.log(`- Name: ${normalizedProduct.name}`);
-  console.log(`- Number: ${normalizedProduct.number}`);
-  console.log(
-    `- Release date: ${normalizedReleaseDate}`,
-  );
-  console.log(
-    `- Raw output: data/catalog/${productId}.raw.json`,
-  );
-  console.log(
-    `- Normalized output: data/catalog/${productId}.normalized.json`,
-  );
-
-  const missingFields: Array<
-    [field: string, value: unknown]
-  > = [
-    ["mainImageUrl", product.mainImageUrl],
-    ["series", product.series],
-    ["manufacturer", product.manufacturer],
-    ["distributedBy", product.distributedBy],
-    ["specifications", product.specifications],
-    ["sculptor", product.sculptor],
-    [
-      "productionCooperation",
-      product.productionCooperation,
-    ],
-    ["relatedInformation", product.relatedInformation],
-  ];
-
-  const missingFieldNames = missingFields
-    .filter(([, value]) => value == null || value === "")
-    .map(([field]) => field);
-
-  if (missingFieldNames.length > 0) {
-    console.log(
-      `- Missing optional fields: ${missingFieldNames.join(", ")}`,
-    );
-  } else {
-    console.log("- Missing optional fields: none");
-  }
-
   const {
-    nendoroid: persistedProduct,
+    nendoroid,
     operation,
   } = await persistCatalogProduct(normalizedProduct);
 
   console.log(
-    `- ${operation}: Nendoroid #${persistedProduct.number} — ${persistedProduct.name}`,
+    `${operation}: Nendoroid #${nendoroid.number} — ${nendoroid.name}`,
   );
+}
 
-    console.log(
-      `Product ${productId} imported successfully.`,
-    );
+async function main(): Promise<void> {
+  const productIds = getProductIds();
+
+  const successfulProductIds: string[] = [];
+  const failedProducts: Array<{
+    productId: string;
+    message: string;
+  }> = [];
+
+  for (const productId of productIds) {
+    try {
+      await importProduct(productId);
+      successfulProductIds.push(productId);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred.";
+
+      failedProducts.push({
+        productId,
+        message,
+      });
+
+      console.error(
+        `Failed to import product ${productId}: ${message}`,
+      );
+    }
   }
+
+  console.log("");
+  console.log("Import summary:");
+  console.log(
+    `- Successful: ${successfulProductIds.length}`,
+  );
+  console.log(`- Failed: ${failedProducts.length}`);
+
+  if (failedProducts.length > 0) {
+    console.log("- Failed products:");
+
+    for (const failure of failedProducts) {
+      console.log(
+        `  - ${failure.productId}: ${failure.message}`,
+      );
+    }
+
+    process.exitCode = 1;
+  }
+}
 
 main().catch((error: unknown) => {
   const message =
