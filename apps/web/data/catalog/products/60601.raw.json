@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "60601",
+  "officialUrl": "https://www.goodsmile.com/en/product/60601",
+  "name": "Nendoroid Fuwawa Abyssgard",
+  "number": "2918",
+  "series": "hololive production",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/60601/v8Cmefu6Fh7VpPHrj5Nka0KSY2GZWRgM.jpg",
+  "price": 7800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "60601",
+      "name": "Nendoroid Fuwawa Abyssgard",
+      "price": 7800,
+      "reservationDeadline": "2026-08-19T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

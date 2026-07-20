@@ -1,13 +1,6 @@
 import "dotenv/config";
 
-import { fetchProductHtml } from "./fetch-product";
-import { normalizeGoodSmileProduct } from "./normalizer";
-import { parseGoodSmileProduct } from "./parser";
-import { persistCatalogProduct } from "./persistence";
-import {
-  writeJsonFile,
-  writeTextFile,
-} from "./write-json";
+import { importProduct } from "./import-product";
 
 function getProductIds(): string[] {
   const productIds = process.argv
@@ -34,58 +27,6 @@ function getProductIds(): string[] {
   return productIds;
 }
 
-function buildProductUrl(productId: string): string {
-  return `https://www.goodsmile.com/en/product/${productId}`;
-}
-
-async function importProduct(
-  productId: string,
-): Promise<void> {
-  const productUrl = buildProductUrl(productId);
-
-  console.log("");
-  console.log(`Importing Good Smile product ${productId}...`);
-
-  const html = await fetchProductHtml(productUrl);
-
-  await writeTextFile(
-    `data/catalog/${productId}.html`,
-    html,
-  );
-
-  console.log(
-    `Downloaded ${html.length.toLocaleString()} characters.`,
-  );
-
-  const product = parseGoodSmileProduct(
-    html,
-    productId,
-    productUrl,
-  );
-
-  const normalizedProduct =
-    normalizeGoodSmileProduct(product);
-
-  await writeJsonFile(
-    `data/catalog/${productId}.raw.json`,
-    product,
-  );
-
-  await writeJsonFile(
-    `data/catalog/${productId}.normalized.json`,
-    normalizedProduct,
-  );
-
-  const {
-    nendoroid,
-    operation,
-  } = await persistCatalogProduct(normalizedProduct);
-
-  console.log(
-    `${operation}: Nendoroid #${nendoroid.number} — ${nendoroid.name}`,
-  );
-}
-
 async function main(): Promise<void> {
   const productIds = getProductIds();
 
@@ -97,8 +38,23 @@ async function main(): Promise<void> {
 
   for (const productId of productIds) {
     try {
-      await importProduct(productId);
+      console.log("");
+      console.log(
+        `Importing Good Smile product ${productId}...`,
+      );
+
+      const result = await importProduct(
+        productId,
+        {
+          artifactMode: "all",
+        },
+      );
+
       successfulProductIds.push(productId);
+
+      console.log(
+        `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
+      );
     } catch (error: unknown) {
       const message =
         error instanceof Error

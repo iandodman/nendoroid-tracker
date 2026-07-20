@@ -1,0 +1,62 @@
+{
+  "source": "goodsmile",
+  "sourceId": "8645",
+  "officialUrl": "https://www.goodsmile.com/en/product/8645",
+  "name": "Nendoroid Dark Magician Girl",
+  "number": "1596",
+  "series": "Yu-Gi-Oh!",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20210322/10951/82457/large/85608aa5477129eed111b0dcd8c0d04d.jpg",
+  "price": 6500,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 115mm in height (including hat).",
+  "sculptor": "toytec D.T.C",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 10/2021][Rerelease:11/2026][Rerelease:06/2024]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 10,
+      "year": 2021,
+      "rawLabel": "[Available: 10/2021]"
+    },
+    {
+      "type": "rerelease",
+      "month": 6,
+      "year": 2024,
+      "rawLabel": "[Rerelease:06/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "8645R2",
+      "name": "Nendoroid Dark Magician Girl (Rerelease)",
+      "price": 6900,
+      "reservationDeadline": "2021-05-12T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "8645R1",
+      "name": "Nendoroid Dark Magician Girl (Rerelease)",
+      "price": 6900,
+      "reservationDeadline": "2021-05-12T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "8645",
+      "name": "Nendoroid Dark Magician Girl",
+      "price": 6500,
+      "reservationDeadline": "2021-05-12T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

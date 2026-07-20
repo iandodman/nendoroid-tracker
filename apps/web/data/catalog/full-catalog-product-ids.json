@@ -1,5 +1,5 @@
 {
-  "discoveredAt": "2026-07-20T18:20:35.311Z",
+  "discoveredAt": "2026-07-20T18:54:20.243Z",
   "pageLimit": 60,
   "maxPages": 3,
   "processedPages": 3,
@@ -7,16 +7,22 @@
   "uniqueCount": 180,
   "pages": [
     {
+      "pageNumber": 1,
       "offset": 0,
-      "count": 60
+      "count": 60,
+      "uniqueCount": 60
     },
     {
+      "pageNumber": 2,
       "offset": 60,
-      "count": 60
+      "count": 60,
+      "uniqueCount": 120
     },
     {
+      "pageNumber": 3,
       "offset": 120,
-      "count": 60
+      "count": 60,
+      "uniqueCount": 180
     }
   ],
   "productIds": [

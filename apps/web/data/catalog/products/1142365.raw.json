@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1142365",
+  "officialUrl": "https://www.goodsmile.com/en/product/1142365",
+  "name": "Nendoroid Ako Amau",
+  "number": "3092",
+  "series": "Blue Archive",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1142365/8db9206e178429cd271e0ff59cd0fa62.jpg",
+  "price": 6900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "dongdong",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1142365",
+      "name": "Nendoroid Ako Amau",
+      "price": 6900,
+      "reservationDeadline": "2026-08-19T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

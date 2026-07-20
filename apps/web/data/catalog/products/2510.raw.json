@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "2510",
+  "officialUrl": "https://www.goodsmile.com/en/product/2510",
+  "name": "Nendoroid Mario",
+  "number": "473",
+  "series": "Super Mario",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20141107/4720/31271/large/4cd3606d4d10dc297ff5289321d83c59.jpg",
+  "price": 6800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Wataru Orita",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 11/2023][Rerelease:01/2027]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 11,
+      "year": 2023,
+      "rawLabel": "[Available: 11/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 1,
+      "year": 2027,
+      "rawLabel": "[Rerelease:01/2027]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "2510R1",
+      "name": "Nendoroid Mario (Rerelease)",
+      "price": 7900,
+      "reservationDeadline": "2023-07-19T00:00:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "2510",
+      "name": "Nendoroid Mario",
+      "price": 6800,
+      "reservationDeadline": "2023-07-19T00:00:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

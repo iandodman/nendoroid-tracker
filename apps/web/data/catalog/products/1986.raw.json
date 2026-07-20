@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1986",
+  "officialUrl": "https://www.goodsmile.com/en/product/1986",
+  "name": "Nendoroid Luigi",
+  "number": "393",
+  "series": "Super Mario",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20131225/4173/27526/large/329cfa1dc9f97d401fd073022f6cc367.jpg",
+  "price": 5900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Wataru Orita",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 12/2023][Rerelease:01/2027]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 12,
+      "year": 2023,
+      "rawLabel": "[Available: 12/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 1,
+      "year": 2027,
+      "rawLabel": "[Rerelease:01/2027]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "1986R1",
+      "name": "Nendoroid Luigi (Rerelease)",
+      "price": 7900,
+      "reservationDeadline": "2023-11-25T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "1986",
+      "name": "Nendoroid Luigi",
+      "price": 5900,
+      "reservationDeadline": "2023-11-25T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1140601",
+  "officialUrl": "https://www.goodsmile.com/en/product/1140601",
+  "name": "Nendoroid Doma",
+  "number": "3034",
+  "series": "Demon Slayer: Kimetsu no Yaiba",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1140601/c41eeac9b5d0bcc4bf951a35c2b0c2ba.jpg",
+  "price": 7300,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "toytec D.T.C",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1140601",
+      "name": "Nendoroid Doma",
+      "price": 7300,
+      "reservationDeadline": "2026-08-05T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

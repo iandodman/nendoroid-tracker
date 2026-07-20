@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "10841",
+  "officialUrl": "https://www.goodsmile.com/en/product/10841",
+  "name": "Nendoroid Hua Cheng",
+  "number": "1946",
+  "series": "Heaven Official's Blessing",
+  "manufacturer": "Good Smile Arts Shanghai",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/10841/a1b9119f7eaa9500b1c9db24cd21fb99.jpg",
+  "price": 7200,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 05/2024][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 5,
+      "year": 2024,
+      "rawLabel": "[Available: 05/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "10841R1",
+      "name": "Nendoroid Hua Cheng (Rerelease)",
+      "price": 7200,
+      "reservationDeadline": "2023-11-29T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "10841",
+      "name": "Nendoroid Hua Cheng",
+      "price": 7200,
+      "reservationDeadline": "2023-11-29T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

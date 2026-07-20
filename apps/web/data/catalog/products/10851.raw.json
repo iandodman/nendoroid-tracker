@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "10851",
+  "officialUrl": "https://www.goodsmile.com/en/product/10851",
+  "name": "Nendoroid Rilakkuma",
+  "number": "1947",
+  "series": "Rilakkuma",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20220829/13166/104063/large/dc6725aa03a612d0e591ffd456a874f5.jpg",
+  "price": 5800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "marino",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 03/2023][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 3,
+      "year": 2023,
+      "rawLabel": "[Available: 03/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "10851R1",
+      "name": "Nendoroid Rilakkuma (Rerelease)",
+      "price": 5800,
+      "reservationDeadline": "2022-11-09T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "10851",
+      "name": "Nendoroid Rilakkuma",
+      "price": 5800,
+      "reservationDeadline": "2022-11-09T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

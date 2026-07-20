@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "62216",
+  "officialUrl": "https://www.goodsmile.com/en/product/62216",
+  "name": "Nendoroid Hakos Baelz",
+  "number": "2963",
+  "series": "hololive production",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/62216/0k82qrym7esRW1axVMBLvJiH5n6XdFAC.jpg",
+  "price": 8900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "62216",
+      "name": "Nendoroid Hakos Baelz",
+      "price": 8900,
+      "reservationDeadline": "2026-07-29T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

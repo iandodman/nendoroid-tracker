@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1141002",
+  "officialUrl": "https://www.goodsmile.com/en/product/1141002",
+  "name": "Nendoroid Estinien",
+  "number": "3096",
+  "series": "Final Fantasy XIV",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1141002/e5LPQWsb0yn38KprXdJZwGcaFDfYtR49.jpg",
+  "price": 7900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1141002",
+      "name": "Nendoroid Estinien",
+      "price": 7900,
+      "reservationDeadline": "2026-08-26T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

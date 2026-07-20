@@ -10,7 +10,8 @@
     "import:product": "tsx scripts/catalog-importer/index.ts",
     "discover:catalog": "tsx scripts/catalog-importer/discover-catalog.ts",
     "research:catalog-pagination": "tsx scripts/catalog-importer/test-catalog-pagination.ts",
-    "discover:full-catalog": "tsx scripts/catalog-importer/discover-full-catalog.ts"
+    "discover:full-catalog": "tsx scripts/catalog-importer/discover-full-catalog.ts",
+    "import:catalog": "tsx scripts/catalog-importer/import-full-catalog.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",

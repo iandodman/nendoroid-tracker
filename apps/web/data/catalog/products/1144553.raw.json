@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1144553",
+  "officialUrl": "https://www.goodsmile.com/en/product/1144553",
+  "name": "Nendoroid Bunny",
+  "number": "3089",
+  "series": "The First Descendant",
+  "manufacturer": "Max Factory",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1144553/Cdwj6bPnhKrJN1WaM9y23VYTLQU7DteH.jpg",
+  "price": 8800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "POLY-TOYS, Max Factory",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1144553",
+      "name": "Nendoroid Bunny",
+      "price": 8800,
+      "reservationDeadline": "2026-08-31T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

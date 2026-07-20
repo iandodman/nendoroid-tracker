@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "11635",
+  "officialUrl": "https://www.goodsmile.com/en/product/11635",
+  "name": "Nendoroid Mahiru Shiina",
+  "number": "2064",
+  "series": "The Angel Next Door Spoils Me Rotten",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20230209/13950/111399/large/4dbe3917d07b6254ad4ab7cd936183e6.jpg",
+  "price": 6800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "qxy",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 08/2023][Rerelease:01/2027]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 8,
+      "year": 2023,
+      "rawLabel": "[Available: 08/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 1,
+      "year": 2027,
+      "rawLabel": "[Rerelease:01/2027]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "11635R1",
+      "name": "Nendoroid Mahiru Shiina (Rerelease)",
+      "price": 6800,
+      "reservationDeadline": "2023-03-29T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "11635",
+      "name": "Nendoroid Mahiru Shiina",
+      "price": 6800,
+      "reservationDeadline": "2023-03-29T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}
