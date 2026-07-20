@@ -20,11 +20,13 @@ export default function NendoroidCard({
       <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
         <div className="relative aspect-square bg-zinc-800">
           <Image
-            src={nendoroid.imageUrl}
+            src={
+              nendoroid.imageUrl ??
+              "/images/nendoroids/placeholder.png"
+            }
             alt={nendoroid.name}
             fill
             sizes="(max-width: 640px) 50vw, 33vw"
-            className="object-cover"
           />
 
           {isOwned && (

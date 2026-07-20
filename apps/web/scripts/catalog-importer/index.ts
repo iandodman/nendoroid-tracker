@@ -56,6 +56,14 @@ async function main(): Promise<void> {
   );
   const normalizedProduct =
   normalizeGoodSmileProduct(product);
+  
+  const normalizedReleaseDate =
+  normalizedProduct.releaseYear &&
+  normalizedProduct.releaseMonth
+    ? `${normalizedProduct.releaseYear}-${String(
+        normalizedProduct.releaseMonth,
+      ).padStart(2, "0")}`
+    : "Unknown";
 
   await writeJsonFile(
     `data/catalog/${productId}.raw.json`,
@@ -71,9 +79,7 @@ async function main(): Promise<void> {
   console.log(`- Name: ${normalizedProduct.name}`);
   console.log(`- Number: ${normalizedProduct.number}`);
   console.log(
-    `- Release date: ${
-      normalizedProduct.releaseDate ?? "Unknown"
-    }`,
+    `- Release date: ${normalizedReleaseDate}`,
   );
   console.log(
     `- Raw output: data/catalog/${productId}.raw.json`,
