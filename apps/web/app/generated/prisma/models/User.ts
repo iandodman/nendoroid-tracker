@@ -402,10 +402,6 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type UserCreateNestedOneWithoutCollectionItemsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCollectionItemsInput, Prisma.UserUncheckedCreateWithoutCollectionItemsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCollectionItemsInput

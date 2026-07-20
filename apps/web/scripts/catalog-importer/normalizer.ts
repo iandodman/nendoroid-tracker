@@ -1,7 +1,6 @@
 import type {
   NormalizedCatalogProduct,
   RawGoodSmileProduct,
-  RawGoodSmileReleaseDate,
 } from "./types";
 
 function normalizeProductName(name: string): string {
@@ -10,29 +9,12 @@ function normalizeProductName(name: string): string {
     .trim();
 }
 
-function createIsoReleaseDate(
-  releaseDate: RawGoodSmileReleaseDate | undefined,
-): string | undefined {
-  if (!releaseDate) {
-    return undefined;
-  }
-
-  const month = String(releaseDate.month).padStart(
-    2,
-    "0",
-  );
-
-  return `${releaseDate.year}-${month}-01`;
-}
-
 export function normalizeGoodSmileProduct(
   product: RawGoodSmileProduct,
 ): NormalizedCatalogProduct {
-  const initialRelease =
-    product.releaseDates.find(
-      (releaseDate) =>
-        releaseDate.type === "initial",
-    );
+  const initialRelease = product.releaseDates.find(
+    (releaseDate) => releaseDate.type === "initial",
+  );
 
   return {
     source: product.source,
@@ -45,8 +27,7 @@ export function normalizeGoodSmileProduct(
     manufacturer: product.manufacturer,
     imageUrl: product.mainImageUrl,
 
-    releaseDate: createIsoReleaseDate(
-      initialRelease,
-    ),
+    releaseYear: initialRelease?.year,
+    releaseMonth: initialRelease?.month,
   };
 }

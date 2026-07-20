@@ -10,14 +10,15 @@ import Header from "@/components/layout/Header";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";
-import { nendoroids } from "@/data/nendoroids";
-
+import type { Nendoroid } from "@/app/generated/prisma/client";
 type HomeClientProps = {
   collectionCount: number;
+  nendoroids: Nendoroid[];
 };
 
 export default function HomeClient({
   collectionCount,
+  nendoroids,
 }: HomeClientProps) {
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -41,7 +42,9 @@ export default function HomeClient({
           .filter((nendoroid) => {
             return (
               nendoroid.name.toLowerCase().includes(query) ||
-              nendoroid.series.toLowerCase().includes(query) ||
+              (nendoroid.series ?? "")
+                .toLowerCase()
+                .includes(query) ||
               nendoroid.number.toLowerCase().includes(query)
             );
           })

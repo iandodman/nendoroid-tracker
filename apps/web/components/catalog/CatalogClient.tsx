@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 
+import type { Nendoroid } from "@/app/generated/prisma/client";
 import NendoroidCard from "@/components/catalog/NendoroidCard";
 import SearchBar from "@/components/search/SearchBar";
 import SortSelect, {
   type SortOption,
 } from "@/components/sorting/SortSelect";
-import type { Nendoroid } from "@/types/nendoroid";
 
 export type CatalogNendoroid = Nendoroid & {
   collectionQuantity: number;
@@ -55,11 +55,12 @@ export default function CatalogClient({
   const filteredNendoroids = nendoroids.filter((nendoroid) => {
     return (
       nendoroid.name.toLowerCase().includes(query) ||
-      nendoroid.series.toLowerCase().includes(query) ||
+      (nendoroid.series ?? "")
+        .toLowerCase()
+        .includes(query) ||
       nendoroid.number.toLowerCase().includes(query)
     );
   });
-
   const sortedNendoroids = [...filteredNendoroids].sort(
     (firstNendoroid, secondNendoroid) => {
       switch (sort) {

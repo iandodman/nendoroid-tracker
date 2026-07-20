@@ -49,5 +49,6 @@ export interface NormalizedCatalogProduct {
   manufacturer?: string;
   imageUrl?: string;
 
-  releaseDate?: string;
+  releaseYear?: number;
+  releaseMonth?: number;
 }

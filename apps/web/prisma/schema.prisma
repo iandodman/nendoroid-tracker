@@ -13,14 +13,27 @@ datasource db {
 }
 
 model Nendoroid {
-  id              Int              @id @default(autoincrement())
-  number          String           @unique
-  name            String
-  series          String
-  imageUrl        String
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  id     Int    @id @default(autoincrement())
+  number String @unique
+  name   String
+
+  series       String?
+  manufacturer String?
+  imageUrl     String?
+
+  releaseYear  Int?
+  releaseMonth Int?
+
+  source      String?
+  sourceId    String?
+  officialUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   collectionItems CollectionItem[]
+
+  @@unique([source, sourceId])
 }
 
 model User {

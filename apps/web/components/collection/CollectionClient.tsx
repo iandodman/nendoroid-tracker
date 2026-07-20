@@ -68,9 +68,10 @@ export default function CollectionClient({
 
     const matchesSearch =
       nendoroid.name.toLowerCase().includes(query) ||
-      nendoroid.series.toLowerCase().includes(query) ||
+      (nendoroid.series ?? "")
+        .toLowerCase()
+        .includes(query) ||
       nendoroid.number.toLowerCase().includes(query);
-
     const matchesFilter =
       filter === "all" ||
       (filter === "single-copy" && quantity === 1) ||

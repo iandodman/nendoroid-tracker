@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Nendoroid } from "@/types/nendoroid";
-
+import type { Nendoroid } from "@/app/generated/prisma/client";
 type SearchResultsProps = {
   nendoroids: Nendoroid[];
 };
@@ -21,7 +20,10 @@ export default function SearchResults({ nendoroids }: SearchResultsProps) {
           className="flex items-center gap-3 rounded-2xl bg-zinc-900 px-3 py-3"
         >
           <Image
-            src={nendoroid.imageUrl}
+            src={
+              nendoroid.imageUrl ??
+              "/images/nendoroid/placeholder.png"
+            }
             alt={nendoroid.name}
             width={56}
             height={56}

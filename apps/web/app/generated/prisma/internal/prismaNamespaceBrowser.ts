@@ -77,7 +77,13 @@ export const NendoroidScalarFieldEnum = {
   number: 'number',
   name: 'name',
   series: 'series',
+  manufacturer: 'manufacturer',
   imageUrl: 'imageUrl',
+  releaseYear: 'releaseYear',
+  releaseMonth: 'releaseMonth',
+  source: 'source',
+  sourceId: 'sourceId',
+  officialUrl: 'officialUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
