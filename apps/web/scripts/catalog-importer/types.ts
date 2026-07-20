@@ -38,8 +38,8 @@ export interface RawGoodSmileReleaseDate {
   rawLabel: string;
 }
 
-export interface NormalizedCatalogProduct {
-  source: "goodsmile";
+export type NormalizedCatalogProduct = {
+  source: string;
   sourceId: string;
   officialUrl: string;
 
@@ -51,4 +51,4 @@ export interface NormalizedCatalogProduct {
 
   releaseYear?: number;
   releaseMonth?: number;
-}
+};
