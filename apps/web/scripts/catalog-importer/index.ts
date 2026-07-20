@@ -1,10 +1,12 @@
+import "dotenv/config";
 import { fetchProductHtml } from "./fetch-product";
+import { normalizeGoodSmileProduct } from "./normalizer";
 import { parseGoodSmileProduct } from "./parser";
+import { persistCatalogProduct } from "./persistence";
 import {
   writeJsonFile,
   writeTextFile,
 } from "./write-json";
-import { normalizeGoodSmileProduct } from "./normalizer";
 
 function getProductId(): string {
   const productId = process.argv[2]?.trim();
@@ -54,16 +56,17 @@ async function main(): Promise<void> {
     productId,
     productUrl,
   );
+
   const normalizedProduct =
-  normalizeGoodSmileProduct(product);
-  
+    normalizeGoodSmileProduct(product);
+
   const normalizedReleaseDate =
-  normalizedProduct.releaseYear &&
-  normalizedProduct.releaseMonth
-    ? `${normalizedProduct.releaseYear}-${String(
-        normalizedProduct.releaseMonth,
-      ).padStart(2, "0")}`
-    : "Unknown";
+    normalizedProduct.releaseYear &&
+    normalizedProduct.releaseMonth
+      ? `${normalizedProduct.releaseYear}-${String(
+          normalizedProduct.releaseMonth,
+        ).padStart(2, "0")}`
+      : "Unknown";
 
   await writeJsonFile(
     `data/catalog/${productId}.raw.json`,
@@ -87,6 +90,7 @@ async function main(): Promise<void> {
   console.log(
     `- Normalized output: data/catalog/${productId}.normalized.json`,
   );
+
   const missingFields: Array<
     [field: string, value: unknown]
   > = [
@@ -115,14 +119,19 @@ async function main(): Promise<void> {
     console.log("- Missing optional fields: none");
   }
 
-  console.log(
-    `- Output: data/catalog/${productId}.json`,
-  );
+  const {
+    nendoroid: persistedProduct,
+    operation,
+  } = await persistCatalogProduct(normalizedProduct);
 
   console.log(
-    `Product ${productId} imported successfully.`,
+    `- ${operation}: Nendoroid #${persistedProduct.number} — ${persistedProduct.name}`,
   );
-}
+
+    console.log(
+      `Product ${productId} imported successfully.`,
+    );
+  }
 
 main().catch((error: unknown) => {
   const message =
