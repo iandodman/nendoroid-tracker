@@ -1,0 +1,346 @@
+{
+  "startedAt": "2026-07-20T19:41:09.648Z",
+  "completedAt": "2026-07-20T19:43:14.486Z",
+  "discovery": {
+    "pageLimit": 60,
+    "maxPages": 1,
+    "processedPages": 1,
+    "stopReason": "maximum-pages",
+    "discoveredProductCount": 60,
+    "pages": [
+      {
+        "pageNumber": 1,
+        "offset": 0,
+        "count": 60,
+        "uniqueCount": 60
+      }
+    ]
+  },
+  "import": {
+    "attempted": 60,
+    "successful": 39,
+    "failed": 21,
+    "successfulProducts": [
+      {
+        "productId": "1139002",
+        "number": "3095",
+        "name": "Marin Kitagawa: Winter Uniform Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "56841",
+        "number": "2434",
+        "name": "Wakana Gojo",
+        "operation": "updated"
+      },
+      {
+        "productId": "1141002",
+        "number": "3096",
+        "name": "Estinien",
+        "operation": "updated"
+      },
+      {
+        "productId": "12404",
+        "number": "2222",
+        "name": "Hatsune Miku: Happy 16th Birthday Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "11473",
+        "number": "2047",
+        "name": "Surtr",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142168",
+        "number": "3091",
+        "name": "Arale Nakamachi",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142365",
+        "number": "3092",
+        "name": "Ako Amau",
+        "operation": "updated"
+      },
+      {
+        "productId": "10851",
+        "number": "1947",
+        "name": "Rilakkuma",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142174",
+        "number": "3074",
+        "name": "Korilakkuma",
+        "operation": "updated"
+      },
+      {
+        "productId": "12823",
+        "number": "2316",
+        "name": "Yuno Gasai",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140999",
+        "number": "3090",
+        "name": "Hatsune Miku: M@GICAL☆CURE! LOVE ♥ SHOT!",
+        "operation": "updated"
+      },
+      {
+        "productId": "1143264",
+        "number": "3080",
+        "name": "Uidaga",
+        "operation": "updated"
+      },
+      {
+        "productId": "8645",
+        "number": "1596",
+        "name": "Dark Magician Girl",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142372",
+        "number": "3093",
+        "name": "Daisuke",
+        "operation": "updated"
+      },
+      {
+        "productId": "1144553",
+        "number": "3089",
+        "name": "Bunny",
+        "operation": "updated"
+      },
+      {
+        "productId": "1141472",
+        "number": "3088",
+        "name": "N",
+        "operation": "updated"
+      },
+      {
+        "productId": "1144095",
+        "number": "3057",
+        "name": "Rapi: Red Hood",
+        "operation": "updated"
+      },
+      {
+        "productId": "2510",
+        "number": "473",
+        "name": "Mario",
+        "operation": "updated"
+      },
+      {
+        "productId": "1986",
+        "number": "393",
+        "name": "Luigi",
+        "operation": "updated"
+      },
+      {
+        "productId": "12819",
+        "number": "2312",
+        "name": "Izuku Midoriya: U.A. School Uniform Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "12820",
+        "number": "2313",
+        "name": "Katsuki Bakugo: U.A. School Uniform Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "5017",
+        "number": "938",
+        "name": "Kasen Kanesada",
+        "operation": "updated"
+      },
+      {
+        "productId": "1138602",
+        "number": "3053",
+        "name": "Oblivionis",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140698",
+        "number": "3083",
+        "name": "Hideo Kojima",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140696",
+        "number": "3055",
+        "name": "Falin (Chimera)",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140615",
+        "number": "3086",
+        "name": "G'raha Tia",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140601",
+        "number": "3034",
+        "name": "Doma",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140612",
+        "number": "3085",
+        "name": "Mukuro Rokudo: Ten-Years-Later Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "10840",
+        "number": "1945",
+        "name": "Xie Lian",
+        "operation": "updated"
+      },
+      {
+        "productId": "10841",
+        "number": "1946",
+        "name": "Hua Cheng",
+        "operation": "updated"
+      },
+      {
+        "productId": "60601",
+        "number": "2918",
+        "name": "Fuwawa Abyssgard",
+        "operation": "updated"
+      },
+      {
+        "productId": "60602",
+        "number": "2919",
+        "name": "Mococo Abyssgard",
+        "operation": "updated"
+      },
+      {
+        "productId": "55636",
+        "number": "2572",
+        "name": "Red Pyramid Thing",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142149",
+        "number": "3084",
+        "name": "Mika Misono (Swimsuit) [Basic]",
+        "operation": "updated"
+      },
+      {
+        "productId": "1143261",
+        "number": "3075",
+        "name": "Toshiya Miyata",
+        "operation": "updated"
+      },
+      {
+        "productId": "1141476",
+        "number": "3081",
+        "name": "Megurine Luka V4X",
+        "operation": "updated"
+      },
+      {
+        "productId": "7062",
+        "number": "1309",
+        "name": "Hatsune Miku V4X",
+        "operation": "updated"
+      },
+      {
+        "productId": "62216",
+        "number": "2963",
+        "name": "Hakos Baelz",
+        "operation": "updated"
+      },
+      {
+        "productId": "11635",
+        "number": "2064",
+        "name": "Mahiru Shiina",
+        "operation": "updated"
+      }
+    ],
+    "failedProducts": [
+      {
+        "productId": "1140621",
+        "message": "The Nendoroid number could not be extracted for product 1140621."
+      },
+      {
+        "productId": "1140622",
+        "message": "The Nendoroid number could not be extracted for product 1140622."
+      },
+      {
+        "productId": "60271",
+        "message": "The Nendoroid number could not be extracted for product 60271."
+      },
+      {
+        "productId": "1145957",
+        "message": "The Nendoroid number could not be extracted for product 1145957."
+      },
+      {
+        "productId": "1141536",
+        "message": "The Nendoroid number could not be extracted for product 1141536."
+      },
+      {
+        "productId": "1141537",
+        "message": "The Nendoroid number could not be extracted for product 1141537."
+      },
+      {
+        "productId": "1141744",
+        "message": "The Nendoroid number could not be extracted for product 1141744."
+      },
+      {
+        "productId": "9723",
+        "message": "The Nendoroid number could not be extracted for product 9723."
+      },
+      {
+        "productId": "9725",
+        "message": "The Nendoroid number could not be extracted for product 9725."
+      },
+      {
+        "productId": "1141578",
+        "message": "The Nendoroid number could not be extracted for product 1141578."
+      },
+      {
+        "productId": "1137156",
+        "message": "Product 1137156 is not recognized as a Nendoroid. Product type: Unknown"
+      },
+      {
+        "productId": "1137157",
+        "message": "Product 1137157 is not recognized as a Nendoroid. Product type: Unknown"
+      },
+      {
+        "productId": "1140127",
+        "message": "The Nendoroid number could not be extracted for product 1140127."
+      },
+      {
+        "productId": "1140128",
+        "message": "The Nendoroid number could not be extracted for product 1140128."
+      },
+      {
+        "productId": "1140129",
+        "message": "The Nendoroid number could not be extracted for product 1140129."
+      },
+      {
+        "productId": "1140130",
+        "message": "The Nendoroid number could not be extracted for product 1140130."
+      },
+      {
+        "productId": "1143950",
+        "message": "The Nendoroid number could not be extracted for product 1143950."
+      },
+      {
+        "productId": "60828",
+        "message": "The Nendoroid number could not be extracted for product 60828."
+      },
+      {
+        "productId": "1145428",
+        "message": "The Nendoroid number could not be extracted for product 1145428."
+      },
+      {
+        "productId": "1142290",
+        "message": "The Nendoroid number could not be extracted for product 1142290."
+      },
+      {
+        "productId": "1142291",
+        "message": "The Nendoroid number could not be extracted for product 1142291."
+      }
+    ]
+  }
+}

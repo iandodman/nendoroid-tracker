@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "56841",
+  "officialUrl": "https://www.goodsmile.com/en/product/56841",
+  "name": "Nendoroid Wakana Gojo",
+  "number": "2434",
+  "series": "My Dress-Up Darling",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/56841/5cda2b0cc0b7f56f82d1b284d137af41.jpg",
+  "price": 6800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 09/2024][Rerelease:03/2027]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 9,
+      "year": 2024,
+      "rawLabel": "[Available: 09/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 3,
+      "year": 2027,
+      "rawLabel": "[Rerelease:03/2027]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "56841R1",
+      "name": "Nendoroid Wakana Gojo (Rerelease)",
+      "price": 6800,
+      "reservationDeadline": "2024-05-08T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "56841",
+      "name": "Nendoroid Wakana Gojo",
+      "price": 6800,
+      "reservationDeadline": "2024-05-08T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

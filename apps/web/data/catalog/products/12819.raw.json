@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "12819",
+  "officialUrl": "https://www.goodsmile.com/en/product/12819",
+  "name": "Nendoroid Izuku Midoriya: U.A. School Uniform Ver.",
+  "number": "2312",
+  "series": "My Hero Academia",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20231026/15136/122687/large/09196c05ba786fa19c904e696255d113.jpg",
+  "price": 6200,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 05/2024][Rerelease:10/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 5,
+      "year": 2024,
+      "rawLabel": "[Available: 05/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 10,
+      "year": 2026,
+      "rawLabel": "[Rerelease:10/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "12819R1",
+      "name": "Nendoroid Izuku Midoriya: U.A. School Uniform Ver. (Rerelease)",
+      "price": 6200,
+      "reservationDeadline": "2023-12-13T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "12819",
+      "name": "Nendoroid Izuku Midoriya: U.A. School Uniform Ver.",
+      "price": 6200,
+      "reservationDeadline": "2023-12-13T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

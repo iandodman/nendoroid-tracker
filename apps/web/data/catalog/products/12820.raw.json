@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "12820",
+  "officialUrl": "https://www.goodsmile.com/en/product/12820",
+  "name": "Nendoroid Katsuki Bakugo: U.A. School Uniform Ver.",
+  "number": "2313",
+  "series": "My Hero Academia",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20231026/15137/122694/large/37649d3ca6208eec6f65d05818e3ebc8.jpg",
+  "price": 6200,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 05/2024][Rerelease:10/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 5,
+      "year": 2024,
+      "rawLabel": "[Available: 05/2024]"
+    },
+    {
+      "type": "rerelease",
+      "month": 10,
+      "year": 2026,
+      "rawLabel": "[Rerelease:10/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "12820R1",
+      "name": "Nendoroid Katsuki Bakugo: U.A. School Uniform Ver. (Rerelease)",
+      "price": 6200,
+      "reservationDeadline": "2023-12-13T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "12820",
+      "name": "Nendoroid Katsuki Bakugo: U.A. School Uniform Ver.",
+      "price": 6200,
+      "reservationDeadline": "2023-12-13T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "7062",
+  "officialUrl": "https://www.goodsmile.com/en/product/7062",
+  "name": "Nendoroid Hatsune Miku V4X",
+  "number": "1309",
+  "series": "Character Vocal Series 01: Hatsune Miku",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20200317/9355/68358/large/64ea0695d2b0b4d4ee2c316d47c51a02.jpg",
+  "price": 6900,
+  "currency": "JPY",
+  "specifications": "Painted ABS&PVC non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "toytec D.T.C",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 10/2020][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 10,
+      "year": 2020,
+      "rawLabel": "[Available: 10/2020]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "7062R1",
+      "name": "Nendoroid Hatsune Miku V4X (Rerelease)",
+      "price": 6900,
+      "reservationDeadline": "2020-04-15T00:00:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "7062",
+      "name": "Nendoroid Hatsune Miku V4X",
+      "price": 6900,
+      "reservationDeadline": "2020-04-15T00:00:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

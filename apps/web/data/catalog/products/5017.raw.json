@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "5017",
+  "officialUrl": "https://www.goodsmile.com/en/product/5017",
+  "name": "Nendoroid Kasen Kanesada",
+  "number": "938",
+  "series": "Touken Ranbu ONLINE",
+  "manufacturer": "ORANGE ROUGE",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20180524/7301/52248/large/578eb17ac27835d0e561356de29094bf.jpg",
+  "price": 4787,
+  "currency": "JPY",
+  "specifications": "Painted ABS&PVC non-scale figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Katanashi (toytec D.T.C)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 11/2018][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 11,
+      "year": 2018,
+      "rawLabel": "[Available: 11/2018]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "5017R1",
+      "name": "Nendoroid Kasen Kanesada (Rerelease)",
+      "price": 6500,
+      "reservationDeadline": "2020-01-20T12:00:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "5017",
+      "name": "Nendoroid Kasen Kanesada",
+      "price": 4787,
+      "reservationDeadline": "2020-01-20T12:00:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

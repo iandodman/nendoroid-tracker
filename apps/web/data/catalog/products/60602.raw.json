@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "60602",
+  "officialUrl": "https://www.goodsmile.com/en/product/60602",
+  "name": "Nendoroid Mococo Abyssgard",
+  "number": "2919",
+  "series": "hololive production",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/60602/DpSJym4Xr2MY1TWfg9CuUL3dHB8vtRjV.jpg",
+  "price": 7800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "60602",
+      "name": "Nendoroid Mococo Abyssgard",
+      "price": 7800,
+      "reservationDeadline": "2026-08-19T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

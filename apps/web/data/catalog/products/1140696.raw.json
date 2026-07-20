@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1140696",
+  "officialUrl": "https://www.goodsmile.com/en/product/1140696",
+  "name": "Nendoroid Falin (Chimera)",
+  "number": "3055",
+  "series": "Delicious in Dungeon",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1140696/pUzutg5WDjT4GVnLd10JKr7aFeZqY9SE.jpg",
+  "price": 7800,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 110mm in height.",
+  "sculptor": "toytec D.T.C",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1140696",
+      "name": "Nendoroid Falin (Chimera)",
+      "price": 7800,
+      "reservationDeadline": "2026-08-05T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

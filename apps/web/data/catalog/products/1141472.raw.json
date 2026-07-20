@@ -1,0 +1,27 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1141472",
+  "officialUrl": "https://www.goodsmile.com/en/product/1141472",
+  "name": "Nendoroid N",
+  "number": "3088",
+  "series": "Murder Drones",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1141472/EmYjJbRtfVwA5qW36GCy7HsFQ9kph1Ku.jpg",
+  "price": 8000,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1141472",
+      "name": "Nendoroid N",
+      "price": 8000,
+      "reservationDeadline": "2026-08-19T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "12404",
+  "officialUrl": "https://www.goodsmile.com/en/product/12404",
+  "name": "Nendoroid Hatsune Miku: Happy 16th Birthday Ver.",
+  "number": "2222",
+  "series": "Character Vocal Series 01: Hatsune Miku",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20230725/14719/119044/large/0fe57c080fbcd3615332fe5780315b25.jpg",
+  "price": 9500,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "toytec D.T.C",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 12/2023][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 12,
+      "year": 2023,
+      "rawLabel": "[Available: 12/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "12404R1",
+      "name": "Nendoroid Hatsune Miku: Happy 16th Birthday Ver. (Rerelease)",
+      "price": 9500,
+      "reservationDeadline": "2023-11-25T23:59:00+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "12404",
+      "name": "Nendoroid Hatsune Miku: Happy 16th Birthday Ver.",
+      "price": 9500,
+      "reservationDeadline": "2023-11-25T23:59:00+09:00",
+      "isRerelease": false
+    }
+  ]
+}

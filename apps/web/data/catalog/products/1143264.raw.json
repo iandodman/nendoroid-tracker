@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1143264",
+  "officialUrl": "https://www.goodsmile.com/en/product/1143264",
+  "name": "Nendoroid Uidaga",
+  "number": "3080",
+  "series": "Shigure Ui",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1143264/kzp7AhwH9LBP3FUeyc5fSWa8vXdVsqmu.jpg",
+  "price": 6200,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 95mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1143264",
+      "name": "Nendoroid Uidaga",
+      "price": 6200,
+      "reservationDeadline": "2026-08-26T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

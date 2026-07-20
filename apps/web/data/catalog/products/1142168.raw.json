@@ -1,0 +1,28 @@
+{
+  "source": "goodsmile",
+  "sourceId": "1142168",
+  "officialUrl": "https://www.goodsmile.com/en/product/1142168",
+  "name": "Nendoroid Arale Nakamachi",
+  "number": "3091",
+  "series": "BanG Dream!",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/1142168/HKUTpyfrnPh6Z0WkBJExNestCY3a2mGv.jpg",
+  "price": 6900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "releaseDates": [],
+  "releases": [
+    {
+      "sourceReleaseId": "1142168",
+      "name": "Nendoroid Arale Nakamachi",
+      "price": 6900,
+      "reservationDeadline": "2026-08-19T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

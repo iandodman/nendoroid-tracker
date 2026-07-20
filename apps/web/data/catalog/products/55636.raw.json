@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "55636",
+  "officialUrl": "https://www.goodsmile.com/en/product/55636",
+  "name": "Nendoroid Red Pyramid Thing",
+  "number": "2572",
+  "series": "SILENT HILL 2",
+  "manufacturer": "Good Smile Company",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/55636/KEfydxV0Y5ACXhHm8Pq1Lcb3BQk26Zzr.jpg",
+  "price": 6900,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "Shichibee (Matsuda Model)",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 01/2025][Rerelease:11/2026]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 1,
+      "year": 2025,
+      "rawLabel": "[Available: 01/2025]"
+    },
+    {
+      "type": "rerelease",
+      "month": 11,
+      "year": 2026,
+      "rawLabel": "[Rerelease:11/2026]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "55636R1",
+      "name": "Nendoroid Red Pyramid Thing (Rerelease)",
+      "price": 6900,
+      "reservationDeadline": "2024-09-25T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "55636",
+      "name": "Nendoroid Red Pyramid Thing",
+      "price": 6900,
+      "reservationDeadline": "2024-09-25T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

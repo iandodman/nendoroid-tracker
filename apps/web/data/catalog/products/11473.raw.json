@@ -1,0 +1,49 @@
+{
+  "source": "goodsmile",
+  "sourceId": "11473",
+  "officialUrl": "https://www.goodsmile.com/en/product/11473",
+  "name": "Nendoroid Surtr",
+  "number": "2047",
+  "series": "Arknights",
+  "manufacturer": "Good Smile Arts Shanghai",
+  "distributedBy": "Good Smile Company",
+  "category": "Nendoroid Series",
+  "productType": "Nendoroid",
+  "mainImageUrl": "https://www.goodsmile.com/gsc-webrevo-sdk-storage-prd/product/image/product/20230113/13788/109863/large/0301abb081c4d2722285bc8e87b4afd8.jpg",
+  "price": 7300,
+  "currency": "JPY",
+  "specifications": "Painted plastic non-scale articulated figure with stand included. Approximately 100mm in height.",
+  "sculptor": "LL",
+  "productionCooperation": "Nendoron",
+  "relatedInformation": "[Available: 07/2023][Rerelease:01/2027]",
+  "releaseDates": [
+    {
+      "type": "initial",
+      "month": 7,
+      "year": 2023,
+      "rawLabel": "[Available: 07/2023]"
+    },
+    {
+      "type": "rerelease",
+      "month": 1,
+      "year": 2027,
+      "rawLabel": "[Rerelease:01/2027]"
+    }
+  ],
+  "releases": [
+    {
+      "sourceReleaseId": "11473R1",
+      "name": "Nendoroid Surtr (Rerelease)",
+      "price": 7300,
+      "reservationDeadline": "2023-03-01T23:59:59+09:00",
+      "isRerelease": true
+    },
+    {
+      "sourceReleaseId": "11473",
+      "name": "Nendoroid Surtr",
+      "price": 7300,
+      "reservationDeadline": "2023-03-01T23:59:59+09:00",
+      "isRerelease": false
+    }
+  ]
+}

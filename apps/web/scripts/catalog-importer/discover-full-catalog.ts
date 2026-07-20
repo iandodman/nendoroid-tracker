@@ -1,10 +1,8 @@
 import {
-  DEFAULT_PAGE_LIMIT,
-  fetchCatalogProductIds,
-} from "./catalog-pagination";
+  DEFAULT_MAX_PAGES,
+  discoverFullCatalog,
+} from "./full-catalog-discovery";
 import { writeJsonFile } from "./write-json";
-
-const DEFAULT_MAX_PAGES = 100;
 
 function getMaxPages(): number {
   const rawValue = process.argv[2]?.trim();
@@ -29,84 +27,40 @@ function getMaxPages(): number {
 
 async function main(): Promise<void> {
   const maxPages = getMaxPages();
-  const discoveredIds = new Set<string>();
-  const pages: Array<{
-    offset: number;
-    count: number;
-  }> = [];
 
-  let stoppedBecausePageWasIncomplete = false;
+  const result = await discoverFullCatalog({
+    maxPages,
 
-  for (
-    let pageIndex = 0;
-    pageIndex < maxPages;
-    pageIndex += 1
-  ) {
-    const offset =
-      pageIndex * DEFAULT_PAGE_LIMIT;
+    onPageStart(pageNumber, offset) {
+      console.log(
+        `Downloading page ${pageNumber} at offset ${offset}...`,
+      );
+    },
 
-    console.log(
-      `Downloading page ${pageIndex + 1} at offset ${offset}...`,
-    );
-
-    const productIds =
-      await fetchCatalogProductIds(offset);
-
-    pages.push({
-      offset,
-      count: productIds.length,
-    });
-
-    for (const productId of productIds) {
-      discoveredIds.add(productId);
-    }
-
-    console.log(
-      `Found ${productIds.length} IDs. Total unique: ${discoveredIds.size}.`,
-    );
-
-    if (
-      productIds.length <
-      DEFAULT_PAGE_LIMIT
-    ) {
-      stoppedBecausePageWasIncomplete = true;
-      break;
-    }
-  }
-
-  const productIds = [...discoveredIds];
+    onPageComplete(page) {
+      console.log(
+        `Found ${page.count} IDs. Total unique: ${page.uniqueCount}.`,
+      );
+    },
+  });
 
   await writeJsonFile(
     "data/catalog/full-catalog-product-ids.json",
-    {
-      discoveredAt: new Date().toISOString(),
-      pageLimit: DEFAULT_PAGE_LIMIT,
-      maxPages,
-      processedPages: pages.length,
-      stopReason:
-        stoppedBecausePageWasIncomplete
-          ? "incomplete-page"
-          : "maximum-pages",
-      uniqueCount: productIds.length,
-      pages,
-      productIds,
-    },
+    result,
   );
 
   console.log("");
-  console.log("Full catalog discovery complete.");
   console.log(
-    `- Processed pages: ${pages.length}`,
+    "Full catalog discovery complete.",
   );
   console.log(
-    `- Unique product IDs: ${productIds.length}`,
+    `- Processed pages: ${result.processedPages}`,
   );
   console.log(
-    `- Stop reason: ${
-      stoppedBecausePageWasIncomplete
-        ? "incomplete page"
-        : "maximum page limit"
-    }`,
+    `- Unique product IDs: ${result.uniqueCount}`,
+  );
+  console.log(
+    `- Stop reason: ${result.stopReason}`,
   );
 }
 
