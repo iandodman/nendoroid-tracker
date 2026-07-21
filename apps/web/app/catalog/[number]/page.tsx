@@ -6,6 +6,10 @@ import {
   decreaseCollectionQuantity,
   increaseCollectionQuantity,
 } from "@/app/actions/collection";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/app/actions/wishlist";
 import { getUserCollectionItem } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
@@ -61,6 +65,23 @@ export default async function NendoroidDetailPage({ params }: Props) {
     null,
     nendoroid.number,
   );
+  const wishlistItem = user
+  ? await prisma.wishlistItem.findUnique({
+      where: {
+        userId_nendoroidId: {
+          userId: user.id,
+          nendoroidId: nendoroid.id,
+        },
+      },
+    })
+  : null;
+  const addCurrentNendoroidToWishlist = addToWishlist.bind(
+  null,
+  nendoroid.number,
+);
+
+const removeCurrentNendoroidFromWishlist =
+  removeFromWishlist.bind(null, nendoroid.number);
 
   const increaseCurrentNendoroid =
     increaseCollectionQuantity.bind(
@@ -151,6 +172,31 @@ export default async function NendoroidDetailPage({ params }: Props) {
             className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200"
           >
             Add to collection
+          </button>
+        </form>
+      )}
+      {wishlistItem ? (
+        <form
+          action={removeCurrentNendoroidFromWishlist}
+          className="mt-4"
+        >
+          <button
+            type="submit"
+            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
+          >
+            Remove from wishlist
+          </button>
+        </form>
+      ) : (
+        <form
+          action={addCurrentNendoroidToWishlist}
+          className="mt-4"
+        >
+          <button
+            type="submit"
+            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
+          >
+            Add to wishlist
           </button>
         </form>
       )}
