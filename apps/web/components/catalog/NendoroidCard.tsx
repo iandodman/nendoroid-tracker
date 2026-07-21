@@ -1,23 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { CatalogNendoroid } from "@/components/catalog/CatalogClient";
+import type { Nendoroid } from "@/app/generated/prisma/client";
+
+export type CatalogNendoroid = Nendoroid & {
+  collectionQuantity: number;
+};
 
 type NendoroidCardProps = {
   nendoroid: CatalogNendoroid;
+  footer?: React.ReactNode;
 };
 
 export default function NendoroidCard({
   nendoroid,
+  footer,
 }: NendoroidCardProps) {
   const isOwned = nendoroid.collectionQuantity > 0;
 
   return (
-    <Link
-      href={`/catalog/${nendoroid.number}`}
-      className="block h-full"
-    >
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+      <Link
+        href={`/catalog/${nendoroid.number}`}
+        className="block"
+      >
         <div className="relative aspect-square bg-zinc-800">
           <Image
             src={
@@ -27,6 +33,7 @@ export default function NendoroidCard({
             alt={nendoroid.name}
             fill
             sizes="(max-width: 640px) 50vw, 33vw"
+            className="object-cover"
           />
 
           {isOwned && (
@@ -38,20 +45,28 @@ export default function NendoroidCard({
           )}
         </div>
 
-        <div className="flex flex-1 flex-col p-4">
-          <p className="text-sm text-zinc-400">
+        <div className="p-3">
+          <p className="text-xs text-zinc-400">
             #{nendoroid.number}
           </p>
 
-          <h2 className="mt-1 line-clamp-2 min-h-12 font-semibold">
+          <h2 className="mt-1 line-clamp-2 text-sm font-semibold leading-5">
             {nendoroid.name}
           </h2>
 
-          <p className="mt-1 line-clamp-2 min-h-10 text-sm text-zinc-500">
-            {nendoroid.series}
-          </p>
+          {nendoroid.series && (
+            <p className="mt-1 line-clamp-1 text-xs text-zinc-500">
+              {nendoroid.series}
+            </p>
+          )}
         </div>
-      </article>
-    </Link>
+      </Link>
+
+      {footer && (
+        <div className="border-t border-zinc-800 p-2">
+          {footer}
+        </div>
+      )}
+    </article>
   );
 }
