@@ -9,108 +9,25 @@ const prisma = new PrismaClient({
   adapter,
 });
 
-const nendoroids = [
-  {
-    number: "2367",
-    name: "Frieren",
-    series: "Frieren: Beyond Journey's End",
-    imageUrl: "/images/nendoroids/frieren.webp",
-  },
-  {
-    number: "2368",
-    name: "Fern",
-    series: "Frieren: Beyond Journey's End",
-    imageUrl: "/images/nendoroids/fern.webp",
-  },
-  {
-    number: "1701",
-    name: "Hatsune Miku: NT",
-    series: "Character Vocal Series",
-    imageUrl: "/images/nendoroids/miku_nt.webp",
-  },
-  {
-    number: "2069",
-    name: "Hitori Gotoh",
-    series: "Bocchi the Rock!",
-    imageUrl: "/images/nendoroids/bocchi.webp",
-  },
-];
-
-const sampleCollection = [
-  {
-    number: "2367",
-    quantity: 1,
-  },
-  {
-    number: "2368",
-    quantity: 1,
-  },
-  {
-    number: "2069",
-    quantity: 2,
-  },
-];
+const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
 async function main() {
-  for (const nendoroid of nendoroids) {
-    await prisma.nendoroid.upsert({
-      where: {
-        number: nendoroid.number,
-      },
-      update: {
-        name: nendoroid.name,
-        series: nendoroid.series,
-        imageUrl: nendoroid.imageUrl,
-      },
-      create: nendoroid,
-    });
-  }
-
   const developmentUser = await prisma.user.upsert({
     where: {
-      email: "dev@nendodex.local",
+      email: DEVELOPMENT_USER_EMAIL,
     },
-    update: {},
+    update: {
+      name: "Ian",
+    },
     create: {
-      email: "dev@nendodex.local",
+      email: DEVELOPMENT_USER_EMAIL,
       name: "Ian",
     },
   });
 
-  for (const item of sampleCollection) {
-    const nendoroid = await prisma.nendoroid.findUnique({
-      where: {
-        number: item.number,
-      },
-    });
-
-    if (!nendoroid) {
-      throw new Error(
-        `Nendoroid #${item.number} was not found while seeding the collection.`,
-      );
-    }
-
-    await prisma.collectionItem.upsert({
-      where: {
-        userId_nendoroidId: {
-          userId: developmentUser.id,
-          nendoroidId: nendoroid.id,
-        },
-      },
-      update: {
-        quantity: item.quantity,
-      },
-      create: {
-        userId: developmentUser.id,
-        nendoroidId: nendoroid.id,
-        quantity: item.quantity,
-      },
-    });
-  }
-
-  console.log("✅ Catalog seeded successfully.");
-  console.log(`✅ Development user ready: ${developmentUser.email}`);
-  console.log("✅ Sample collection seeded successfully.");
+  console.log(
+    `✅ Development user ready: ${developmentUser.email}`,
+  );
 }
 
 main()
