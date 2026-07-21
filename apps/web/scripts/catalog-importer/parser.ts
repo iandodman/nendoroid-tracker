@@ -41,6 +41,7 @@ interface ViewItemDataLayerEntry {
 
 interface ProductDefinitionData {
   number?: string;
+  isUnnumberedSet: boolean;
   series?: string;
   specifications?: string;
   sculptor?: string;
@@ -208,28 +209,33 @@ function normalizeText(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-/**
- * Nendoroid numbers are identifiers, not numeric values.
- *
- * Valid examples:
- * 000
- * 342a
- * 342b
- * 2367
- * 1234-DX
- */
+function inferProductTypeFromName(
+  productName: string,
+): string | undefined {
+  const normalizedName = normalizeText(productName);
+
+  if (
+    normalizedName === "Nendoroid Plus" ||
+    normalizedName.startsWith("Nendoroid Plus ")
+  ) {
+    return "Nendoroid Plus";
+  }
+
+  return undefined;
+}
+
 function isValidNendoroidNumber(
   value: string,
 ): boolean {
   return /^\d+[A-Za-z0-9-]*$/.test(value);
 }
 
-function extractNendoroidNumber(
-  $: cheerio.CheerioAPI,
-): string | undefined {
-  const productHeading = $("h1")
-    .filter((_, element) => {
-      const text = normalizeText($(element).text());
+  function extractNendoroidNumber(
+    $: cheerio.CheerioAPI,
+  ): string | undefined {
+    const productHeading = $("h1")
+      .filter((_, element) => {
+        const text = normalizeText($(element).text());
 
       return /^Nendoroid\b/i.test(text);
     })
@@ -264,6 +270,31 @@ function extractNendoroidNumber(
   return nearbyText.find(isValidNendoroidNumber);
 }
 
+ function isUnnumberedNendoroidSet(
+    $: cheerio.CheerioAPI,
+  ): boolean {
+    const description = normalizeText(
+      $('div[name="description"]').first().text(),
+    );
+
+    if (!description) {
+      return false;
+    }
+
+    const hasSetContents =
+      /\bset contents\b/i.test(description);
+
+    const nendoroidEntries =
+      description.match(
+        /(?:^|[·•])\s*Nendoroid\b/gi,
+      ) ?? [];
+
+    return (
+      hasSetContents &&
+      nendoroidEntries.length >= 2
+    );
+  }
+
 function extractDefinitionData(
   html: string,
 ): ProductDefinitionData {
@@ -271,6 +302,7 @@ function extractDefinitionData(
 
   const result: ProductDefinitionData = {
     number: extractNendoroidNumber($),
+    isUnnumberedSet: isUnnumberedNendoroidSet($),
   };
 
   $("dt").each((_, element) => {
@@ -422,7 +454,8 @@ export function parseGoodSmileProduct(
     originalAnalyticsItem?.item_brand;
 
   const productType =
-    originalAnalyticsItem?.item_category2?.trim();
+    originalAnalyticsItem?.item_category2?.trim() ??
+    inferProductTypeFromName(name);
 
   if (!productType) {
     throw new Error(
@@ -441,6 +474,16 @@ export function parseGoodSmileProduct(
   }
 
   if (!definitionData.number) {
+    if (definitionData.isUnnumberedSet) {
+      throw new UnsupportedProductError(
+        `Product ${sourceId} is an unnumbered Nendoroid set.`,
+        {
+          productId: sourceId,
+          productType: "Unnumbered Nendoroid Set",
+        },
+      );
+    }
+
     throw new Error(
       `The Nendoroid number could not be extracted for product ${sourceId}.`,
     );
