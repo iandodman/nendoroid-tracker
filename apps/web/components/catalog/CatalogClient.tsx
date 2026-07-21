@@ -2,16 +2,14 @@
 
 import { useState } from "react";
 
-import type { Nendoroid } from "@/app/generated/prisma/client";
-import NendoroidCard from "@/components/catalog/NendoroidCard";
 import SearchBar from "@/components/search/SearchBar";
 import SortSelect, {
   type SortOption,
 } from "@/components/sorting/SortSelect";
 
-export type CatalogNendoroid = Nendoroid & {
-  collectionQuantity: number;
-};
+import NendoroidCard, {
+  type CatalogNendoroid,
+} from "@/components/catalog/NendoroidCard";
 
 type CatalogClientProps = {
   nendoroids: CatalogNendoroid[];

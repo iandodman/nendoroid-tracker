@@ -12,12 +12,20 @@ const navigationItems = [
   {
     label: "Catalog",
     href: "/catalog",
-    isActive: (pathname: string) => pathname.startsWith("/catalog"),
+    isActive: (pathname: string) =>
+      pathname.startsWith("/catalog"),
   },
   {
     label: "Collection",
     href: "/collection",
-    isActive: (pathname: string) => pathname.startsWith("/collection"),
+    isActive: (pathname: string) =>
+      pathname.startsWith("/collection"),
+  },
+  {
+    label: "Wishlist",
+    href: "/wishlist",
+    isActive: (pathname: string) =>
+      pathname.startsWith("/wishlist"),
   },
 ];
 
@@ -27,9 +35,9 @@ export default function BottomNavigation() {
   return (
     <nav
       aria-label="Main navigation"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-950 px-4 py-3"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-zinc-950"
     >
-      <div className="mx-auto grid max-w-md grid-cols-5 text-center text-sm">
+      <div className="mx-auto grid max-w-md grid-cols-5 px-4 py-3 text-center text-sm">
         {navigationItems.map((item) => {
           const active = item.isActive(pathname);
 
@@ -41,21 +49,13 @@ export default function BottomNavigation() {
               className={
                 active
                   ? "text-zinc-50"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  : "text-zinc-400 transition hover:text-zinc-200"
               }
             >
               {item.label}
             </Link>
           );
         })}
-
-        <button
-          type="button"
-          disabled
-          className="cursor-not-allowed text-zinc-700"
-        >
-          Wishlist
-        </button>
 
         <button
           type="button"

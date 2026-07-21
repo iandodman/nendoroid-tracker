@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import ExploreCatalogButton from "@/components/home/ExploreCatalogButton";
 import SummaryCard from "@/components/home/SummaryCard";
 import Header from "@/components/layout/Header";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";
 import type { Nendoroid } from "@/app/generated/prisma/client";
@@ -81,8 +80,6 @@ export default function HomeClient({
 
         <SummaryCard title="Wishlist" value={0} />
       </section>
-
-      <BottomNavigation />
     </main>
   );
 }

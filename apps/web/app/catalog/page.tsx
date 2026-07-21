@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import CatalogClient from "@/components/catalog/CatalogClient";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
 import { prisma } from "@/lib/prisma";
 
 const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
@@ -73,7 +72,6 @@ export default async function CatalogPage({
         initialSearch={search ?? ""}
       />
 
-      <BottomNavigation />
     </main>
   );
 }
