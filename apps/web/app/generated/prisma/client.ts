@@ -56,3 +56,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type CollectionItem = Prisma.CollectionItemModel
+/**
+ * Model WishlistItem
+ * 
+ */
+export type WishlistItem = Prisma.WishlistItemModel
