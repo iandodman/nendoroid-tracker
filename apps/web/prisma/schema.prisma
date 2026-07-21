@@ -32,17 +32,20 @@ model Nendoroid {
   updatedAt DateTime @updatedAt
 
   collectionItems CollectionItem[]
+  wishlistItems   WishlistItem[]
 
   @@unique([source, sourceId])
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  googleId        String?          @unique
-  name            String
-  email           String           @unique
-  imageUrl        String?
+  id       Int     @id @default(autoincrement())
+  googleId String? @unique
+  name     String
+  email    String  @unique
+  imageUrl String?
+
   collectionItems CollectionItem[]
+  wishlistItems   WishlistItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -53,6 +56,20 @@ model CollectionItem {
   quantity  Int      @default(1)
   addedAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  userId      Int
+  nendoroidId Int
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nendoroid Nendoroid @relation(fields: [nendoroidId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, nendoroidId])
+  @@index([nendoroidId])
+}
+
+model WishlistItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
 
   userId      Int
   nendoroidId Int
