@@ -2,6 +2,7 @@ import { fetchProductHtml } from "./fetch-product";
 import { normalizeGoodSmileProduct } from "./normalizer";
 import { parseGoodSmileProduct } from "./parser";
 import { persistCatalogProduct } from "./persistence";
+import { UnsupportedProductError } from "./unsupported-product-error";
 import {
   writeJsonFile,
   writeTextFile,
@@ -21,12 +22,24 @@ export interface ImportProductOptions {
   artifactMode?: ProductArtifactMode;
 }
 
-export interface ProductImportResult {
+export interface SuccessfulProductImportResult {
+  status: "successful";
   productId: string;
   number: string;
   name: string;
   operation: ProductImportOperation;
 }
+
+export interface SkippedProductImportResult {
+  status: "skipped";
+  productId: string;
+  reason: string;
+  productType?: string;
+}
+
+export type ProductImportResult =
+  | SuccessfulProductImportResult
+  | SkippedProductImportResult;
 
 function buildProductUrl(productId: string): string {
   return `https://www.goodsmile.com/en/product/${productId}`;
@@ -80,12 +93,22 @@ export async function importProduct(
     );
 
     return {
+      status: "successful",
       productId,
       number: nendoroid.number,
       name: nendoroid.name,
       operation,
     };
   } catch (error: unknown) {
+    if (error instanceof UnsupportedProductError) {
+      return {
+        status: "skipped",
+        productId: error.productId,
+        reason: error.message,
+        productType: error.productType,
+      };
+    }
+
     if (
       artifactMode === "failed" &&
       html

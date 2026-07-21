@@ -31,6 +31,13 @@ async function main(): Promise<void> {
   const productIds = getProductIds();
 
   const successfulProductIds: string[] = [];
+
+  const skippedProducts: Array<{
+    productId: string;
+    message: string;
+    productType?: string;
+  }> = [];
+
   const failedProducts: Array<{
     productId: string;
     message: string;
@@ -50,7 +57,21 @@ async function main(): Promise<void> {
         },
       );
 
-      successfulProductIds.push(productId);
+      if (result.status === "skipped") {
+        skippedProducts.push({
+          productId: result.productId,
+          message: result.reason,
+          productType: result.productType,
+        });
+
+        console.log(
+          `Skipped product ${result.productId}: ${result.reason}`,
+        );
+
+        continue;
+      }
+
+      successfulProductIds.push(result.productId);
 
       console.log(
         `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
@@ -77,7 +98,26 @@ async function main(): Promise<void> {
   console.log(
     `- Successful: ${successfulProductIds.length}`,
   );
-  console.log(`- Failed: ${failedProducts.length}`);
+  console.log(
+    `- Skipped: ${skippedProducts.length}`,
+  );
+  console.log(
+    `- Failed: ${failedProducts.length}`,
+  );
+
+  if (skippedProducts.length > 0) {
+    console.log("- Skipped products:");
+
+    for (const skipped of skippedProducts) {
+      const productType = skipped.productType
+        ? ` [${skipped.productType}]`
+        : "";
+
+      console.log(
+        `  - ${skipped.productId}${productType}: ${skipped.message}`,
+      );
+    }
+  }
 
   if (failedProducts.length > 0) {
     console.log("- Failed products:");
