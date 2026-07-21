@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-07-21T01:03:22.727Z",
-  "completedAt": "2026-07-21T01:05:32.898Z",
+  "startedAt": "2026-07-21T06:30:03.932Z",
+  "completedAt": "2026-07-21T06:32:19.507Z",
   "discovery": {
     "pageLimit": 60,
     "maxPages": 1,
@@ -19,9 +19,27 @@
   "import": {
     "attempted": 60,
     "successful": 39,
-    "skipped": 18,
-    "failed": 3,
+    "skipped": 21,
+    "failed": 0,
     "successfulProducts": [
+      {
+        "productId": "1141007",
+        "number": "3082",
+        "name": "Takashi Natsume & Nyanko Sensei: Ceremonial Ver. [Basic]",
+        "operation": "updated"
+      },
+      {
+        "productId": "55578",
+        "number": "3012",
+        "name": "Vash the Stampede",
+        "operation": "updated"
+      },
+      {
+        "productId": "55579",
+        "number": "3099",
+        "name": "Nicholas D. Wolfwood",
+        "operation": "updated"
+      },
       {
         "productId": "1139002",
         "number": "3095",
@@ -237,24 +255,6 @@
         "number": "3081",
         "name": "Megurine Luka V4X",
         "operation": "updated"
-      },
-      {
-        "productId": "7062",
-        "number": "1309",
-        "name": "Hatsune Miku V4X",
-        "operation": "updated"
-      },
-      {
-        "productId": "62216",
-        "number": "2963",
-        "name": "Hakos Baelz",
-        "operation": "updated"
-      },
-      {
-        "productId": "11635",
-        "number": "2064",
-        "name": "Mahiru Shiina",
-        "operation": "updated"
       }
     ],
     "skippedProducts": [
@@ -304,6 +304,21 @@
         "productType": "Nendoroid Doll"
       },
       {
+        "productId": "1141578",
+        "reason": "Product 1141578 is an unnumbered Nendoroid set.",
+        "productType": "Unnumbered Nendoroid Set"
+      },
+      {
+        "productId": "1137156",
+        "reason": "Product 1137156 has an unsupported product type: Nendoroid Plus.",
+        "productType": "Nendoroid Plus"
+      },
+      {
+        "productId": "1137157",
+        "reason": "Product 1137157 has an unsupported product type: Nendoroid Plus.",
+        "productType": "Nendoroid Plus"
+      },
+      {
         "productId": "1140127",
         "reason": "Product 1140127 has an unsupported product type: Nendoroid Doll.",
         "productType": "Nendoroid Doll"
@@ -349,19 +364,6 @@
         "productType": "Nendoroid Doll"
       }
     ],
-    "failedProducts": [
-      {
-        "productId": "1141578",
-        "message": "The Nendoroid number could not be extracted for product 1141578."
-      },
-      {
-        "productId": "1137156",
-        "message": "The product type could not be extracted for product 1137156."
-      },
-      {
-        "productId": "1137157",
-        "message": "The product type could not be extracted for product 1137157."
-      }
-    ]
+    "failedProducts": []
   }
 }
