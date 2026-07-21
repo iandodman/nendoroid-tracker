@@ -6,6 +6,8 @@ import type {
   RawGoodSmileReleaseDate,
 } from "./types";
 
+import { UnsupportedProductError } from "./unsupported-product-error";
+
 interface AnalyticsItem {
   item_id?: string;
   item_name?: string;
@@ -420,16 +422,21 @@ export function parseGoodSmileProduct(
     originalAnalyticsItem?.item_brand;
 
   const productType =
-    originalAnalyticsItem?.item_category2;
+    originalAnalyticsItem?.item_category2?.trim();
 
-  if (
-    !productType ||
-    !productType.toLowerCase().includes("nendoroid")
-  ) {
+  if (!productType) {
     throw new Error(
-      `Product ${sourceId} is not recognized as a Nendoroid. Product type: ${
-        productType ?? "Unknown"
-      }`,
+      `The product type could not be extracted for product ${sourceId}.`,
+    );
+  }
+
+  if (productType !== "Nendoroid") {
+    throw new UnsupportedProductError(
+      `Product ${sourceId} has an unsupported product type: ${productType}.`,
+      {
+        productId: sourceId,
+        productType,
+      },
     );
   }
 

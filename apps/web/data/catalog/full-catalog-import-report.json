@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-07-20T19:41:09.648Z",
-  "completedAt": "2026-07-20T19:43:14.486Z",
+  "startedAt": "2026-07-21T01:03:22.727Z",
+  "completedAt": "2026-07-21T01:05:32.898Z",
   "discovery": {
     "pageLimit": 60,
     "maxPages": 1,
@@ -19,7 +19,8 @@
   "import": {
     "attempted": 60,
     "successful": 39,
-    "failed": 21,
+    "skipped": 18,
+    "failed": 3,
     "successfulProducts": [
       {
         "productId": "1139002",
@@ -256,90 +257,110 @@
         "operation": "updated"
       }
     ],
-    "failedProducts": [
+    "skippedProducts": [
       {
         "productId": "1140621",
-        "message": "The Nendoroid number could not be extracted for product 1140621."
+        "reason": "Product 1140621 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "1140622",
-        "message": "The Nendoroid number could not be extracted for product 1140622."
+        "reason": "Product 1140622 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "60271",
-        "message": "The Nendoroid number could not be extracted for product 60271."
+        "reason": "Product 60271 has an unsupported product type: Nendoroid Surprise.",
+        "productType": "Nendoroid Surprise"
       },
       {
         "productId": "1145957",
-        "message": "The Nendoroid number could not be extracted for product 1145957."
+        "reason": "Product 1145957 has an unsupported product type: Nendoroid Surprise.",
+        "productType": "Nendoroid Surprise"
       },
       {
         "productId": "1141536",
-        "message": "The Nendoroid number could not be extracted for product 1141536."
+        "reason": "Product 1141536 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "1141537",
-        "message": "The Nendoroid number could not be extracted for product 1141537."
+        "reason": "Product 1141537 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "1141744",
-        "message": "The Nendoroid number could not be extracted for product 1141744."
+        "reason": "Product 1141744 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "9723",
-        "message": "The Nendoroid number could not be extracted for product 9723."
+        "reason": "Product 9723 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
       {
         "productId": "9725",
-        "message": "The Nendoroid number could not be extracted for product 9725."
+        "reason": "Product 9725 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
       },
+      {
+        "productId": "1140127",
+        "reason": "Product 1140127 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "1140128",
+        "reason": "Product 1140128 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "1140129",
+        "reason": "Product 1140129 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "1140130",
+        "reason": "Product 1140130 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "1143950",
+        "reason": "Product 1143950 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "60828",
+        "reason": "Product 60828 has an unsupported product type: Nendoroid Surprise.",
+        "productType": "Nendoroid Surprise"
+      },
+      {
+        "productId": "1145428",
+        "reason": "Product 1145428 has an unsupported product type: Nendoroid Surprise.",
+        "productType": "Nendoroid Surprise"
+      },
+      {
+        "productId": "1142290",
+        "reason": "Product 1142290 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      },
+      {
+        "productId": "1142291",
+        "reason": "Product 1142291 has an unsupported product type: Nendoroid Doll.",
+        "productType": "Nendoroid Doll"
+      }
+    ],
+    "failedProducts": [
       {
         "productId": "1141578",
         "message": "The Nendoroid number could not be extracted for product 1141578."
       },
       {
         "productId": "1137156",
-        "message": "Product 1137156 is not recognized as a Nendoroid. Product type: Unknown"
+        "message": "The product type could not be extracted for product 1137156."
       },
       {
         "productId": "1137157",
-        "message": "Product 1137157 is not recognized as a Nendoroid. Product type: Unknown"
-      },
-      {
-        "productId": "1140127",
-        "message": "The Nendoroid number could not be extracted for product 1140127."
-      },
-      {
-        "productId": "1140128",
-        "message": "The Nendoroid number could not be extracted for product 1140128."
-      },
-      {
-        "productId": "1140129",
-        "message": "The Nendoroid number could not be extracted for product 1140129."
-      },
-      {
-        "productId": "1140130",
-        "message": "The Nendoroid number could not be extracted for product 1140130."
-      },
-      {
-        "productId": "1143950",
-        "message": "The Nendoroid number could not be extracted for product 1143950."
-      },
-      {
-        "productId": "60828",
-        "message": "The Nendoroid number could not be extracted for product 60828."
-      },
-      {
-        "productId": "1145428",
-        "message": "The Nendoroid number could not be extracted for product 1145428."
-      },
-      {
-        "productId": "1142290",
-        "message": "The Nendoroid number could not be extracted for product 1142290."
-      },
-      {
-        "productId": "1142291",
-        "message": "The Nendoroid number could not be extracted for product 1142291."
+        "message": "The product type could not be extracted for product 1137157."
       }
     ]
   }

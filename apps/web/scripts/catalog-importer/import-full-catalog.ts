@@ -4,7 +4,10 @@ import {
   DEFAULT_MAX_PAGES,
   discoverFullCatalog,
 } from "./full-catalog-discovery";
-import { importProduct } from "./import-product";
+import {
+  importProduct,
+  type ProductImportOperation,
+} from "./import-product";
 import { writeJsonFile } from "./write-json";
 
 interface FailedProductImport {
@@ -12,14 +15,17 @@ interface FailedProductImport {
   message: string;
 }
 
+interface SkippedProductImport {
+  productId: string;
+  reason: string;
+  productType?: string;
+}
+
 interface SuccessfulProductImport {
   productId: string;
   number: string;
   name: string;
-  operation:
-    | "created"
-    | "updated"
-    | "adopted";
+  operation: ProductImportOperation;
 }
 
 function getMaxPages(): number {
@@ -76,6 +82,9 @@ async function main(): Promise<void> {
   const successfulProducts:
     SuccessfulProductImport[] = [];
 
+  const skippedProducts:
+    SkippedProductImport[] = [];
+
   const failedProducts:
     FailedProductImport[] = [];
 
@@ -92,32 +101,51 @@ async function main(): Promise<void> {
     );
 
     try {
-        const result = await importProduct(
-            productId,
-            {
-            artifactMode: "failed",
-            },
-        );
+      const result = await importProduct(
+        productId,
+        {
+          artifactMode: "failed",
+        },
+      );
 
-        successfulProducts.push(result);
-
-        console.log(
-            `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
-        );
-        } catch (error: unknown) {
-        const message =
-            error instanceof Error
-            ? error.message
-            : "An unknown error occurred.";
-
-        failedProducts.push({
-            productId,
-            message,
+      if (result.status === "skipped") {
+        skippedProducts.push({
+          productId: result.productId,
+          reason: result.reason,
+          productType: result.productType,
         });
 
-        console.error(
-            `Failed to import product ${productId}: ${message}`,
+        console.log(
+          `Skipped: ${result.productId} — ${result.reason}`,
         );
+
+        continue;
+      }
+
+      successfulProducts.push({
+        productId: result.productId,
+        number: result.number,
+        name: result.name,
+        operation: result.operation,
+      });
+
+      console.log(
+        `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
+      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred.";
+
+      failedProducts.push({
+        productId,
+        message,
+      });
+
+      console.error(
+        `Failed to import product ${productId}: ${message}`,
+      );
     }
 
     console.log("");
@@ -148,8 +176,12 @@ async function main(): Promise<void> {
           discovery.productIds.length,
         successful:
           successfulProducts.length,
-        failed: failedProducts.length,
+        skipped:
+          skippedProducts.length,
+        failed:
+          failedProducts.length,
         successfulProducts,
+        skippedProducts,
         failedProducts,
       },
     },
@@ -163,6 +195,9 @@ async function main(): Promise<void> {
   );
   console.log(
     `- Successful: ${successfulProducts.length}`,
+  );
+  console.log(
+    `- Skipped: ${skippedProducts.length}`,
   );
   console.log(
     `- Failed: ${failedProducts.length}`,
