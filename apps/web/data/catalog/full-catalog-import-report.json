@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-07-21T06:30:03.932Z",
-  "completedAt": "2026-07-21T06:32:19.507Z",
+  "startedAt": "2026-07-21T17:59:25.489Z",
+  "completedAt": "2026-07-21T18:01:36.495Z",
   "discovery": {
     "pageLimit": 60,
     "maxPages": 1,
@@ -21,6 +21,11 @@
     "successful": 39,
     "skipped": 21,
     "failed": 0,
+    "operations": {
+      "created": 0,
+      "updated": 39,
+      "adopted": 0
+    },
     "successfulProducts": [
       {
         "productId": "1141007",

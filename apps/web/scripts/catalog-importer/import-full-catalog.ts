@@ -151,6 +151,22 @@ async function main(): Promise<void> {
     console.log("");
   }
 
+  const operationCounts =
+  successfulProducts.reduce(
+    (counts, product) => {
+      counts[product.operation] += 1;
+      return counts;
+    },
+    {
+      created: 0,
+      updated: 0,
+      adopted: 0,
+    } satisfies Record<
+      ProductImportOperation,
+      number
+    >,
+  );
+
   const completedAt =
     new Date().toISOString();
 
@@ -180,6 +196,9 @@ async function main(): Promise<void> {
           skippedProducts.length,
         failed:
           failedProducts.length,
+
+        operations: operationCounts,
+
         successfulProducts,
         skippedProducts,
         failedProducts,
@@ -195,6 +214,15 @@ async function main(): Promise<void> {
   );
   console.log(
     `- Successful: ${successfulProducts.length}`,
+  );
+  console.log(
+    `  - Created: ${operationCounts.created}`,
+  );
+  console.log(
+    `  - Updated: ${operationCounts.updated}`,
+  );
+  console.log(
+    `  - Adopted: ${operationCounts.adopted}`,
   );
   console.log(
     `- Skipped: ${skippedProducts.length}`,
