@@ -28,17 +28,27 @@ export default async function CatalogPage({
     },
   });
 
-  const collectionItems = user
-    ? await prisma.collectionItem.findMany({
-        where: {
-          userId: user.id,
-        },
-        select: {
-          nendoroidId: true,
-          quantity: true,
-        },
-      })
-    : [];
+  const [collectionItems, wishlistItems] = user
+    ? await Promise.all([
+        prisma.collectionItem.findMany({
+          where: {
+            userId: user.id,
+          },
+          select: {
+            nendoroidId: true,
+            quantity: true,
+          },
+        }),
+        prisma.wishlistItem.findMany({
+          where: {
+            userId: user.id,
+          },
+          select: {
+            nendoroidId: true,
+          },
+        }),
+      ])
+    : [[], []];
 
   const collectionQuantityByNendoroidId = new Map(
     collectionItems.map((item) => [
@@ -47,10 +57,15 @@ export default async function CatalogPage({
     ]),
   );
 
+  const wishlistNendoroidIds = new Set(
+    wishlistItems.map((item) => item.nendoroidId),
+  );
+
   const catalogNendoroids = nendoroids.map((nendoroid) => ({
     ...nendoroid,
     collectionQuantity:
       collectionQuantityByNendoroidId.get(nendoroid.id) ?? 0,
+    isWishlisted: wishlistNendoroidIds.has(nendoroid.id),
   }));
 
   return (
@@ -71,7 +86,6 @@ export default async function CatalogPage({
         nendoroids={catalogNendoroids}
         initialSearch={search ?? ""}
       />
-
     </main>
   );
 }

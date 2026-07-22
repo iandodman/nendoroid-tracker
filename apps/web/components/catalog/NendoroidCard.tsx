@@ -5,6 +5,7 @@ import type { Nendoroid } from "@/app/generated/prisma/client";
 
 export type CatalogNendoroid = Nendoroid & {
   collectionQuantity: number;
+  isWishlisted: boolean;
 };
 
 type NendoroidCardProps = {
@@ -36,13 +37,21 @@ export default function NendoroidCard({
             className="object-cover"
           />
 
-          {isOwned && (
-            <span className="absolute right-2 top-2 rounded-full bg-zinc-950/90 px-2 py-1 text-xs font-semibold text-zinc-50">
-              {nendoroid.collectionQuantity > 1
-                ? `Owned ×${nendoroid.collectionQuantity}`
-                : "Owned"}
-            </span>
-          )}
+          <div className="absolute right-2 top-2 flex flex-col items-end gap-2">
+            {isOwned && (
+              <span className="rounded-full bg-zinc-950/90 px-2 py-1 text-xs font-semibold text-zinc-50">
+                {nendoroid.collectionQuantity > 1
+                  ? `Owned ×${nendoroid.collectionQuantity}`
+                  : "Owned"}
+              </span>
+            )}
+
+            {nendoroid.isWishlisted && (
+              <span className="rounded-full bg-rose-500/90 px-2 py-1 text-xs font-semibold text-white">
+                Wishlist
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="p-3">
@@ -63,7 +72,7 @@ export default function NendoroidCard({
       </Link>
 
       {footer && (
-        <div className="border-t border-zinc-800 p-2">
+        <div className="mt-auto border-t border-zinc-800 p-2">
           {footer}
         </div>
       )}
