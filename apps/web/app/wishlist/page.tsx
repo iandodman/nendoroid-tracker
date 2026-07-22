@@ -64,22 +64,23 @@ export default async function WishlistPage() {
 
   const wishlistNendoroids: CatalogNendoroid[] =
     wishlistItems.map(({ nendoroid }) => ({
-      id: nendoroid.id,
-      number: nendoroid.number,
-      name: nendoroid.name,
-      series: nendoroid.series,
-      manufacturer: nendoroid.manufacturer,
-      imageUrl: nendoroid.imageUrl,
-      releaseYear: nendoroid.releaseYear,
-      releaseMonth: nendoroid.releaseMonth,
-      source: nendoroid.source,
-      sourceId: nendoroid.sourceId,
-      officialUrl: nendoroid.officialUrl,
-      createdAt: nendoroid.createdAt,
-      updatedAt: nendoroid.updatedAt,
-      collectionQuantity:
+        id: nendoroid.id,
+        number: nendoroid.number,
+        name: nendoroid.name,
+        series: nendoroid.series,
+        manufacturer: nendoroid.manufacturer,
+        imageUrl: nendoroid.imageUrl,
+        releaseYear: nendoroid.releaseYear,
+        releaseMonth: nendoroid.releaseMonth,
+        source: nendoroid.source,
+        sourceId: nendoroid.sourceId,
+        officialUrl: nendoroid.officialUrl,
+        createdAt: nendoroid.createdAt,
+        updatedAt: nendoroid.updatedAt,
+        collectionQuantity:
         nendoroid.collectionItems[0]?.quantity ?? 0,
-    }));
+        isWishlisted: true,
+  }));
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
