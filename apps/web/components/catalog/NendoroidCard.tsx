@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 
 import type { Nendoroid } from "@/app/generated/prisma/client";
 
@@ -37,21 +38,26 @@ export default function NendoroidCard({
             className="object-cover"
           />
 
-          <div className="absolute right-2 top-2 flex flex-col items-end gap-2">
-            {isOwned && (
-              <span className="rounded-full bg-zinc-950/90 px-2 py-1 text-xs font-semibold text-zinc-50">
-                {nendoroid.collectionQuantity > 1
-                  ? `Owned ×${nendoroid.collectionQuantity}`
-                  : "Owned"}
-              </span>
-            )}
+          {isOwned && (
+            <span className="absolute right-2 top-2 rounded-full bg-zinc-950/90 px-2 py-1 text-xs font-semibold text-zinc-50">
+              {nendoroid.collectionQuantity > 1
+                ? `Owned ×${nendoroid.collectionQuantity}`
+                : "Owned"}
+            </span>
+          )}
 
-            {nendoroid.isWishlisted && (
-              <span className="rounded-full bg-rose-500/90 px-2 py-1 text-xs font-semibold text-white">
-                Wishlist
-              </span>
-            )}
-          </div>
+          {nendoroid.isWishlisted && (
+            <span
+              className="absolute bottom-3 right-3"
+              title="In wishlist"
+            >
+              <Heart
+                className="h-9 w-9 fill-[#fb588c] text-[#fb588c] drop-shadow-md"
+                aria-hidden="true"
+              />
+              <span className="sr-only">In wishlist</span>
+            </span>
+          )}
         </div>
 
         <div className="p-3">
