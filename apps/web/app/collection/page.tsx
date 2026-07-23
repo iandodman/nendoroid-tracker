@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 import CollectionClient from "@/components/collection/CollectionClient";
-import Header from "@/components/layout/Header";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { getUserCollection } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
@@ -15,19 +14,15 @@ export default async function CollectionPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-        <Header />
+      <>
+        <PageHeader title="Collection" />
 
-        <section className="mt-8">
-          <h1 className="text-2xl font-bold">My collection</h1>
-
-          <p className="mt-3 text-zinc-400">
+        <section>
+          <p className="text-zinc-400">
             Development user not found.
           </p>
         </section>
-
-        <BottomNavigation />
-      </main>
+      </>
     );
   }
 
@@ -41,16 +36,12 @@ export default async function CollectionPage() {
   );
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <Header />
+    <>
+      <section>
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <PageHeader title="Collection" />
 
-      <section className="mt-8">
-        <div className="mb-1 flex items-start justify-between gap-4">
-          <h1 className="text-2xl font-bold">
-            My collection
-          </h1>
-
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2">
+          <div className="shrink-0 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2">
             <div className="flex gap-4 text-center">
               <div>
                 <p className="text-base font-semibold">
@@ -96,8 +87,6 @@ export default async function CollectionPage() {
           <CollectionClient collection={collection} />
         )}
       </section>
-
-      <BottomNavigation />
-    </main>
+    </>
   );
 }
