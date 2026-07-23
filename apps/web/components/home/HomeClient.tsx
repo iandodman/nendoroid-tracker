@@ -4,19 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import type { Nendoroid } from "@/app/generated/prisma/client";
 import ExploreCatalogButton from "@/components/home/ExploreCatalogButton";
 import SummaryCard from "@/components/home/SummaryCard";
-import Header from "@/components/layout/Header";
 import SearchBar from "@/components/search/SearchBar";
 import SearchResults from "@/components/search/SearchResults";
-import type { Nendoroid } from "@/app/generated/prisma/client";
+
 type HomeClientProps = {
   collectionCount: number;
+  wishlistCount: number;
   nendoroids: Nendoroid[];
 };
 
 export default function HomeClient({
   collectionCount,
+  wishlistCount,
   nendoroids,
 }: HomeClientProps) {
   const [search, setSearch] = useState("");
@@ -29,7 +31,9 @@ export default function HomeClient({
       return;
     }
 
-    router.push(`/catalog?search=${encodeURIComponent(query)}`);
+    router.push(
+      `/catalog?search=${encodeURIComponent(query)}`,
+    );
   }
 
   const query = search.toLowerCase().trim();
@@ -40,27 +44,29 @@ export default function HomeClient({
       : nendoroids
           .filter((nendoroid) => {
             return (
-              nendoroid.name.toLowerCase().includes(query) ||
+              nendoroid.name
+                .toLowerCase()
+                .includes(query) ||
               (nendoroid.series ?? "")
                 .toLowerCase()
                 .includes(query) ||
-              nendoroid.number.toLowerCase().includes(query)
+              nendoroid.number
+                .toLowerCase()
+                .includes(query)
             );
           })
           .slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <Header />
+    <>
       <div className="mb-6">
         <SearchBar
-        value={search}
-        onChange={setSearch}
-        onSubmit={handleSearchSubmit}
-        showSubmitButton
+          value={search}
+          onChange={setSearch}
+          onSubmit={handleSearchSubmit}
+          showSubmitButton
         />
       </div>
-      
 
       <SearchResults nendoroids={quickResults} />
 
@@ -78,8 +84,17 @@ export default function HomeClient({
           />
         </Link>
 
-        <SummaryCard title="Wishlist" value={0} />
+        <Link
+          href="/wishlist"
+          aria-label="Open my wishlist"
+          className="block rounded-2xl focus:outline-none focus:ring-2 focus:ring-zinc-400"
+        >
+          <SummaryCard
+            title="Wishlist"
+            value={wishlistCount}
+          />
+        </Link>
       </section>
-    </main>
+    </>
   );
 }

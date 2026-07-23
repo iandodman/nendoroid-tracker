@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import CatalogClient from "@/components/catalog/CatalogClient";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { prisma } from "@/lib/prisma";
 
 const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
@@ -69,23 +68,16 @@ export default async function CatalogPage({
   }));
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <header className="mb-6">
-        <Link href="/" className="text-sm text-zinc-400">
-          ← Home
-        </Link>
-
-        <p className="mt-4 text-sm text-zinc-400">Catalog</p>
-
-        <h1 className="mt-1 text-2xl font-bold tracking-tight">
-          Explore Nendoroids
-        </h1>
-      </header>
+    <>
+      <PageHeader
+        title="Catalog"
+        description="Explore Nendoroids"
+      />
 
       <CatalogClient
         nendoroids={catalogNendoroids}
         initialSearch={search ?? ""}
       />
-    </main>
+    </>
   );
 }

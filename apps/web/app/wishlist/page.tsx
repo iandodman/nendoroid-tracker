@@ -4,6 +4,7 @@ import { removeFromWishlist } from "@/app/actions/wishlist";
 import NendoroidCard, {
   type CatalogNendoroid,
 } from "@/components/catalog/NendoroidCard";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { prisma } from "@/lib/prisma";
 
 const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
@@ -17,14 +18,11 @@ export default async function WishlistPage() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-        <header className="mb-6">
-          <h1 className="text-3xl font-bold">Wishlist</h1>
-
-          <p className="mt-2 text-zinc-400">
-            Your saved Nendoroids.
-          </p>
-        </header>
+      <>
+        <PageHeader
+          title="Wishlist"
+          description="Your saved Nendoroids."
+        />
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
           <h2 className="font-semibold">
@@ -35,7 +33,7 @@ export default async function WishlistPage() {
             Run the development seed before using the wishlist.
           </p>
         </section>
-      </main>
+      </>
     );
   }
 
@@ -64,35 +62,35 @@ export default async function WishlistPage() {
 
   const wishlistNendoroids: CatalogNendoroid[] =
     wishlistItems.map(({ nendoroid }) => ({
-        id: nendoroid.id,
-        number: nendoroid.number,
-        name: nendoroid.name,
-        series: nendoroid.series,
-        manufacturer: nendoroid.manufacturer,
-        imageUrl: nendoroid.imageUrl,
-        releaseYear: nendoroid.releaseYear,
-        releaseMonth: nendoroid.releaseMonth,
-        source: nendoroid.source,
-        sourceId: nendoroid.sourceId,
-        officialUrl: nendoroid.officialUrl,
-        createdAt: nendoroid.createdAt,
-        updatedAt: nendoroid.updatedAt,
-        collectionQuantity:
+      id: nendoroid.id,
+      number: nendoroid.number,
+      name: nendoroid.name,
+      series: nendoroid.series,
+      manufacturer: nendoroid.manufacturer,
+      imageUrl: nendoroid.imageUrl,
+      releaseYear: nendoroid.releaseYear,
+      releaseMonth: nendoroid.releaseMonth,
+      source: nendoroid.source,
+      sourceId: nendoroid.sourceId,
+      officialUrl: nendoroid.officialUrl,
+      createdAt: nendoroid.createdAt,
+      updatedAt: nendoroid.updatedAt,
+      collectionQuantity:
         nendoroid.collectionItems[0]?.quantity ?? 0,
-        isWishlisted: true,
-  }));
+      isWishlisted: true,
+    }));
+
+  const wishlistDescription =
+    wishlistNendoroids.length === 1
+      ? "1 saved Nendoroid"
+      : `${wishlistNendoroids.length} saved Nendoroids`;
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold">Wishlist</h1>
-
-        <p className="mt-2 text-zinc-400">
-          {wishlistNendoroids.length === 1
-            ? "1 saved Nendoroid"
-            : `${wishlistNendoroids.length} saved Nendoroids`}
-        </p>
-      </header>
+    <>
+      <PageHeader
+        title="Wishlist"
+        description={wishlistDescription}
+      />
 
       {wishlistNendoroids.length === 0 ? (
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
@@ -125,20 +123,20 @@ export default async function WishlistPage() {
                 key={nendoroid.id}
                 nendoroid={nendoroid}
                 footer={
-                    <form action={removeCurrentNendoroid}>
-                        <button
-                            type="submit"
-                            className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-red-500 hover:bg-red-500/15 hover:text-red-400 active:border-red-500 active:bg-red-500/25 active:text-red-300"
-                        >
-                            Remove
-                        </button>
-                    </form>
+                  <form action={removeCurrentNendoroid}>
+                    <button
+                      type="submit"
+                      className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-red-500 hover:bg-red-500/15 hover:text-red-400 active:border-red-500 active:bg-red-500/25 active:text-red-300"
+                    >
+                      Remove
+                    </button>
+                  </form>
                 }
-                />
+              />
             );
           })}
         </section>
       )}
-    </main>
+    </>
   );
 }
