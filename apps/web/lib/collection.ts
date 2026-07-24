@@ -2,7 +2,7 @@ import "server-only";
 
 import { prisma } from "@/lib/prisma";
 
-export async function getUserCollection(userId: number) {
+export async function getUserCollection(userId: string) {
   return prisma.collectionItem.findMany({
     where: {
       userId,
@@ -16,7 +16,7 @@ export async function getUserCollection(userId: number) {
   });
 }
 
-export async function getUserCollectionCount(userId: number) {
+export async function getUserCollectionCount(userId: string) {
   return prisma.collectionItem.count({
     where: {
       userId,
@@ -25,7 +25,7 @@ export async function getUserCollectionCount(userId: number) {
 }
 
 export async function getUserCollectionItem(
-  userId: number,
+  userId: string,
   nendoroidId: number,
 ) {
   return prisma.collectionItem.findUnique({

@@ -11,9 +11,11 @@
     "discover:catalog": "tsx scripts/catalog-importer/discover-catalog.ts",
     "research:catalog-pagination": "tsx scripts/catalog-importer/test-catalog-pagination.ts",
     "discover:full-catalog": "tsx scripts/catalog-importer/discover-full-catalog.ts",
-    "import:catalog": "tsx scripts/catalog-importer/import-full-catalog.ts"
+    "import:catalog": "tsx scripts/catalog-importer/import-full-catalog.ts",
+    "restore:catalog": "tsx scripts/catalog-importer/restore-local-catalog.ts"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "cheerio": "^1.2.0",

@@ -29,14 +29,12 @@ export type AggregateCollectionItem = {
 export type CollectionItemAvgAggregateOutputType = {
   id: number | null
   quantity: number | null
-  userId: number | null
   nendoroidId: number | null
 }
 
 export type CollectionItemSumAggregateOutputType = {
   id: number | null
   quantity: number | null
-  userId: number | null
   nendoroidId: number | null
 }
 
@@ -45,7 +43,7 @@ export type CollectionItemMinAggregateOutputType = {
   quantity: number | null
   addedAt: Date | null
   updatedAt: Date | null
-  userId: number | null
+  userId: string | null
   nendoroidId: number | null
 }
 
@@ -54,7 +52,7 @@ export type CollectionItemMaxAggregateOutputType = {
   quantity: number | null
   addedAt: Date | null
   updatedAt: Date | null
-  userId: number | null
+  userId: string | null
   nendoroidId: number | null
 }
 
@@ -72,14 +70,12 @@ export type CollectionItemCountAggregateOutputType = {
 export type CollectionItemAvgAggregateInputType = {
   id?: true
   quantity?: true
-  userId?: true
   nendoroidId?: true
 }
 
 export type CollectionItemSumAggregateInputType = {
   id?: true
   quantity?: true
-  userId?: true
   nendoroidId?: true
 }
 
@@ -202,7 +198,7 @@ export type CollectionItemGroupByOutputType = {
   quantity: number
   addedAt: Date
   updatedAt: Date
-  userId: number
+  userId: string
   nendoroidId: number
   _count: CollectionItemCountAggregateOutputType | null
   _avg: CollectionItemAvgAggregateOutputType | null
@@ -234,7 +230,7 @@ export type CollectionItemWhereInput = {
   quantity?: Prisma.IntFilter<"CollectionItem"> | number
   addedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
-  userId?: Prisma.IntFilter<"CollectionItem"> | number
+  userId?: Prisma.StringFilter<"CollectionItem"> | string
   nendoroidId?: Prisma.IntFilter<"CollectionItem"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   nendoroid?: Prisma.XOR<Prisma.NendoroidScalarRelationFilter, Prisma.NendoroidWhereInput>
@@ -260,7 +256,7 @@ export type CollectionItemWhereUniqueInput = Prisma.AtLeast<{
   quantity?: Prisma.IntFilter<"CollectionItem"> | number
   addedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
-  userId?: Prisma.IntFilter<"CollectionItem"> | number
+  userId?: Prisma.StringFilter<"CollectionItem"> | string
   nendoroidId?: Prisma.IntFilter<"CollectionItem"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   nendoroid?: Prisma.XOR<Prisma.NendoroidScalarRelationFilter, Prisma.NendoroidWhereInput>
@@ -288,7 +284,7 @@ export type CollectionItemScalarWhereWithAggregatesInput = {
   quantity?: Prisma.IntWithAggregatesFilter<"CollectionItem"> | number
   addedAt?: Prisma.DateTimeWithAggregatesFilter<"CollectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CollectionItem"> | Date | string
-  userId?: Prisma.IntWithAggregatesFilter<"CollectionItem"> | number
+  userId?: Prisma.StringWithAggregatesFilter<"CollectionItem"> | string
   nendoroidId?: Prisma.IntWithAggregatesFilter<"CollectionItem"> | number
 }
 
@@ -305,7 +301,7 @@ export type CollectionItemUncheckedCreateInput = {
   quantity?: number
   addedAt?: Date | string
   updatedAt?: Date | string
-  userId: number
+  userId: string
   nendoroidId: number
 }
 
@@ -322,7 +318,7 @@ export type CollectionItemUncheckedUpdateInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   addedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   nendoroidId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -331,7 +327,7 @@ export type CollectionItemCreateManyInput = {
   quantity?: number
   addedAt?: Date | string
   updatedAt?: Date | string
-  userId: number
+  userId: string
   nendoroidId: number
 }
 
@@ -346,7 +342,7 @@ export type CollectionItemUncheckedUpdateManyInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   addedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   nendoroidId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -361,7 +357,7 @@ export type CollectionItemOrderByRelationAggregateInput = {
 }
 
 export type CollectionItemUserIdNendoroidIdCompoundUniqueInput = {
-  userId: number
+  userId: string
   nendoroidId: number
 }
 
@@ -377,7 +373,6 @@ export type CollectionItemCountOrderByAggregateInput = {
 export type CollectionItemAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   nendoroidId?: Prisma.SortOrder
 }
 
@@ -402,7 +397,6 @@ export type CollectionItemMinOrderByAggregateInput = {
 export type CollectionItemSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   nendoroidId?: Prisma.SortOrder
 }
 
@@ -502,7 +496,7 @@ export type CollectionItemUncheckedCreateWithoutNendoroidInput = {
   quantity?: number
   addedAt?: Date | string
   updatedAt?: Date | string
-  userId: number
+  userId: string
 }
 
 export type CollectionItemCreateOrConnectWithoutNendoroidInput = {
@@ -539,7 +533,7 @@ export type CollectionItemScalarWhereInput = {
   quantity?: Prisma.IntFilter<"CollectionItem"> | number
   addedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CollectionItem"> | Date | string
-  userId?: Prisma.IntFilter<"CollectionItem"> | number
+  userId?: Prisma.StringFilter<"CollectionItem"> | string
   nendoroidId?: Prisma.IntFilter<"CollectionItem"> | number
 }
 
@@ -589,7 +583,7 @@ export type CollectionItemCreateManyNendoroidInput = {
   quantity?: number
   addedAt?: Date | string
   updatedAt?: Date | string
-  userId: number
+  userId: string
 }
 
 export type CollectionItemUpdateWithoutNendoroidInput = {
@@ -604,7 +598,7 @@ export type CollectionItemUncheckedUpdateWithoutNendoroidInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   addedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CollectionItemUncheckedUpdateManyWithoutNendoroidInput = {
@@ -612,7 +606,7 @@ export type CollectionItemUncheckedUpdateManyWithoutNendoroidInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   addedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type CollectionItemCreateManyUserInput = {
@@ -715,7 +709,7 @@ export type $CollectionItemPayload<ExtArgs extends runtime.Types.Extensions.Inte
     quantity: number
     addedAt: Date
     updatedAt: Date
-    userId: number
+    userId: string
     nendoroidId: number
   }, ExtArgs["result"]["collectionItem"]>
   composites: {}
@@ -1146,7 +1140,7 @@ export interface CollectionItemFieldRefs {
   readonly quantity: Prisma.FieldRef<"CollectionItem", 'Int'>
   readonly addedAt: Prisma.FieldRef<"CollectionItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CollectionItem", 'DateTime'>
-  readonly userId: Prisma.FieldRef<"CollectionItem", 'Int'>
+  readonly userId: Prisma.FieldRef<"CollectionItem", 'String'>
   readonly nendoroidId: Prisma.FieldRef<"CollectionItem", 'Int'>
 }
     
