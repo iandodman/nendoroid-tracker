@@ -28,5 +28,5 @@ Thumbs.db
 .idea/
 
 # Scraper-generated HTML
-data/catalog/failed/*.html
-data/catalog/product/*.html
+apps/web/data/catalog/failed/*.html
+apps/web/data/catalog/products/*.html
