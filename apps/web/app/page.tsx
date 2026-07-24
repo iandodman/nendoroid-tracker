@@ -1,4 +1,5 @@
 import HomeClient from "@/components/home/HomeClient";
+import AuthStatus from "@/components/auth/AuthStatus";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { getUserCollectionCount } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
@@ -32,6 +33,7 @@ export default async function Home() {
 
   return (
     <>
+      <AuthStatus />
       <PageHeader
         title="Home"
         description="Search and manage your Nendoroids."
