@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 /data/catalog/*.html
+data/catalog/failed/*.html
+data/catalog/product/*.html
