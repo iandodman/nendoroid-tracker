@@ -1,9 +1,6 @@
 import Link from "next/link";
-
-import { removeFromWishlist } from "@/app/actions/wishlist";
-import NendoroidCard, {
-  type CatalogNendoroid,
-} from "@/components/catalog/NendoroidCard";
+import WishlistClient from "@/components/wishlist/WishlistClient";
+import type { CatalogNendoroid } from "@/components/catalog/NendoroidCard";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { prisma } from "@/lib/prisma";
 
@@ -109,33 +106,8 @@ export default async function WishlistPage() {
             Browse catalog
           </Link>
         </section>
-      ) : (
-        <section className="grid grid-cols-2 items-stretch gap-3">
-          {wishlistNendoroids.map((nendoroid) => {
-            const removeCurrentNendoroid =
-              removeFromWishlist.bind(
-                null,
-                nendoroid.number,
-              );
-
-            return (
-              <NendoroidCard
-                key={nendoroid.id}
-                nendoroid={nendoroid}
-                footer={
-                  <form action={removeCurrentNendoroid}>
-                    <button
-                      type="submit"
-                      className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-red-500 hover:bg-red-500/15 hover:text-red-400 active:border-red-500 active:bg-red-500/25 active:text-red-300"
-                    >
-                      Remove
-                    </button>
-                  </form>
-                }
-              />
-            );
-          })}
-        </section>
+      ) : (     
+        <WishlistClient nendoroids={wishlistNendoroids} />
       )}
     </>
   );
