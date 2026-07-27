@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 import {
   addToCollection,
@@ -13,7 +14,6 @@ import {
 import { getUserCollectionItem } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
-const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
 
 type Props = {
   params: Promise<{
@@ -51,25 +51,22 @@ export default async function NendoroidDetailPage({ params }: Props) {
     );
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: DEVELOPMENT_USER_EMAIL,
-    },
-  });
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  const collectionItem = user
-    ? await getUserCollectionItem(user.id, nendoroid.id)
-    : null;
+  const collectionItem = userId
+  ? await getUserCollectionItem(userId, nendoroid.id)
+  : null;
 
   const addCurrentNendoroid = addToCollection.bind(
     null,
     nendoroid.number,
   );
-  const wishlistItem = user
+  const wishlistItem = userId
   ? await prisma.wishlistItem.findUnique({
       where: {
         userId_nendoroidId: {
-          userId: user.id,
+          userId,
           nendoroidId: nendoroid.id,
         },
       },

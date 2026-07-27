@@ -1,19 +1,16 @@
 import Link from "next/link";
-import WishlistClient from "@/components/wishlist/WishlistClient";
+
+import { auth } from "@/auth";
 import type { CatalogNendoroid } from "@/components/catalog/NendoroidCard";
 import { PageHeader } from "@/components/layout/PageHeader";
+import WishlistClient from "@/components/wishlist/WishlistClient";
 import { prisma } from "@/lib/prisma";
 
-const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
-
 export default async function WishlistPage() {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: DEVELOPMENT_USER_EMAIL,
-    },
-  });
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!user) {
+  if (!userId) {
     return (
       <>
         <PageHeader
@@ -23,11 +20,11 @@ export default async function WishlistPage() {
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
           <h2 className="font-semibold">
-            Development user not found
+            Sign in to view your wishlist
           </h2>
 
           <p className="mt-2 text-sm text-zinc-400">
-            Run the development seed before using the wishlist.
+            Your saved Nendoroids are linked to your account.
           </p>
         </section>
       </>
@@ -36,14 +33,14 @@ export default async function WishlistPage() {
 
   const wishlistItems = await prisma.wishlistItem.findMany({
     where: {
-      userId: user.id,
+      userId,
     },
     include: {
       nendoroid: {
         include: {
           collectionItems: {
             where: {
-              userId: user.id,
+              userId,
             },
             select: {
               quantity: true,
@@ -106,7 +103,7 @@ export default async function WishlistPage() {
             Browse catalog
           </Link>
         </section>
-      ) : (     
+      ) : (
         <WishlistClient nendoroids={wishlistNendoroids} />
       )}
     </>

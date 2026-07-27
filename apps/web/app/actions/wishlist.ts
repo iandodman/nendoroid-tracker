@@ -2,21 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
-const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
-
-async function getDevelopmentUserAndNendoroid(
+async function getAuthenticatedUserAndNendoroid(
   nendoroidNumber: string,
 ) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: DEVELOPMENT_USER_EMAIL,
-    },
-  });
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!user) {
-    throw new Error("Development user not found.");
+  if (!userId) {
+    throw new Error("Unauthorized.");
   }
 
   const nendoroid = await prisma.nendoroid.findUnique({
@@ -30,7 +26,7 @@ async function getDevelopmentUserAndNendoroid(
   }
 
   return {
-    user,
+    userId,
     nendoroid,
   };
 }
@@ -45,19 +41,19 @@ function revalidateWishlistPages(nendoroidNumber: string) {
 export async function addToWishlist(
   nendoroidNumber: string,
 ): Promise<void> {
-  const { user, nendoroid } =
-    await getDevelopmentUserAndNendoroid(nendoroidNumber);
+  const { userId, nendoroid } =
+    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
 
   await prisma.wishlistItem.upsert({
     where: {
       userId_nendoroidId: {
-        userId: user.id,
+        userId,
         nendoroidId: nendoroid.id,
       },
     },
     update: {},
     create: {
-      userId: user.id,
+      userId,
       nendoroidId: nendoroid.id,
     },
   });
@@ -68,12 +64,12 @@ export async function addToWishlist(
 export async function removeFromWishlist(
   nendoroidNumber: string,
 ): Promise<void> {
-  const { user, nendoroid } =
-    await getDevelopmentUserAndNendoroid(nendoroidNumber);
+  const { userId, nendoroid } =
+    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
 
   await prisma.wishlistItem.deleteMany({
     where: {
-      userId: user.id,
+      userId,
       nendoroidId: nendoroid.id,
     },
   });

@@ -1,32 +1,29 @@
 import Link from "next/link";
 
+import { auth } from "@/auth";
 import CollectionClient from "@/components/collection/CollectionClient";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { getUserCollection } from "@/lib/collection";
-import { prisma } from "@/lib/prisma";
 
 export default async function CollectionPage() {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: "dev@nendodex.local",
-    },
-  });
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!user) {
+  if (!userId) {
     return (
       <>
         <PageHeader title="Collection" />
 
         <section>
           <p className="text-zinc-400">
-            Development user not found.
+            Sign in to view your collection.
           </p>
         </section>
       </>
     );
   }
 
-  const collection = await getUserCollection(user.id);
+  const collection = await getUserCollection(userId);
 
   const uniqueNendoroids = collection.length;
 

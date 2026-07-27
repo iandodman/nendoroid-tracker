@@ -1,8 +1,7 @@
 import CatalogClient from "@/components/catalog/CatalogClient";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { prisma } from "@/lib/prisma";
-
-const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
+import { auth } from "@/auth";
 
 type CatalogPageProps = {
   searchParams: Promise<{
@@ -15,11 +14,8 @@ export default async function CatalogPage({
 }: CatalogPageProps) {
   const { search } = await searchParams;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: DEVELOPMENT_USER_EMAIL,
-    },
-  });
+  const session = await auth();
+  const userId = session?.user?.id;
 
   const nendoroids = await prisma.nendoroid.findMany({
     orderBy: {
@@ -27,11 +23,11 @@ export default async function CatalogPage({
     },
   });
 
-  const [collectionItems, wishlistItems] = user
+  const [collectionItems, wishlistItems] = userId
     ? await Promise.all([
         prisma.collectionItem.findMany({
           where: {
-            userId: user.id,
+            userId,
           },
           select: {
             nendoroidId: true,
@@ -40,7 +36,7 @@ export default async function CatalogPage({
         }),
         prisma.wishlistItem.findMany({
           where: {
-            userId: user.id,
+            userId,
           },
           select: {
             nendoroidId: true,
