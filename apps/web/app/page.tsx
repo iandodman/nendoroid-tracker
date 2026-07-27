@@ -1,31 +1,26 @@
-import HomeClient from "@/components/home/HomeClient";
+import { auth } from "@/auth";
 import AuthStatus from "@/components/auth/AuthStatus";
+import HomeClient from "@/components/home/HomeClient";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { getUserCollectionCount } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
-const DEVELOPMENT_USER_EMAIL = "dev@nendodex.local";
-
 export default async function Home() {
-  const [user, nendoroids] = await Promise.all([
-    prisma.user.findUnique({
-      where: {
-        email: DEVELOPMENT_USER_EMAIL,
-      },
-    }),
-    prisma.nendoroid.findMany({
-      orderBy: {
-        number: "asc",
-      },
-    }),
-  ]);
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  const [collectionCount, wishlistCount] = user
+  const nendoroids = await prisma.nendoroid.findMany({
+    orderBy: {
+      number: "asc",
+    },
+  });
+
+  const [collectionCount, wishlistCount] = userId
     ? await Promise.all([
-        getUserCollectionCount(user.id),
+        getUserCollectionCount(userId),
         prisma.wishlistItem.count({
           where: {
-            userId: user.id,
+            userId,
           },
         }),
       ])
@@ -34,6 +29,7 @@ export default async function Home() {
   return (
     <>
       <AuthStatus />
+
       <PageHeader
         title="Home"
         description="Search and manage your Nendoroids."
