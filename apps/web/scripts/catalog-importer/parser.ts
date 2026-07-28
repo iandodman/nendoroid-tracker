@@ -224,6 +224,52 @@ function inferProductTypeFromName(
   return undefined;
 }
 
+function extractProductType(
+  analyticsItem: AnalyticsItem | undefined,
+  productItem: ProductAnalyticsItem | undefined,
+  productName: string,
+): string | undefined {
+  const candidates = [
+    analyticsItem?.item_category2,
+    analyticsItem?.item_category,
+    productItem?.category,
+    inferProductTypeFromName(productName),
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate) {
+      continue;
+    }
+
+    const normalizedValue = normalizeText(candidate);
+
+    if (
+      normalizedValue === "Nendoroid" ||
+      normalizedValue === "Nendoroid Series"
+    ) {
+      return "Nendoroid";
+    }
+
+    if (normalizedValue.startsWith("Nendoroid More")) {
+      return "Nendoroid More";
+    }
+
+    if (normalizedValue.startsWith("Nendoroid Doll")) {
+      return "Nendoroid Doll";
+    }
+
+    if (normalizedValue.startsWith("Nendoroid Swacchao")) {
+      return "Nendoroid Swacchao";
+    }
+
+    if (normalizedValue.startsWith("Nendoroid Plus")) {
+      return "Nendoroid Plus";
+    }
+  }
+
+  return undefined;
+}
+
 function isValidNendoroidNumber(
   value: string,
 ): boolean {
@@ -453,9 +499,11 @@ export function parseGoodSmileProduct(
     definitionData.manufacturer ??
     originalAnalyticsItem?.item_brand;
 
-  const productType =
-    originalAnalyticsItem?.item_category2?.trim() ??
-    inferProductTypeFromName(name);
+  const productType = extractProductType(
+    originalAnalyticsItem,
+    originalProductItem,
+    name,
+  );
 
   if (!productType) {
     throw new Error(

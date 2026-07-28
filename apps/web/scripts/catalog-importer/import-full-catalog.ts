@@ -199,7 +199,6 @@ async function main(): Promise<void> {
       {
         created: 0,
         updated: 0,
-        adopted: 0,
       } satisfies Record<
         ProductImportOperation,
         number
@@ -259,9 +258,6 @@ async function main(): Promise<void> {
   );
   console.log(
     `  - Updated: ${operationCounts.updated}`,
-  );
-  console.log(
-    `  - Adopted: ${operationCounts.adopted}`,
   );
   console.log(
     `- Skipped: ${skippedProducts.length}`,

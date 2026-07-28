@@ -10,8 +10,7 @@ import {
 
 export type ProductImportOperation =
   | "created"
-  | "updated"
-  | "adopted";
+  | "updated";
 
 export type ProductArtifactMode =
   | "all"
