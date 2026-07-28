@@ -1,6 +1,6 @@
 {
-  "startedAt": "2026-07-21T17:59:25.489Z",
-  "completedAt": "2026-07-21T18:01:36.495Z",
+  "startedAt": "2026-07-27T20:41:10.830Z",
+  "completedAt": "2026-07-27T20:43:31.916Z",
   "discovery": {
     "pageLimit": 60,
     "maxPages": 1,
@@ -18,15 +18,93 @@
   },
   "import": {
     "attempted": 60,
-    "successful": 39,
-    "skipped": 21,
+    "successful": 41,
+    "skipped": 19,
     "failed": 0,
     "operations": {
       "created": 0,
-      "updated": 39,
-      "adopted": 0
+      "updated": 37,
+      "adopted": 4
     },
     "successfulProducts": [
+      {
+        "productId": "1141000",
+        "number": "3118",
+        "name": "Woosa",
+        "operation": "updated"
+      },
+      {
+        "productId": "60965",
+        "number": "2949",
+        "name": "IRyS",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142171",
+        "number": "3109",
+        "name": "Hatsune Miku: Monitoring Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "1141478",
+        "number": "3111",
+        "name": "Estelle Bright: The 1st Ver.",
+        "operation": "updated"
+      },
+      {
+        "productId": "1141477",
+        "number": "3115",
+        "name": "Angel Devil",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142368",
+        "number": "3103",
+        "name": "Nonoka Miyanaga",
+        "operation": "updated"
+      },
+      {
+        "productId": "1140348",
+        "number": "3032",
+        "name": "Hinami Watarai",
+        "operation": "updated"
+      },
+      {
+        "productId": "1142370",
+        "number": "3106",
+        "name": "Akita Neru",
+        "operation": "adopted"
+      },
+      {
+        "productId": "1142369",
+        "number": "3107",
+        "name": "Yowane Haku",
+        "operation": "adopted"
+      },
+      {
+        "productId": "1146032",
+        "number": "3106",
+        "name": "Akita Neru x Face Maker Collaboration Face Plate Set",
+        "operation": "adopted"
+      },
+      {
+        "productId": "1146033",
+        "number": "3107",
+        "name": "Yowane Haku x Face Maker Collaboration Face Plate Set",
+        "operation": "adopted"
+      },
+      {
+        "productId": "1142172",
+        "number": "3098",
+        "name": "Shadowheart",
+        "operation": "updated"
+      },
+      {
+        "productId": "1144137",
+        "number": "3102",
+        "name": "Sunna",
+        "operation": "updated"
+      },
       {
         "productId": "1141007",
         "number": "3082",
@@ -194,72 +272,6 @@
         "number": "3055",
         "name": "Falin (Chimera)",
         "operation": "updated"
-      },
-      {
-        "productId": "1140615",
-        "number": "3086",
-        "name": "G'raha Tia",
-        "operation": "updated"
-      },
-      {
-        "productId": "1140601",
-        "number": "3034",
-        "name": "Doma",
-        "operation": "updated"
-      },
-      {
-        "productId": "1140612",
-        "number": "3085",
-        "name": "Mukuro Rokudo: Ten-Years-Later Ver.",
-        "operation": "updated"
-      },
-      {
-        "productId": "10840",
-        "number": "1945",
-        "name": "Xie Lian",
-        "operation": "updated"
-      },
-      {
-        "productId": "10841",
-        "number": "1946",
-        "name": "Hua Cheng",
-        "operation": "updated"
-      },
-      {
-        "productId": "60601",
-        "number": "2918",
-        "name": "Fuwawa Abyssgard",
-        "operation": "updated"
-      },
-      {
-        "productId": "60602",
-        "number": "2919",
-        "name": "Mococo Abyssgard",
-        "operation": "updated"
-      },
-      {
-        "productId": "55636",
-        "number": "2572",
-        "name": "Red Pyramid Thing",
-        "operation": "updated"
-      },
-      {
-        "productId": "1142149",
-        "number": "3084",
-        "name": "Mika Misono (Swimsuit) [Basic]",
-        "operation": "updated"
-      },
-      {
-        "productId": "1143261",
-        "number": "3075",
-        "name": "Toshiya Miyata",
-        "operation": "updated"
-      },
-      {
-        "productId": "1141476",
-        "number": "3081",
-        "name": "Megurine Luka V4X",
-        "operation": "updated"
       }
     ],
     "skippedProducts": [
@@ -357,16 +369,6 @@
         "productId": "1145428",
         "reason": "Product 1145428 has an unsupported product type: Nendoroid Surprise.",
         "productType": "Nendoroid Surprise"
-      },
-      {
-        "productId": "1142290",
-        "reason": "Product 1142290 has an unsupported product type: Nendoroid Doll.",
-        "productType": "Nendoroid Doll"
-      },
-      {
-        "productId": "1142291",
-        "reason": "Product 1142291 has an unsupported product type: Nendoroid Doll.",
-        "productType": "Nendoroid Doll"
       }
     ],
     "failedProducts": []
