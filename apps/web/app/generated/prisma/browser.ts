@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type Nendoroid = Prisma.NendoroidModel
 /**
+ * Model NendoroidVariant
+ * 
+ */
+export type NendoroidVariant = Prisma.NendoroidVariantModel
+/**
  * Model User
  * 
  */
