@@ -24,6 +24,8 @@ model Nendoroid {
   releaseYear  Int?
   releaseMonth Int?
 
+  // Temporary: these fields will move to NendoroidVariant
+  // when the catalog importer is updated.
   source      String?
   sourceId    String?
   officialUrl String?
@@ -31,10 +33,31 @@ model Nendoroid {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  variants        NendoroidVariant[]
   collectionItems CollectionItem[]
   wishlistItems   WishlistItem[]
 
   @@unique([source, sourceId])
+}
+
+model NendoroidVariant {
+  id Int @id @default(autoincrement())
+
+  name     String
+  fullName String
+
+  source      String
+  sourceId    String
+  officialUrl String?
+
+  nendoroidId Int
+  nendoroid   Nendoroid @relation(fields: [nendoroidId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([source, sourceId])
+  @@index([nendoroidId])
 }
 
 model User {
