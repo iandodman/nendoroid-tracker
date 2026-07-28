@@ -28,6 +28,8 @@ interface SuccessfulProductImport {
   operation: ProductImportOperation;
 }
 
+const DEFAULT_PRODUCT_DELAY_MS = 400;
+
 function getMaxPages(): number {
   const rawValue = process.argv[2]?.trim();
 
@@ -49,11 +51,43 @@ function getMaxPages(): number {
   return maxPages;
 }
 
+function getProductDelayMs(): number {
+  const rawValue =
+    process.env.CATALOG_IMPORT_DELAY_MS?.trim();
+
+  if (!rawValue) {
+    return DEFAULT_PRODUCT_DELAY_MS;
+  }
+
+  const delayMs = Number(rawValue);
+
+  if (
+    !Number.isInteger(delayMs) ||
+    delayMs < 0
+  ) {
+    throw new Error(
+      `Invalid catalog import delay: "${rawValue}".`,
+    );
+  }
+
+  return delayMs;
+}
+
+function sleep(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
+}
+
 async function main(): Promise<void> {
   const maxPages = getMaxPages();
+  const productDelayMs = getProductDelayMs();
 
   console.log(
     "Discovering Good Smile catalog...",
+  );
+  console.log(
+    `Product request delay: ${productDelayMs} ms.`,
   );
   console.log("");
 
@@ -116,22 +150,20 @@ async function main(): Promise<void> {
         });
 
         console.log(
-          `Skipped: ${result.productId} — ${result.reason}`,
+          `Skipped: ${result.productId} - ${result.reason}`,
         );
+      } else {
+        successfulProducts.push({
+          productId: result.productId,
+          number: result.number,
+          name: result.name,
+          operation: result.operation,
+        });
 
-        continue;
+        console.log(
+          `${result.operation}: Nendoroid #${result.number} - ${result.name}`,
+        );
       }
-
-      successfulProducts.push({
-        productId: result.productId,
-        number: result.number,
-        name: result.name,
-        operation: result.operation,
-      });
-
-      console.log(
-        `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
-      );
     } catch (error: unknown) {
       const message =
         error instanceof Error
@@ -149,23 +181,30 @@ async function main(): Promise<void> {
     }
 
     console.log("");
+
+    if (
+      productDelayMs > 0 &&
+      index < discovery.productIds.length - 1
+    ) {
+      await sleep(productDelayMs);
+    }
   }
 
   const operationCounts =
-  successfulProducts.reduce(
-    (counts, product) => {
-      counts[product.operation] += 1;
-      return counts;
-    },
-    {
-      created: 0,
-      updated: 0,
-      adopted: 0,
-    } satisfies Record<
-      ProductImportOperation,
-      number
-    >,
-  );
+    successfulProducts.reduce(
+      (counts, product) => {
+        counts[product.operation] += 1;
+        return counts;
+      },
+      {
+        created: 0,
+        updated: 0,
+        adopted: 0,
+      } satisfies Record<
+        ProductImportOperation,
+        number
+      >,
+    );
 
   const completedAt =
     new Date().toISOString();

@@ -7,6 +7,7 @@ export const DEFAULT_MAX_PAGES = 100;
 
 export type CatalogDiscoveryStopReason =
   | "incomplete-page"
+  | "no-new-products"
   | "maximum-pages";
 
 export interface CatalogDiscoveryPage {
@@ -77,9 +78,16 @@ export async function discoverFullCatalog(
     const productIds =
       await fetchCatalogProductIds(offset);
 
+    const uniqueCountBeforePage =
+      discoveredIds.size;
+
     for (const productId of productIds) {
       discoveredIds.add(productId);
     }
+
+    const addedCount =
+      discoveredIds.size -
+      uniqueCountBeforePage;
 
     const page: CatalogDiscoveryPage = {
       pageNumber,
@@ -90,6 +98,11 @@ export async function discoverFullCatalog(
 
     pages.push(page);
     options.onPageComplete?.(page);
+
+    if (addedCount === 0) {
+      stopReason = "no-new-products";
+      break;
+    }
 
     if (
       productIds.length <
