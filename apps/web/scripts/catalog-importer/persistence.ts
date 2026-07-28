@@ -2,30 +2,73 @@ import { prisma } from "../../lib/prisma";
 
 import type { NormalizedCatalogProduct } from "./types";
 
-function buildCatalogData(
+type ProductImportOperation =
+  | "created"
+  | "updated";
+
+function buildNendoroidData(
   product: NormalizedCatalogProduct,
 ) {
   return {
-    number: product.number,
     name: product.name,
     series: product.series,
     manufacturer: product.manufacturer,
     imageUrl: product.imageUrl,
     releaseYear: product.releaseYear,
     releaseMonth: product.releaseMonth,
+  };
+}
+
+function buildVariantData(
+  product: NormalizedCatalogProduct,
+) {
+  return {
+    name: product.name,
+    fullName: product.name,
     source: product.source,
     sourceId: product.sourceId,
     officialUrl: product.officialUrl,
   };
 }
 
-export async function persistCatalogProduct(
+async function findOrCreateNendoroid(
   product: NormalizedCatalogProduct,
 ) {
-  const catalogData = buildCatalogData(product);
-
-  const existingBySource =
+  const existingNendoroid =
     await prisma.nendoroid.findUnique({
+      where: {
+        number: product.number,
+      },
+    });
+
+  if (existingNendoroid) {
+    return existingNendoroid;
+  }
+
+  return prisma.nendoroid.create({
+    data: {
+      number: product.number,
+      ...buildNendoroidData(product),
+    },
+  });
+}
+
+export async function persistCatalogProduct(
+  product: NormalizedCatalogProduct,
+): Promise<{
+  nendoroid: Awaited<
+    ReturnType<typeof findOrCreateNendoroid>
+  >;
+  operation: ProductImportOperation;
+}> {
+  const nendoroid =
+    await findOrCreateNendoroid(product);
+
+  const variantData =
+    buildVariantData(product);
+
+  const existingVariant =
+    await prisma.nendoroidVariant.findUnique({
       where: {
         source_sourceId: {
           source: product.source,
@@ -34,47 +77,32 @@ export async function persistCatalogProduct(
       },
     });
 
-  if (existingBySource) {
-    const nendoroid = await prisma.nendoroid.update({
+  if (existingVariant) {
+    await prisma.nendoroidVariant.update({
       where: {
-        id: existingBySource.id,
+        id: existingVariant.id,
       },
-      data: catalogData,
+      data: {
+        ...variantData,
+        nendoroidId: nendoroid.id,
+      },
     });
 
     return {
       nendoroid,
-      operation: "updated" as const,
+      operation: "updated",
     };
   }
 
-  const existingByNumber =
-    await prisma.nendoroid.findUnique({
-      where: {
-        number: product.number,
-      },
-    });
-
-  if (existingByNumber) {
-    const nendoroid = await prisma.nendoroid.update({
-      where: {
-        id: existingByNumber.id,
-      },
-      data: catalogData,
-    });
-
-    return {
-      nendoroid,
-      operation: "adopted" as const,
-    };
-  }
-
-  const nendoroid = await prisma.nendoroid.create({
-    data: catalogData,
+  await prisma.nendoroidVariant.create({
+    data: {
+      ...variantData,
+      nendoroidId: nendoroid.id,
+    },
   });
 
   return {
     nendoroid,
-    operation: "created" as const,
+    operation: "created",
   };
 }
