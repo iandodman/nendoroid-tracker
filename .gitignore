@@ -29,3 +29,6 @@ Thumbs.db
 # Scraper-generated HTML
 apps/web/data/catalog/failed/*.html
 apps/web/data/catalog/products/*.html
+apps/web/data/catalog/full-catalog-import-report.json
+apps/web/data/catalog/failed-product-ids.txt
+apps/web/data/catalog/products/
