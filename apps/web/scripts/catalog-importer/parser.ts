@@ -304,12 +304,12 @@ function isValidNendoroidNumber(
   const productContainer = productHeading.parent();
 
   const directNumberCandidate = productContainer
-    .find("li")
-    .map((_, element) =>
-      normalizeText($(element).text()),
-    )
-    .get()
-    .find(isValidNendoroidNumber);
+  .find("li")
+  .map((_, element) =>
+    normalizeText($(element).text()).normalize("NFKC"),
+  )
+  .get()
+  .find(isValidNendoroidNumber);
 
   if (directNumberCandidate) {
     return directNumberCandidate;
