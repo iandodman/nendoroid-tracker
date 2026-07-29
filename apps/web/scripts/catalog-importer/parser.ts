@@ -214,11 +214,21 @@ function inferProductTypeFromName(
 ): string | undefined {
   const normalizedName = normalizeText(productName);
 
-  if (
-    normalizedName === "Nendoroid Plus" ||
-    normalizedName.startsWith("Nendoroid Plus ")
-  ) {
-    return "Nendoroid Plus";
+  const knownProductTypes = [
+    "Nendoroid Doll",
+    "Nendoroid More",
+    "Nendoroid Swacchao",
+    "Nendoroid Plus",
+    "Nendoroid",
+  ];
+
+  for (const productType of knownProductTypes) {
+    if (
+      normalizedName === productType ||
+      normalizedName.startsWith(`${productType} `)
+    ) {
+      return productType;
+    }
   }
 
   return undefined;
