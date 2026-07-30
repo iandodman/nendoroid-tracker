@@ -358,36 +358,44 @@ function extractProductType(
   );
 }
 
+function normalizeNendoroidNumber(
+  value: string,
+): string {
+  return normalizeText(value)
+    .normalize("NFKC")
+    .replace(/[\u2010-\u2015\u2212]/g, "-");
+}
+
 function isValidNendoroidNumber(
   value: string,
 ): boolean {
   return /^\d+[A-Za-z0-9-]*$/.test(value);
 }
 
-  function extractNendoroidNumber(
-    $: cheerio.CheerioAPI,
-  ): string | undefined {
-    const productHeading = $("h1")
-      .filter((_, element) => {
-        const text = normalizeText($(element).text());
+function extractNendoroidNumber(
+  $: cheerio.CheerioAPI,
+): string | undefined {
+  const productHeading = $("h1")
+    .filter((_, element) => {
+      const text = normalizeText($(element).text());
 
       return /^Nendoroid\b/i.test(text);
     })
     .first();
 
-  if (productHeading.length === 0) {
+  if (!productHeading.length) {
     return undefined;
   }
 
   const productContainer = productHeading.parent();
 
   const directNumberCandidate = productContainer
-  .find("li")
-  .map((_, element) =>
-    normalizeText($(element).text()).normalize("NFKC"),
-  )
-  .get()
-  .find(isValidNendoroidNumber);
+    .find("li")
+    .map((_, element) =>
+      normalizeNendoroidNumber($(element).text()),
+    )
+    .get()
+    .find(isValidNendoroidNumber);
 
   if (directNumberCandidate) {
     return directNumberCandidate;
@@ -397,7 +405,7 @@ function isValidNendoroidNumber(
     .nextAll()
     .slice(0, 5)
     .map((_, element) =>
-      normalizeText($(element).text()),
+      normalizeNendoroidNumber($(element).text()),
     )
     .get();
 
