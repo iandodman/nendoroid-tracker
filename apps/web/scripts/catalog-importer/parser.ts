@@ -209,26 +209,83 @@ function normalizeText(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
+function normalizeKnownProductType(
+  value: string,
+): string | undefined {
+  const normalizedValue = normalizeText(value);
+
+  const knownProductTypes = [
+    "Nendoroid Surprise",
+    "Nendoroid Petite",
+    "Nendoroid Co-de",
+    "Nendoroid Swacchao",
+    "Nendoroid Doll",
+    "Nendoroid More",
+    "Nendoroid Plus",
+    "Nendoroid Jumbo",
+    "Nendoroid Large",
+    "Accessory",
+    "Playsets",
+    "Other (Goods)",
+  ];
+
+  for (const productType of knownProductTypes) {
+    if (
+      normalizedValue === productType ||
+      normalizedValue.startsWith(`${productType} `)
+    ) {
+      return productType;
+    }
+  }
+
+  if (
+    normalizedValue === "Nendoroid" ||
+    normalizedValue === "Nendoroid Series"
+  ) {
+    return "Nendoroid";
+  }
+
+  return undefined;
+}
+
 function inferProductTypeFromName(
   productName: string,
 ): string | undefined {
   const normalizedName = normalizeText(productName);
 
   const knownProductTypes = [
+    "Nendoroid Surprise",
+    "Nendoroid Petite",
+    "Nendoroid Co-de",
+    "Nendoroid Swacchao",
     "Nendoroid Doll",
     "Nendoroid More",
-    "Nendoroid Swacchao",
     "Nendoroid Plus",
-    "Nendoroid",
+    "Nendoroid Jumbo",
+    "Nendoroid Large",
   ];
 
   for (const productType of knownProductTypes) {
-    if (
-      normalizedName === productType ||
-      normalizedName.startsWith(`${productType} `)
-    ) {
+    const escapedProductType = productType.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&",
+    );
+
+    const pattern = new RegExp(
+      `(?:^|\\s)${escapedProductType}(?=\\s|:|$)`,
+      "i",
+    );
+
+    if (pattern.test(normalizedName)) {
       return productType;
     }
+  }
+
+  if (
+    normalizedName === "Nendoroid" ||
+    normalizedName.startsWith("Nendoroid ")
+  ) {
+    return "Nendoroid";
   }
 
   return undefined;
@@ -245,39 +302,28 @@ function extractProductType(
     productItem?.category,
     inferProductTypeFromName(productName),
   ];
+ 
+  const extractedTypes = candidates
+    .filter(
+      (candidate): candidate is string =>
+        Boolean(candidate),
+    )
+    .map(normalizeKnownProductType)
+    .filter(
+      (productType): productType is string =>
+        Boolean(productType),
+    );
 
-  for (const candidate of candidates) {
-    if (!candidate) {
-      continue;
-    }
+  const specificProductType = extractedTypes.find(
+    (productType) => productType !== "Nendoroid",
+  );
 
-    const normalizedValue = normalizeText(candidate);
-
-    if (
-      normalizedValue === "Nendoroid" ||
-      normalizedValue === "Nendoroid Series"
-    ) {
-      return "Nendoroid";
-    }
-
-    if (normalizedValue.startsWith("Nendoroid More")) {
-      return "Nendoroid More";
-    }
-
-    if (normalizedValue.startsWith("Nendoroid Doll")) {
-      return "Nendoroid Doll";
-    }
-
-    if (normalizedValue.startsWith("Nendoroid Swacchao")) {
-      return "Nendoroid Swacchao";
-    }
-
-    if (normalizedValue.startsWith("Nendoroid Plus")) {
-      return "Nendoroid Plus";
-    }
-  }
-
-  return undefined;
+  return (
+    specificProductType ??
+    extractedTypes.find(
+      (productType) => productType === "Nendoroid",
+    )
+  );
 }
 
 function isValidNendoroidNumber(
