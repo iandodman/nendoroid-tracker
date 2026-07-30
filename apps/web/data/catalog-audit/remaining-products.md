@@ -1,12 +1,12 @@
 # Remaining Good Smile Product Audit
 
-Generated at: 2026-07-30T06:09:57.620Z
+Generated at: 2026-07-30T17:16:28.544Z
 
 ## Summary
 
 | Product ID | Product | Detected type | Official number | Series | Classification |
 |---|---|---|---|---|---|
-| 7135 | Nendoroid Amaterasu DX Ver. | Nendoroid | — | Okami | Pending |
+| 7135 | Nendoroid Amaterasu DX Ver. | Nendoroid | 1365-DX | Okami | Pending |
 | 1143782 | Nendoroid Base Parts Set | Nendoroid | — | Nendoroid | Pending |
 | 1144776 | Nendoroid Hikari Tachibana & Nozomi Tachibana Set | Nendoroid | — | Blue Archive | Pending |
 | 1144339 | Nendoroid Joo Jaekyung & Kim Dan | Nendoroid | — | Jinx | Pending |
@@ -27,11 +27,11 @@ Generated at: 2026-07-30T06:09:57.620Z
 | 56066 | Nendoroid Sora Kasugano | Nendoroid | — | Yosuga no Sora | Pending |
 | 9747 | The Case Study of Vanitas Nendoroid Pouch Neo | Nendoroid | — | The Case Study of Vanitas | Pending |
 | 7628 | Nendoroid Easel Stand | Nendoroid | — | Nendoroid | Pending |
-| 8077 | Nendoroid Hunter: Female Zinogre Alpha Armor Ver. DX | Nendoroid | — | MONSTER HUNTER WORLD: ICEBORNE | Pending |
-| 7515 | Nendoroid Hunter: Male Zinogre Alpha Armor Ver. DX | Nendoroid | — | MONSTER HUNTER WORLD: ICEBORNE | Pending |
-| 7073 | Nendoroid Lio Fotia: Complete Combustion Ver. | Nendoroid | — | PROMARE | Pending |
-| 6981 | Nendoroid Hunter: Female Nargacuga Alpha Armor Ver. DX | Nendoroid | — | MONSTER HUNTER WORLD: ICEBORNE | Pending |
-| 6952 | Nendoroid Sam Porter Bridges: Great Deliverer Ver. | Nendoroid | — | DEATH STRANDING | Pending |
+| 8077 | Nendoroid Hunter: Female Zinogre Alpha Armor Ver. DX | Nendoroid | 1407-DX | MONSTER HUNTER WORLD: ICEBORNE | Pending |
+| 7515 | Nendoroid Hunter: Male Zinogre Alpha Armor Ver. DX | Nendoroid | 1421-DX | MONSTER HUNTER WORLD: ICEBORNE | Pending |
+| 7073 | Nendoroid Lio Fotia: Complete Combustion Ver. | Nendoroid | 1314-DX | PROMARE | Pending |
+| 6981 | Nendoroid Hunter: Female Nargacuga Alpha Armor Ver. DX | Nendoroid | 1284-DX | MONSTER HUNTER WORLD: ICEBORNE | Pending |
+| 6952 | Nendoroid Sam Porter Bridges: Great Deliverer Ver. | Nendoroid | 1282-DX | DEATH STRANDING | Pending |
 | 3945 | Nendoroid IDOLiSH7 Collectible Acrylic Keychains vol.2 | Nendoroid | — | IDOLiSH7 | Pending |
 | 3609 | Solid Color Nendoroid Base (Black / Light Blue / Yellow / Pink / Light Green / Orange / White / Blue / Brown / Red / Green / Purple) | Nendoroid | — | Nendoroid | Pending |
 
@@ -41,7 +41,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/7135
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1365-DX
 - **Unnumbered set:** No
 - **Series:** Okami
 - **Manufacturer:** Max Factory
@@ -503,7 +503,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/8077
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1407-DX
 - **Unnumbered set:** No
 - **Series:** MONSTER HUNTER WORLD: ICEBORNE
 - **Manufacturer:** Good Smile Company
@@ -525,7 +525,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/7515
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1421-DX
 - **Unnumbered set:** No
 - **Series:** MONSTER HUNTER WORLD: ICEBORNE
 - **Manufacturer:** Good Smile Company
@@ -547,7 +547,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/7073
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1314-DX
 - **Unnumbered set:** No
 - **Series:** PROMARE
 - **Manufacturer:** Good Smile Company
@@ -569,7 +569,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/6981
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1284-DX
 - **Unnumbered set:** No
 - **Series:** MONSTER HUNTER WORLD: ICEBORNE
 - **Manufacturer:** Good Smile Company
@@ -591,7 +591,7 @@ Generated at: 2026-07-30T06:09:57.620Z
 
 - **URL:** https://www.goodsmile.com/en/product/6952
 - **Detected product type:** Nendoroid
-- **Official number:** —
+- **Official number:** 1282-DX
 - **Unnumbered set:** No
 - **Series:** DEATH STRANDING
 - **Manufacturer:** Good Smile Company
