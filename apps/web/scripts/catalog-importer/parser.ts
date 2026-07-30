@@ -51,6 +51,36 @@ interface ProductDefinitionData {
   distributedBy?: string;
 }
 
+export interface ExtractedGoodSmileProductData {
+  source: "goodsmile";
+  sourceId: string;
+  officialUrl: string;
+
+  name: string;
+  number?: string;
+  isUnnumberedSet: boolean;
+
+  series?: string;
+  manufacturer?: string;
+  distributedBy?: string;
+
+  category?: string;
+  secondaryCategory?: string;
+  analyticsProductCategory?: string;
+  productType?: string;
+
+  mainImageUrl?: string;
+  price?: number;
+  currency?: string;
+
+  specifications?: string;
+  sculptor?: string;
+  productionCooperation?: string;
+  relatedInformation?: string;
+
+  releaseDates: RawGoodSmileReleaseDate[];
+  releases: RawGoodSmileRelease[];
+}
 /**
  * Finds the dataLayer.push(...) call corresponding to the
  * product view event.
@@ -220,6 +250,7 @@ function normalizeKnownProductType(
     "Nendoroid Co-de",
     "Nendoroid Swacchao",
     "Nendoroid Doll",
+    "Nendoroid Light",
     "Nendoroid More",
     "Nendoroid Plus",
     "Nendoroid Jumbo",
@@ -259,6 +290,7 @@ function inferProductTypeFromName(
     "Nendoroid Co-de",
     "Nendoroid Swacchao",
     "Nendoroid Doll",
+    "Nendoroid Light",
     "Nendoroid More",
     "Nendoroid Plus",
     "Nendoroid Jumbo",
@@ -501,11 +533,11 @@ function parseReleaseDates(
   });
 }
 
-export function parseGoodSmileProduct(
+export function extractGoodSmileProductData(
   html: string,
   sourceId: string,
   officialUrl: string,
-): RawGoodSmileProduct {
+): ExtractedGoodSmileProductData {
   const analytics = extractViewItemEntry(html);
   const definitionData = extractDefinitionData(html);
 
@@ -561,38 +593,6 @@ export function parseGoodSmileProduct(
     name,
   );
 
-  if (!productType) {
-    throw new Error(
-      `The product type could not be extracted for product ${sourceId}.`,
-    );
-  }
-
-  if (productType !== "Nendoroid") {
-    throw new UnsupportedProductError(
-      `Product ${sourceId} has an unsupported product type: ${productType}.`,
-      {
-        productId: sourceId,
-        productType,
-      },
-    );
-  }
-
-  if (!definitionData.number) {
-    if (definitionData.isUnnumberedSet) {
-      throw new UnsupportedProductError(
-        `Product ${sourceId} is an unnumbered Nendoroid set.`,
-        {
-          productId: sourceId,
-          productType: "Unnumbered Nendoroid Set",
-        },
-      );
-    }
-
-    throw new Error(
-      `The Nendoroid number could not be extracted for product ${sourceId}.`,
-    );
-  }
-
   const releases: RawGoodSmileRelease[] =
     productItems
       .filter(
@@ -606,7 +606,8 @@ export function parseGoodSmileProduct(
           Boolean(item.product_name),
       )
       .map((item) => ({
-        sourceReleaseId: item.product_master_code,
+        sourceReleaseId:
+          item.product_master_code,
         name: item.product_name,
         price: item.price,
         reservationDeadline:
@@ -624,11 +625,20 @@ export function parseGoodSmileProduct(
 
     name,
     number: definitionData.number,
+    isUnnumberedSet:
+      definitionData.isUnnumberedSet,
+
     series: definitionData.series,
     manufacturer,
-    distributedBy: definitionData.distributedBy,
+    distributedBy:
+      definitionData.distributedBy,
 
-    category: originalAnalyticsItem?.item_category,
+    category:
+      originalAnalyticsItem?.item_category,
+    secondaryCategory:
+      originalAnalyticsItem?.item_category2,
+    analyticsProductCategory:
+      originalProductItem?.category,
     productType,
 
     mainImageUrl: makeAbsoluteUrl(
@@ -642,7 +652,8 @@ export function parseGoodSmileProduct(
 
     currency: analytics.ecommerce?.currency,
 
-    specifications: definitionData.specifications,
+    specifications:
+      definitionData.specifications,
     sculptor: definitionData.sculptor,
     productionCooperation:
       definitionData.productionCooperation,
@@ -651,5 +662,80 @@ export function parseGoodSmileProduct(
 
     releaseDates,
     releases,
+  };
+}
+
+export function parseGoodSmileProduct(
+  html: string,
+  sourceId: string,
+  officialUrl: string,
+): RawGoodSmileProduct {
+  const extracted =
+    extractGoodSmileProductData(
+      html,
+      sourceId,
+      officialUrl,
+    );
+
+  if (!extracted.productType) {
+    throw new Error(
+      `The product type could not be extracted for product ${sourceId}.`,
+    );
+  }
+
+  if (extracted.productType !== "Nendoroid") {
+    throw new UnsupportedProductError(
+      `Product ${sourceId} has an unsupported product type: ${extracted.productType}.`,
+      {
+        productId: sourceId,
+        productType: extracted.productType,
+      },
+    );
+  }
+
+  if (!extracted.number) {
+    if (extracted.isUnnumberedSet) {
+      throw new UnsupportedProductError(
+        `Product ${sourceId} is an unnumbered Nendoroid set.`,
+        {
+          productId: sourceId,
+          productType:
+            "Unnumbered Nendoroid Set",
+        },
+      );
+    }
+
+    throw new Error(
+      `The Nendoroid number could not be extracted for product ${sourceId}.`,
+    );
+  }
+
+  return {
+    source: extracted.source,
+    sourceId: extracted.sourceId,
+    officialUrl: extracted.officialUrl,
+
+    name: extracted.name,
+    number: extracted.number,
+    series: extracted.series,
+    manufacturer: extracted.manufacturer,
+    distributedBy: extracted.distributedBy,
+
+    category: extracted.category,
+    productType: extracted.productType,
+
+    mainImageUrl: extracted.mainImageUrl,
+    price: extracted.price,
+    currency: extracted.currency,
+
+    specifications: extracted.specifications,
+    sculptor: extracted.sculptor,
+    productionCooperation:
+      extracted.productionCooperation,
+    relatedInformation:
+      extracted.relatedInformation,
+
+    releaseDates: extracted.releaseDates,
+    releases: extracted.releases,
   };
 }
