@@ -702,19 +702,12 @@ export function parseGoodSmileProduct(
   }
 
   if (!extracted.number) {
-    if (extracted.isUnnumberedSet) {
-      throw new UnsupportedProductError(
-        `Product ${sourceId} is an unnumbered Nendoroid set.`,
-        {
-          productId: sourceId,
-          productType:
-            "Unnumbered Nendoroid Set",
-        },
-      );
-    }
-
-    throw new Error(
-      `The Nendoroid number could not be extracted for product ${sourceId}.`,
+    throw new UnsupportedProductError(
+      `Product ${sourceId} has no official Nendoroid number.`,
+      {
+        productId: sourceId,
+        productType: extracted.productType,
+      },
     );
   }
 
