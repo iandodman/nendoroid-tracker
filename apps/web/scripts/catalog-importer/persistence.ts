@@ -19,14 +19,15 @@ function buildNendoroidData(
   };
 }
 
-function buildVariantData(
+function buildEditionData(
   product: NormalizedCatalogProduct,
 ) {
   return {
-    name: product.name,
-    fullName: product.name,
+    slug: product.slug,
+    name: product.editionName,
+    notes: product.notes,
     source: product.source,
-    sourceId: product.sourceId,
+    externalId: product.sourceId,
     officialUrl: product.officialUrl,
   };
 }
@@ -42,7 +43,12 @@ async function findOrCreateNendoroid(
     });
 
   if (existingNendoroid) {
-    return existingNendoroid;
+    return prisma.nendoroid.update({
+      where: {
+        id: existingNendoroid.id,
+      },
+      data: buildNendoroidData(product),
+    });
   }
 
   return prisma.nendoroid.create({
@@ -64,28 +70,25 @@ export async function persistCatalogProduct(
   const nendoroid =
     await findOrCreateNendoroid(product);
 
-  const variantData =
-    buildVariantData(product);
+  const editionData =
+    buildEditionData(product);
 
-  const existingVariant =
-    await prisma.nendoroidVariant.findUnique({
+  const existingEdition =
+    await prisma.nendoroidEdition.findUnique({
       where: {
-        source_sourceId: {
-          source: product.source,
-          sourceId: product.sourceId,
+        nendoroidId_slug: {
+          nendoroidId: nendoroid.id,
+          slug: product.slug,
         },
       },
     });
 
-  if (existingVariant) {
-    await prisma.nendoroidVariant.update({
+  if (existingEdition) {
+    await prisma.nendoroidEdition.update({
       where: {
-        id: existingVariant.id,
+        id: existingEdition.id,
       },
-      data: {
-        ...variantData,
-        nendoroidId: nendoroid.id,
-      },
+      data: editionData,
     });
 
     return {
@@ -94,9 +97,9 @@ export async function persistCatalogProduct(
     };
   }
 
-  await prisma.nendoroidVariant.create({
+  await prisma.nendoroidEdition.create({
     data: {
-      ...variantData,
+      ...editionData,
       nendoroidId: nendoroid.id,
     },
   });

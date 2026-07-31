@@ -3,10 +3,10 @@ import {
   fetchCatalogProductIds,
 } from "./catalog-pagination";
 
-export const DEFAULT_MAX_PAGES = 100;
+export const SAFETY_MAX_PAGES = 1000;
 
 export type CatalogDiscoveryStopReason =
-  | "incomplete-page"
+  | "end-of-catalog"
   | "no-new-products"
   | "maximum-pages";
 
@@ -20,7 +20,7 @@ export interface CatalogDiscoveryPage {
 export interface FullCatalogDiscoveryResult {
   discoveredAt: string;
   pageLimit: number;
-  maxPages: number;
+  maxPages: number | null;
   processedPages: number;
   stopReason: CatalogDiscoveryStopReason;
   uniqueCount: number;
@@ -40,7 +40,10 @@ interface DiscoverFullCatalogOptions {
 }
 
 function validateMaxPages(maxPages: number): void {
-  if (!Number.isInteger(maxPages) || maxPages <= 0) {
+  if (
+    !Number.isInteger(maxPages) ||
+    maxPages <= 0
+  ) {
     throw new Error(
       `Invalid maximum page count: "${maxPages}".`,
     );
@@ -50,10 +53,11 @@ function validateMaxPages(maxPages: number): void {
 export async function discoverFullCatalog(
   options: DiscoverFullCatalogOptions = {},
 ): Promise<FullCatalogDiscoveryResult> {
-  const maxPages =
-    options.maxPages ?? DEFAULT_MAX_PAGES;
+  const maxPages = options.maxPages;
 
-  validateMaxPages(maxPages);
+  if (maxPages !== undefined) {
+    validateMaxPages(maxPages);
+  }
 
   const discoveredIds = new Set<string>();
   const pages: CatalogDiscoveryPage[] = [];
@@ -63,9 +67,17 @@ export async function discoverFullCatalog(
 
   for (
     let pageIndex = 0;
-    pageIndex < maxPages;
+    pageIndex < SAFETY_MAX_PAGES;
     pageIndex += 1
   ) {
+    if (
+      maxPages !== undefined &&
+      pageIndex >= maxPages
+    ) {
+      stopReason = "maximum-pages";
+      break;
+    }
+
     const pageNumber = pageIndex + 1;
     const offset =
       pageIndex * DEFAULT_PAGE_LIMIT;
@@ -108,7 +120,7 @@ export async function discoverFullCatalog(
       productIds.length <
       DEFAULT_PAGE_LIMIT
     ) {
-      stopReason = "incomplete-page";
+      stopReason = "end-of-catalog";
       break;
     }
   }
@@ -118,7 +130,7 @@ export async function discoverFullCatalog(
   return {
     discoveredAt: new Date().toISOString(),
     pageLimit: DEFAULT_PAGE_LIMIT,
-    maxPages,
+    maxPages: maxPages ?? null,
     processedPages: pages.length,
     stopReason,
     uniqueCount: productIds.length,

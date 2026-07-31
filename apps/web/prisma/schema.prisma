@@ -21,33 +21,36 @@ model Nendoroid {
   manufacturer String?
   imageUrl     String?
 
+  // Temporary summary fields.
+  // A separate release history model can be added later
+  // to represent the original release and multiple rereleases.
   releaseYear  Int?
   releaseMonth Int?
-
-  // Temporary: these fields will move to NendoroidVariant
-  // when the catalog importer is updated.
-  source      String?
-  sourceId    String?
-  officialUrl String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  variants        NendoroidVariant[]
+  editions        NendoroidEdition[]
   collectionItems CollectionItem[]
   wishlistItems   WishlistItem[]
-
-  @@unique([source, sourceId])
 }
 
-model NendoroidVariant {
+model NendoroidEdition {
   id Int @id @default(autoincrement())
 
-  name     String
-  fullName String
+  // Stable internal identifier, such as:
+  // standard, good-smile-bonus, animate-bonus or dx.
+  slug String
 
-  source      String
-  sourceId    String
+  // Display name shown in the UI.
+  name String
+
+  // Optional information describing what distinguishes this edition.
+  notes String?
+
+  source     String
+  externalId String
+
   officialUrl String?
 
   nendoroidId Int
@@ -56,7 +59,7 @@ model NendoroidVariant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([source, sourceId])
+  @@unique([nendoroidId, slug])
   @@index([nendoroidId])
 }
 

@@ -9,13 +9,25 @@ interface NormalizedProduct {
   source: string;
   sourceId: string;
   officialUrl: string;
+
   number: string;
   name: string;
-  series: string;
-  manufacturer: string;
-  imageUrl: string;
-  releaseYear: number | null;
-  releaseMonth: number | null;
+  series?: string | null;
+  manufacturer?: string | null;
+  imageUrl?: string | null;
+
+  releaseYear?: number | null;
+  releaseMonth?: number | null;
+
+  // Present in normalized files generated with the new importer.
+  slug?: string;
+  editionName?: string;
+  notes?: string | null;
+}
+
+interface RestoredEdition {
+  slug: string;
+  name: string;
 }
 
 const PRODUCTS_DIRECTORY = path.resolve(
@@ -23,7 +35,72 @@ const PRODUCTS_DIRECTORY = path.resolve(
   "data/catalog/products",
 );
 
-async function getNormalizedProductFiles(): Promise<string[]> {
+function hasBonusEdition(name: string): boolean {
+  return /\bbonus\b/i.test(name);
+}
+
+function hasDxEdition(name: string): boolean {
+  return /\bdx(?:\s+ver\.?)?\b/i.test(name);
+}
+
+function normalizeNendoroidName(name: string): string {
+  return name
+    .replace(/^Nendoroid\s+/i, "")
+    .replace(/\s+(?:w\/|with)\s+.*bonus.*$/i, "")
+    .replace(/\s+good\s+smile.*bonus.*$/i, "")
+    .replace(/\s+bonus(?:\s+included)?.*$/i, "")
+    .replace(/\s+dx(?:\s+ver\.?)?\s*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function deriveEdition(name: string): RestoredEdition {
+  const isBonus = hasBonusEdition(name);
+  const isDx = hasDxEdition(name);
+
+  if (isDx && isBonus) {
+    return {
+      slug: "dx-good-smile-bonus",
+      name: "DX Good Smile Bonus",
+    };
+  }
+
+  if (isDx) {
+    return {
+      slug: "dx",
+      name: "DX",
+    };
+  }
+
+  if (isBonus) {
+    return {
+      slug: "good-smile-bonus",
+      name: "Good Smile Bonus",
+    };
+  }
+
+  return {
+    slug: "standard",
+    name: "Standard",
+  };
+}
+
+function getEdition(
+  product: NormalizedProduct,
+): RestoredEdition {
+  if (product.slug && product.editionName) {
+    return {
+      slug: product.slug,
+      name: product.editionName,
+    };
+  }
+
+  return deriveEdition(product.name);
+}
+
+async function getNormalizedProductFiles(): Promise<
+  string[]
+> {
   const entries = await readdir(PRODUCTS_DIRECTORY, {
     withFileTypes: true,
   });
@@ -64,53 +141,93 @@ async function main(): Promise<void> {
       const product =
         await readNormalizedProduct(filePath);
 
-      const existingNendoroid =
-        await prisma.nendoroid.findUnique({
-          where: {
-            number: product.number,
-          },
-          select: {
-            id: true,
-          },
-        });
+      const edition = getEdition(product);
 
-      await prisma.nendoroid.upsert({
-        where: {
-          number: product.number,
-        },
-        update: {
-          source: product.source,
-          sourceId: product.sourceId,
-          officialUrl: product.officialUrl,
-          name: product.name,
-          series: product.series,
-          manufacturer: product.manufacturer,
-          imageUrl: product.imageUrl,
-          releaseYear: product.releaseYear,
-          releaseMonth: product.releaseMonth,
-        },
-        create: {
-          source: product.source,
-          sourceId: product.sourceId,
-          officialUrl: product.officialUrl,
-          number: product.number,
-          name: product.name,
-          series: product.series,
-          manufacturer: product.manufacturer,
-          imageUrl: product.imageUrl,
-          releaseYear: product.releaseYear,
-          releaseMonth: product.releaseMonth,
-        },
-      });
+      const result = await prisma.$transaction(
+        async (transaction) => {
+          const nendoroid =
+            await transaction.nendoroid.upsert({
+              where: {
+                number: product.number,
+              },
+              update: {
+                name: normalizeNendoroidName(
+                  product.name,
+                ),
+                series: product.series,
+                manufacturer: product.manufacturer,
+                imageUrl: product.imageUrl,
+                releaseYear: product.releaseYear,
+                releaseMonth: product.releaseMonth,
+              },
+              create: {
+                number: product.number,
+                name: normalizeNendoroidName(
+                  product.name,
+                ),
+                series: product.series,
+                manufacturer: product.manufacturer,
+                imageUrl: product.imageUrl,
+                releaseYear: product.releaseYear,
+                releaseMonth: product.releaseMonth,
+              },
+            });
 
-      if (existingNendoroid) {
-        updated += 1;
-      } else {
+          const existingEdition =
+            await transaction.nendoroidEdition.findUnique(
+              {
+                where: {
+                  nendoroidId_slug: {
+                    nendoroidId: nendoroid.id,
+                    slug: edition.slug,
+                  },
+                },
+                select: {
+                  id: true,
+                },
+              },
+            );
+
+          await transaction.nendoroidEdition.upsert({
+            where: {
+              nendoroidId_slug: {
+                nendoroidId: nendoroid.id,
+                slug: edition.slug,
+              },
+            },
+            update: {
+              name: edition.name,
+              notes: product.notes,
+              source: product.source,
+              externalId: product.sourceId,
+              officialUrl: product.officialUrl,
+            },
+            create: {
+              slug: edition.slug,
+              name: edition.name,
+              notes: product.notes,
+              source: product.source,
+              externalId: product.sourceId,
+              officialUrl: product.officialUrl,
+              nendoroidId: nendoroid.id,
+            },
+          });
+
+          return {
+            editionCreated: !existingEdition,
+            nendoroid,
+          };
+        },
+      );
+
+      if (result.editionCreated) {
         created += 1;
+      } else {
+        updated += 1;
       }
 
       console.log(
-        `${existingNendoroid ? "Updated" : "Created"}: Nendoroid #${product.number} — ${product.name}`,
+        `${result.editionCreated ? "Created" : "Updated"}: Nendoroid #${product.number} — ${result.nendoroid.name} (${edition.name})`,
       );
     } catch (error: unknown) {
       failed += 1;
@@ -128,8 +245,8 @@ async function main(): Promise<void> {
 
   console.log("");
   console.log("Local catalog restore complete.");
-  console.log(`- Created: ${created}`);
-  console.log(`- Updated: ${updated}`);
+  console.log(`- Editions created: ${created}`);
+  console.log(`- Editions updated: ${updated}`);
   console.log(`- Failed: ${failed}`);
 
   if (failed > 0) {

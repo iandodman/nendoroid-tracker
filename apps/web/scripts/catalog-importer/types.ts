@@ -18,7 +18,7 @@ export interface RawGoodSmileProduct {
   sculptor?: string;
   productionCooperation?: string;
   relatedInformation?: string;
-  
+
   releaseDates: RawGoodSmileReleaseDate[];
   releases: RawGoodSmileRelease[];
 }
@@ -49,6 +49,16 @@ export type NormalizedCatalogProduct = {
   manufacturer?: string;
   imageUrl?: string;
 
-  releaseYear?: number;
+    releaseYear?: number;
   releaseMonth?: number;
+
+  // Stable internal identifier for the imported edition.
+  // Examples: "standard", "good-smile-bonus" or "dx".
+  slug: string;
+
+  // Display name shown in the UI.
+  editionName: string;
+
+  // Optional information that distinguishes the edition.
+  notes?: string;
 };

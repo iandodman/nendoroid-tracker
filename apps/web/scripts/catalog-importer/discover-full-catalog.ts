@@ -1,14 +1,11 @@
-import {
-  DEFAULT_MAX_PAGES,
-  discoverFullCatalog,
-} from "./full-catalog-discovery";
+import { discoverFullCatalog } from "./full-catalog-discovery";
 import { writeJsonFile } from "./write-json";
 
-function getMaxPages(): number {
+function getMaxPages(): number | undefined {
   const rawValue = process.argv[2]?.trim();
 
   if (!rawValue) {
-    return DEFAULT_MAX_PAGES;
+    return undefined;
   }
 
   const maxPages = Number(rawValue);

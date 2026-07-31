@@ -47,9 +47,6 @@ export type NendoroidMinAggregateOutputType = {
   imageUrl: string | null
   releaseYear: number | null
   releaseMonth: number | null
-  source: string | null
-  sourceId: string | null
-  officialUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,9 +60,6 @@ export type NendoroidMaxAggregateOutputType = {
   imageUrl: string | null
   releaseYear: number | null
   releaseMonth: number | null
-  source: string | null
-  sourceId: string | null
-  officialUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -79,9 +73,6 @@ export type NendoroidCountAggregateOutputType = {
   imageUrl: number
   releaseYear: number
   releaseMonth: number
-  source: number
-  sourceId: number
-  officialUrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -109,9 +100,6 @@ export type NendoroidMinAggregateInputType = {
   imageUrl?: true
   releaseYear?: true
   releaseMonth?: true
-  source?: true
-  sourceId?: true
-  officialUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -125,9 +113,6 @@ export type NendoroidMaxAggregateInputType = {
   imageUrl?: true
   releaseYear?: true
   releaseMonth?: true
-  source?: true
-  sourceId?: true
-  officialUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -141,9 +126,6 @@ export type NendoroidCountAggregateInputType = {
   imageUrl?: true
   releaseYear?: true
   releaseMonth?: true
-  source?: true
-  sourceId?: true
-  officialUrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -244,9 +226,6 @@ export type NendoroidGroupByOutputType = {
   imageUrl: string | null
   releaseYear: number | null
   releaseMonth: number | null
-  source: string | null
-  sourceId: string | null
-  officialUrl: string | null
   createdAt: Date
   updatedAt: Date
   _count: NendoroidCountAggregateOutputType | null
@@ -283,12 +262,9 @@ export type NendoroidWhereInput = {
   imageUrl?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
   releaseYear?: Prisma.IntNullableFilter<"Nendoroid"> | number | null
   releaseMonth?: Prisma.IntNullableFilter<"Nendoroid"> | number | null
-  source?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
-  sourceId?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
-  officialUrl?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Nendoroid"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Nendoroid"> | Date | string
-  variants?: Prisma.NendoroidVariantListRelationFilter
+  editions?: Prisma.NendoroidEditionListRelationFilter
   collectionItems?: Prisma.CollectionItemListRelationFilter
   wishlistItems?: Prisma.WishlistItemListRelationFilter
 }
@@ -302,12 +278,9 @@ export type NendoroidOrderByWithRelationInput = {
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseYear?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseMonth?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrderInput | Prisma.SortOrder
-  sourceId?: Prisma.SortOrderInput | Prisma.SortOrder
-  officialUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  variants?: Prisma.NendoroidVariantOrderByRelationAggregateInput
+  editions?: Prisma.NendoroidEditionOrderByRelationAggregateInput
   collectionItems?: Prisma.CollectionItemOrderByRelationAggregateInput
   wishlistItems?: Prisma.WishlistItemOrderByRelationAggregateInput
 }
@@ -315,7 +288,6 @@ export type NendoroidOrderByWithRelationInput = {
 export type NendoroidWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   number?: string
-  source_sourceId?: Prisma.NendoroidSourceSourceIdCompoundUniqueInput
   AND?: Prisma.NendoroidWhereInput | Prisma.NendoroidWhereInput[]
   OR?: Prisma.NendoroidWhereInput[]
   NOT?: Prisma.NendoroidWhereInput | Prisma.NendoroidWhereInput[]
@@ -325,15 +297,12 @@ export type NendoroidWhereUniqueInput = Prisma.AtLeast<{
   imageUrl?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
   releaseYear?: Prisma.IntNullableFilter<"Nendoroid"> | number | null
   releaseMonth?: Prisma.IntNullableFilter<"Nendoroid"> | number | null
-  source?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
-  sourceId?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
-  officialUrl?: Prisma.StringNullableFilter<"Nendoroid"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Nendoroid"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Nendoroid"> | Date | string
-  variants?: Prisma.NendoroidVariantListRelationFilter
+  editions?: Prisma.NendoroidEditionListRelationFilter
   collectionItems?: Prisma.CollectionItemListRelationFilter
   wishlistItems?: Prisma.WishlistItemListRelationFilter
-}, "id" | "number" | "source_sourceId">
+}, "id" | "number">
 
 export type NendoroidOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -344,9 +313,6 @@ export type NendoroidOrderByWithAggregationInput = {
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseYear?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseMonth?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrderInput | Prisma.SortOrder
-  sourceId?: Prisma.SortOrderInput | Prisma.SortOrder
-  officialUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.NendoroidCountOrderByAggregateInput
@@ -368,9 +334,6 @@ export type NendoroidScalarWhereWithAggregatesInput = {
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Nendoroid"> | string | null
   releaseYear?: Prisma.IntNullableWithAggregatesFilter<"Nendoroid"> | number | null
   releaseMonth?: Prisma.IntNullableWithAggregatesFilter<"Nendoroid"> | number | null
-  source?: Prisma.StringNullableWithAggregatesFilter<"Nendoroid"> | string | null
-  sourceId?: Prisma.StringNullableWithAggregatesFilter<"Nendoroid"> | string | null
-  officialUrl?: Prisma.StringNullableWithAggregatesFilter<"Nendoroid"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Nendoroid"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Nendoroid"> | Date | string
 }
@@ -383,12 +346,9 @@ export type NendoroidCreateInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionCreateNestedManyWithoutNendoroidInput
   collectionItems?: Prisma.CollectionItemCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutNendoroidInput
 }
@@ -402,12 +362,9 @@ export type NendoroidUncheckedCreateInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantUncheckedCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionUncheckedCreateNestedManyWithoutNendoroidInput
   collectionItems?: Prisma.CollectionItemUncheckedCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutNendoroidInput
 }
@@ -420,12 +377,9 @@ export type NendoroidUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUpdateManyWithoutNendoroidNestedInput
   collectionItems?: Prisma.CollectionItemUpdateManyWithoutNendoroidNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutNendoroidNestedInput
 }
@@ -439,12 +393,9 @@ export type NendoroidUncheckedUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUncheckedUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUncheckedUpdateManyWithoutNendoroidNestedInput
   collectionItems?: Prisma.CollectionItemUncheckedUpdateManyWithoutNendoroidNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutNendoroidNestedInput
 }
@@ -458,9 +409,6 @@ export type NendoroidCreateManyInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -473,9 +421,6 @@ export type NendoroidUpdateManyMutationInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -489,16 +434,8 @@ export type NendoroidUncheckedUpdateManyInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type NendoroidSourceSourceIdCompoundUniqueInput = {
-  source: string
-  sourceId: string
 }
 
 export type NendoroidCountOrderByAggregateInput = {
@@ -510,9 +447,6 @@ export type NendoroidCountOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   releaseYear?: Prisma.SortOrder
   releaseMonth?: Prisma.SortOrder
-  source?: Prisma.SortOrder
-  sourceId?: Prisma.SortOrder
-  officialUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -532,9 +466,6 @@ export type NendoroidMaxOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   releaseYear?: Prisma.SortOrder
   releaseMonth?: Prisma.SortOrder
-  source?: Prisma.SortOrder
-  sourceId?: Prisma.SortOrder
-  officialUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -548,9 +479,6 @@ export type NendoroidMinOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   releaseYear?: Prisma.SortOrder
   releaseMonth?: Prisma.SortOrder
-  source?: Prisma.SortOrder
-  sourceId?: Prisma.SortOrder
-  officialUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -594,18 +522,18 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NendoroidCreateNestedOneWithoutVariantsInput = {
-  create?: Prisma.XOR<Prisma.NendoroidCreateWithoutVariantsInput, Prisma.NendoroidUncheckedCreateWithoutVariantsInput>
-  connectOrCreate?: Prisma.NendoroidCreateOrConnectWithoutVariantsInput
+export type NendoroidCreateNestedOneWithoutEditionsInput = {
+  create?: Prisma.XOR<Prisma.NendoroidCreateWithoutEditionsInput, Prisma.NendoroidUncheckedCreateWithoutEditionsInput>
+  connectOrCreate?: Prisma.NendoroidCreateOrConnectWithoutEditionsInput
   connect?: Prisma.NendoroidWhereUniqueInput
 }
 
-export type NendoroidUpdateOneRequiredWithoutVariantsNestedInput = {
-  create?: Prisma.XOR<Prisma.NendoroidCreateWithoutVariantsInput, Prisma.NendoroidUncheckedCreateWithoutVariantsInput>
-  connectOrCreate?: Prisma.NendoroidCreateOrConnectWithoutVariantsInput
-  upsert?: Prisma.NendoroidUpsertWithoutVariantsInput
+export type NendoroidUpdateOneRequiredWithoutEditionsNestedInput = {
+  create?: Prisma.XOR<Prisma.NendoroidCreateWithoutEditionsInput, Prisma.NendoroidUncheckedCreateWithoutEditionsInput>
+  connectOrCreate?: Prisma.NendoroidCreateOrConnectWithoutEditionsInput
+  upsert?: Prisma.NendoroidUpsertWithoutEditionsInput
   connect?: Prisma.NendoroidWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.NendoroidUpdateToOneWithWhereWithoutVariantsInput, Prisma.NendoroidUpdateWithoutVariantsInput>, Prisma.NendoroidUncheckedUpdateWithoutVariantsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.NendoroidUpdateToOneWithWhereWithoutEditionsInput, Prisma.NendoroidUpdateWithoutEditionsInput>, Prisma.NendoroidUncheckedUpdateWithoutEditionsInput>
 }
 
 export type NendoroidCreateNestedOneWithoutCollectionItemsInput = {
@@ -636,7 +564,7 @@ export type NendoroidUpdateOneRequiredWithoutWishlistItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.NendoroidUpdateToOneWithWhereWithoutWishlistItemsInput, Prisma.NendoroidUpdateWithoutWishlistItemsInput>, Prisma.NendoroidUncheckedUpdateWithoutWishlistItemsInput>
 }
 
-export type NendoroidCreateWithoutVariantsInput = {
+export type NendoroidCreateWithoutEditionsInput = {
   number: string
   name: string
   series?: string | null
@@ -644,16 +572,13 @@ export type NendoroidCreateWithoutVariantsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   collectionItems?: Prisma.CollectionItemCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutNendoroidInput
 }
 
-export type NendoroidUncheckedCreateWithoutVariantsInput = {
+export type NendoroidUncheckedCreateWithoutEditionsInput = {
   id?: number
   number: string
   name: string
@@ -662,32 +587,29 @@ export type NendoroidUncheckedCreateWithoutVariantsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   collectionItems?: Prisma.CollectionItemUncheckedCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutNendoroidInput
 }
 
-export type NendoroidCreateOrConnectWithoutVariantsInput = {
+export type NendoroidCreateOrConnectWithoutEditionsInput = {
   where: Prisma.NendoroidWhereUniqueInput
-  create: Prisma.XOR<Prisma.NendoroidCreateWithoutVariantsInput, Prisma.NendoroidUncheckedCreateWithoutVariantsInput>
+  create: Prisma.XOR<Prisma.NendoroidCreateWithoutEditionsInput, Prisma.NendoroidUncheckedCreateWithoutEditionsInput>
 }
 
-export type NendoroidUpsertWithoutVariantsInput = {
-  update: Prisma.XOR<Prisma.NendoroidUpdateWithoutVariantsInput, Prisma.NendoroidUncheckedUpdateWithoutVariantsInput>
-  create: Prisma.XOR<Prisma.NendoroidCreateWithoutVariantsInput, Prisma.NendoroidUncheckedCreateWithoutVariantsInput>
+export type NendoroidUpsertWithoutEditionsInput = {
+  update: Prisma.XOR<Prisma.NendoroidUpdateWithoutEditionsInput, Prisma.NendoroidUncheckedUpdateWithoutEditionsInput>
+  create: Prisma.XOR<Prisma.NendoroidCreateWithoutEditionsInput, Prisma.NendoroidUncheckedCreateWithoutEditionsInput>
   where?: Prisma.NendoroidWhereInput
 }
 
-export type NendoroidUpdateToOneWithWhereWithoutVariantsInput = {
+export type NendoroidUpdateToOneWithWhereWithoutEditionsInput = {
   where?: Prisma.NendoroidWhereInput
-  data: Prisma.XOR<Prisma.NendoroidUpdateWithoutVariantsInput, Prisma.NendoroidUncheckedUpdateWithoutVariantsInput>
+  data: Prisma.XOR<Prisma.NendoroidUpdateWithoutEditionsInput, Prisma.NendoroidUncheckedUpdateWithoutEditionsInput>
 }
 
-export type NendoroidUpdateWithoutVariantsInput = {
+export type NendoroidUpdateWithoutEditionsInput = {
   number?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -695,16 +617,13 @@ export type NendoroidUpdateWithoutVariantsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   collectionItems?: Prisma.CollectionItemUpdateManyWithoutNendoroidNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutNendoroidNestedInput
 }
 
-export type NendoroidUncheckedUpdateWithoutVariantsInput = {
+export type NendoroidUncheckedUpdateWithoutEditionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   number?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -713,9 +632,6 @@ export type NendoroidUncheckedUpdateWithoutVariantsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   collectionItems?: Prisma.CollectionItemUncheckedUpdateManyWithoutNendoroidNestedInput
@@ -730,12 +646,9 @@ export type NendoroidCreateWithoutCollectionItemsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutNendoroidInput
 }
 
@@ -748,12 +661,9 @@ export type NendoroidUncheckedCreateWithoutCollectionItemsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantUncheckedCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionUncheckedCreateNestedManyWithoutNendoroidInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutNendoroidInput
 }
 
@@ -781,12 +691,9 @@ export type NendoroidUpdateWithoutCollectionItemsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUpdateManyWithoutNendoroidNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutNendoroidNestedInput
 }
 
@@ -799,12 +706,9 @@ export type NendoroidUncheckedUpdateWithoutCollectionItemsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUncheckedUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUncheckedUpdateManyWithoutNendoroidNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutNendoroidNestedInput
 }
 
@@ -816,12 +720,9 @@ export type NendoroidCreateWithoutWishlistItemsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionCreateNestedManyWithoutNendoroidInput
   collectionItems?: Prisma.CollectionItemCreateNestedManyWithoutNendoroidInput
 }
 
@@ -834,12 +735,9 @@ export type NendoroidUncheckedCreateWithoutWishlistItemsInput = {
   imageUrl?: string | null
   releaseYear?: number | null
   releaseMonth?: number | null
-  source?: string | null
-  sourceId?: string | null
-  officialUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  variants?: Prisma.NendoroidVariantUncheckedCreateNestedManyWithoutNendoroidInput
+  editions?: Prisma.NendoroidEditionUncheckedCreateNestedManyWithoutNendoroidInput
   collectionItems?: Prisma.CollectionItemUncheckedCreateNestedManyWithoutNendoroidInput
 }
 
@@ -867,12 +765,9 @@ export type NendoroidUpdateWithoutWishlistItemsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUpdateManyWithoutNendoroidNestedInput
   collectionItems?: Prisma.CollectionItemUpdateManyWithoutNendoroidNestedInput
 }
 
@@ -885,12 +780,9 @@ export type NendoroidUncheckedUpdateWithoutWishlistItemsInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   releaseMonth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  officialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  variants?: Prisma.NendoroidVariantUncheckedUpdateManyWithoutNendoroidNestedInput
+  editions?: Prisma.NendoroidEditionUncheckedUpdateManyWithoutNendoroidNestedInput
   collectionItems?: Prisma.CollectionItemUncheckedUpdateManyWithoutNendoroidNestedInput
 }
 
@@ -900,13 +792,13 @@ export type NendoroidUncheckedUpdateWithoutWishlistItemsInput = {
  */
 
 export type NendoroidCountOutputType = {
-  variants: number
+  editions: number
   collectionItems: number
   wishlistItems: number
 }
 
 export type NendoroidCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  variants?: boolean | NendoroidCountOutputTypeCountVariantsArgs
+  editions?: boolean | NendoroidCountOutputTypeCountEditionsArgs
   collectionItems?: boolean | NendoroidCountOutputTypeCountCollectionItemsArgs
   wishlistItems?: boolean | NendoroidCountOutputTypeCountWishlistItemsArgs
 }
@@ -924,8 +816,8 @@ export type NendoroidCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * NendoroidCountOutputType without action
  */
-export type NendoroidCountOutputTypeCountVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NendoroidVariantWhereInput
+export type NendoroidCountOutputTypeCountEditionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NendoroidEditionWhereInput
 }
 
 /**
@@ -952,12 +844,9 @@ export type NendoroidSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   imageUrl?: boolean
   releaseYear?: boolean
   releaseMonth?: boolean
-  source?: boolean
-  sourceId?: boolean
-  officialUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  variants?: boolean | Prisma.Nendoroid$variantsArgs<ExtArgs>
+  editions?: boolean | Prisma.Nendoroid$editionsArgs<ExtArgs>
   collectionItems?: boolean | Prisma.Nendoroid$collectionItemsArgs<ExtArgs>
   wishlistItems?: boolean | Prisma.Nendoroid$wishlistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.NendoroidCountOutputTypeDefaultArgs<ExtArgs>
@@ -972,9 +861,6 @@ export type NendoroidSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   imageUrl?: boolean
   releaseYear?: boolean
   releaseMonth?: boolean
-  source?: boolean
-  sourceId?: boolean
-  officialUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["nendoroid"]>
@@ -988,9 +874,6 @@ export type NendoroidSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   imageUrl?: boolean
   releaseYear?: boolean
   releaseMonth?: boolean
-  source?: boolean
-  sourceId?: boolean
-  officialUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["nendoroid"]>
@@ -1004,16 +887,13 @@ export type NendoroidSelectScalar = {
   imageUrl?: boolean
   releaseYear?: boolean
   releaseMonth?: boolean
-  source?: boolean
-  sourceId?: boolean
-  officialUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type NendoroidOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "name" | "series" | "manufacturer" | "imageUrl" | "releaseYear" | "releaseMonth" | "source" | "sourceId" | "officialUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["nendoroid"]>
+export type NendoroidOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "name" | "series" | "manufacturer" | "imageUrl" | "releaseYear" | "releaseMonth" | "createdAt" | "updatedAt", ExtArgs["result"]["nendoroid"]>
 export type NendoroidInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  variants?: boolean | Prisma.Nendoroid$variantsArgs<ExtArgs>
+  editions?: boolean | Prisma.Nendoroid$editionsArgs<ExtArgs>
   collectionItems?: boolean | Prisma.Nendoroid$collectionItemsArgs<ExtArgs>
   wishlistItems?: boolean | Prisma.Nendoroid$wishlistItemsArgs<ExtArgs>
   _count?: boolean | Prisma.NendoroidCountOutputTypeDefaultArgs<ExtArgs>
@@ -1024,7 +904,7 @@ export type NendoroidIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $NendoroidPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Nendoroid"
   objects: {
-    variants: Prisma.$NendoroidVariantPayload<ExtArgs>[]
+    editions: Prisma.$NendoroidEditionPayload<ExtArgs>[]
     collectionItems: Prisma.$CollectionItemPayload<ExtArgs>[]
     wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[]
   }
@@ -1037,9 +917,6 @@ export type $NendoroidPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     imageUrl: string | null
     releaseYear: number | null
     releaseMonth: number | null
-    source: string | null
-    sourceId: string | null
-    officialUrl: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["nendoroid"]>
@@ -1436,7 +1313,7 @@ readonly fields: NendoroidFieldRefs;
  */
 export interface Prisma__NendoroidClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  variants<T extends Prisma.Nendoroid$variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nendoroid$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NendoroidVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  editions<T extends Prisma.Nendoroid$editionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nendoroid$editionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NendoroidEditionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   collectionItems<T extends Prisma.Nendoroid$collectionItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nendoroid$collectionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CollectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlistItems<T extends Prisma.Nendoroid$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nendoroid$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1476,9 +1353,6 @@ export interface NendoroidFieldRefs {
   readonly imageUrl: Prisma.FieldRef<"Nendoroid", 'String'>
   readonly releaseYear: Prisma.FieldRef<"Nendoroid", 'Int'>
   readonly releaseMonth: Prisma.FieldRef<"Nendoroid", 'Int'>
-  readonly source: Prisma.FieldRef<"Nendoroid", 'String'>
-  readonly sourceId: Prisma.FieldRef<"Nendoroid", 'String'>
-  readonly officialUrl: Prisma.FieldRef<"Nendoroid", 'String'>
   readonly createdAt: Prisma.FieldRef<"Nendoroid", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Nendoroid", 'DateTime'>
 }
@@ -1874,27 +1748,27 @@ export type NendoroidDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Nendoroid.variants
+ * Nendoroid.editions
  */
-export type Nendoroid$variantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Nendoroid$editionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the NendoroidVariant
+   * Select specific fields to fetch from the NendoroidEdition
    */
-  select?: Prisma.NendoroidVariantSelect<ExtArgs> | null
+  select?: Prisma.NendoroidEditionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the NendoroidVariant
+   * Omit specific fields from the NendoroidEdition
    */
-  omit?: Prisma.NendoroidVariantOmit<ExtArgs> | null
+  omit?: Prisma.NendoroidEditionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.NendoroidVariantInclude<ExtArgs> | null
-  where?: Prisma.NendoroidVariantWhereInput
-  orderBy?: Prisma.NendoroidVariantOrderByWithRelationInput | Prisma.NendoroidVariantOrderByWithRelationInput[]
-  cursor?: Prisma.NendoroidVariantWhereUniqueInput
+  include?: Prisma.NendoroidEditionInclude<ExtArgs> | null
+  where?: Prisma.NendoroidEditionWhereInput
+  orderBy?: Prisma.NendoroidEditionOrderByWithRelationInput | Prisma.NendoroidEditionOrderByWithRelationInput[]
+  cursor?: Prisma.NendoroidEditionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.NendoroidVariantScalarFieldEnum | Prisma.NendoroidVariantScalarFieldEnum[]
+  distinct?: Prisma.NendoroidEditionScalarFieldEnum | Prisma.NendoroidEditionScalarFieldEnum[]
 }
 
 /**
