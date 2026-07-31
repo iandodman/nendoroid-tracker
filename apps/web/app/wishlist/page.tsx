@@ -64,9 +64,6 @@ export default async function WishlistPage() {
       imageUrl: nendoroid.imageUrl,
       releaseYear: nendoroid.releaseYear,
       releaseMonth: nendoroid.releaseMonth,
-      source: nendoroid.source,
-      sourceId: nendoroid.sourceId,
-      officialUrl: nendoroid.officialUrl,
       createdAt: nendoroid.createdAt,
       updatedAt: nendoroid.updatedAt,
       collectionQuantity:

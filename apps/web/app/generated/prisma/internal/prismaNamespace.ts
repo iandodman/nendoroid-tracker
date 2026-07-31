@@ -385,7 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Nendoroid: 'Nendoroid',
-  NendoroidVariant: 'NendoroidVariant',
+  NendoroidEdition: 'NendoroidEdition',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
@@ -407,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "nendoroid" | "nendoroidVariant" | "user" | "account" | "session" | "verificationToken" | "collectionItem" | "wishlistItem"
+    modelProps: "nendoroid" | "nendoroidEdition" | "user" | "account" | "session" | "verificationToken" | "collectionItem" | "wishlistItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -485,77 +485,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    NendoroidVariant: {
-      payload: Prisma.$NendoroidVariantPayload<ExtArgs>
-      fields: Prisma.NendoroidVariantFieldRefs
+    NendoroidEdition: {
+      payload: Prisma.$NendoroidEditionPayload<ExtArgs>
+      fields: Prisma.NendoroidEditionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.NendoroidVariantFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload> | null
+          args: Prisma.NendoroidEditionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.NendoroidVariantFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         findFirst: {
-          args: Prisma.NendoroidVariantFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload> | null
+          args: Prisma.NendoroidEditionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.NendoroidVariantFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         findMany: {
-          args: Prisma.NendoroidVariantFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>[]
+          args: Prisma.NendoroidEditionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>[]
         }
         create: {
-          args: Prisma.NendoroidVariantCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         createMany: {
-          args: Prisma.NendoroidVariantCreateManyArgs<ExtArgs>
+          args: Prisma.NendoroidEditionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.NendoroidVariantCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>[]
+          args: Prisma.NendoroidEditionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>[]
         }
         delete: {
-          args: Prisma.NendoroidVariantDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         update: {
-          args: Prisma.NendoroidVariantUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         deleteMany: {
-          args: Prisma.NendoroidVariantDeleteManyArgs<ExtArgs>
+          args: Prisma.NendoroidEditionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.NendoroidVariantUpdateManyArgs<ExtArgs>
+          args: Prisma.NendoroidEditionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.NendoroidVariantUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>[]
+          args: Prisma.NendoroidEditionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>[]
         }
         upsert: {
-          args: Prisma.NendoroidVariantUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidVariantPayload>
+          args: Prisma.NendoroidEditionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NendoroidEditionPayload>
         }
         aggregate: {
-          args: Prisma.NendoroidVariantAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateNendoroidVariant>
+          args: Prisma.NendoroidEditionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNendoroidEdition>
         }
         groupBy: {
-          args: Prisma.NendoroidVariantGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NendoroidVariantGroupByOutputType>[]
+          args: Prisma.NendoroidEditionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NendoroidEditionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.NendoroidVariantCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NendoroidVariantCountAggregateOutputType> | number
+          args: Prisma.NendoroidEditionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NendoroidEditionCountAggregateOutputType> | number
         }
       }
     }
@@ -1051,9 +1051,6 @@ export const NendoroidScalarFieldEnum = {
   imageUrl: 'imageUrl',
   releaseYear: 'releaseYear',
   releaseMonth: 'releaseMonth',
-  source: 'source',
-  sourceId: 'sourceId',
-  officialUrl: 'officialUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1061,19 +1058,20 @@ export const NendoroidScalarFieldEnum = {
 export type NendoroidScalarFieldEnum = (typeof NendoroidScalarFieldEnum)[keyof typeof NendoroidScalarFieldEnum]
 
 
-export const NendoroidVariantScalarFieldEnum = {
+export const NendoroidEditionScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   name: 'name',
-  fullName: 'fullName',
+  notes: 'notes',
   source: 'source',
-  sourceId: 'sourceId',
+  externalId: 'externalId',
   officialUrl: 'officialUrl',
   nendoroidId: 'nendoroidId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type NendoroidVariantScalarFieldEnum = (typeof NendoroidVariantScalarFieldEnum)[keyof typeof NendoroidVariantScalarFieldEnum]
+export type NendoroidEditionScalarFieldEnum = (typeof NendoroidEditionScalarFieldEnum)[keyof typeof NendoroidEditionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1344,7 +1342,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   nendoroid?: Prisma.NendoroidOmit
-  nendoroidVariant?: Prisma.NendoroidVariantOmit
+  nendoroidEdition?: Prisma.NendoroidEditionOmit
   user?: Prisma.UserOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit

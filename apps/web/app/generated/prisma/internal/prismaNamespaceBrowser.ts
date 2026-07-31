@@ -52,7 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Nendoroid: 'Nendoroid',
-  NendoroidVariant: 'NendoroidVariant',
+  NendoroidEdition: 'NendoroidEdition',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
@@ -86,9 +86,6 @@ export const NendoroidScalarFieldEnum = {
   imageUrl: 'imageUrl',
   releaseYear: 'releaseYear',
   releaseMonth: 'releaseMonth',
-  source: 'source',
-  sourceId: 'sourceId',
-  officialUrl: 'officialUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -96,19 +93,20 @@ export const NendoroidScalarFieldEnum = {
 export type NendoroidScalarFieldEnum = (typeof NendoroidScalarFieldEnum)[keyof typeof NendoroidScalarFieldEnum]
 
 
-export const NendoroidVariantScalarFieldEnum = {
+export const NendoroidEditionScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   name: 'name',
-  fullName: 'fullName',
+  notes: 'notes',
   source: 'source',
-  sourceId: 'sourceId',
+  externalId: 'externalId',
   officialUrl: 'officialUrl',
   nendoroidId: 'nendoroidId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type NendoroidVariantScalarFieldEnum = (typeof NendoroidVariantScalarFieldEnum)[keyof typeof NendoroidVariantScalarFieldEnum]
+export type NendoroidEditionScalarFieldEnum = (typeof NendoroidEditionScalarFieldEnum)[keyof typeof NendoroidEditionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
