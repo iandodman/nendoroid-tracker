@@ -9,12 +9,6 @@ export default async function Home() {
   const session = await auth();
   const userId = session?.user?.id;
 
-  const nendoroids = await prisma.nendoroid.findMany({
-    orderBy: {
-      number: "asc",
-    },
-  });
-
   const [collectionCount, wishlistCount] = userId
     ? await Promise.all([
         getUserCollectionCount(userId),
@@ -38,7 +32,6 @@ export default async function Home() {
       <HomeClient
         collectionCount={collectionCount}
         wishlistCount={wishlistCount}
-        nendoroids={nendoroids}
       />
     </>
   );

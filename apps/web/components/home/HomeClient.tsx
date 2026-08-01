@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import {
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 
-import type { Nendoroid } from "@/app/generated/prisma/client";
+import {
+  searchNendoroids,
+  type QuickSearchResult,
+} from "@/app/actions/search";
 import ExploreCatalogButton from "@/components/home/ExploreCatalogButton";
 import SummaryCard from "@/components/home/SummaryCard";
 import SearchBar from "@/components/search/SearchBar";
@@ -13,16 +20,22 @@ import SearchResults from "@/components/search/SearchResults";
 type HomeClientProps = {
   collectionCount: number;
   wishlistCount: number;
-  nendoroids: Nendoroid[];
 };
 
 export default function HomeClient({
   collectionCount,
   wishlistCount,
-  nendoroids,
 }: HomeClientProps) {
-  const [search, setSearch] = useState("");
   const router = useRouter();
+
+  const [search, setSearch] = useState("");
+  const [quickResults, setQuickResults] = useState<
+    QuickSearchResult[]
+  >([]);
+  const [hasSearched, setHasSearched] =
+    useState(false);
+  const [isPending, startTransition] =
+    useTransition();
 
   function handleSearchSubmit() {
     const query = search.trim();
@@ -36,30 +49,49 @@ export default function HomeClient({
     );
   }
 
-  const query = search.toLowerCase().trim();
+  useEffect(() => {
+    const query = search.trim();
 
-  const quickResults =
-    query.length === 0
-      ? []
-      : nendoroids
-          .filter((nendoroid) => {
-            return (
-              nendoroid.name
-                .toLowerCase()
-                .includes(query) ||
-              (nendoroid.series ?? "")
-                .toLowerCase()
-                .includes(query) ||
-              nendoroid.number
-                .toLowerCase()
-                .includes(query)
-            );
-          })
-          .slice(0, 3);
+    if (query.length < 2) {
+      const timeout = setTimeout(() => {
+        setQuickResults([]);
+        setHasSearched(false);
+      }, 0);
+
+      return () => clearTimeout(timeout);
+    }
+
+    let isCurrent = true;
+
+    const timeout = setTimeout(() => {
+      startTransition(async () => {
+        const results = await searchNendoroids(query);
+
+        if (!isCurrent) {
+          return;
+        }
+
+        setQuickResults(results);
+        setHasSearched(true);
+      });
+    }, 300);
+
+    return () => {
+      isCurrent = false;
+      clearTimeout(timeout);
+    };
+  }, [search]);
+
+  const normalizedSearch = search.trim();
+  const showNoResults =
+    hasSearched &&
+    normalizedSearch.length >= 2 &&
+    quickResults.length === 0 &&
+    !isPending;
 
   return (
     <>
-      <div className="mb-6">
+      <div className="mb-3">
         <SearchBar
           value={search}
           onChange={setSearch}
@@ -68,7 +100,36 @@ export default function HomeClient({
         />
       </div>
 
+      <div
+        aria-live="polite"
+        className="min-h-6"
+      >
+        {isPending &&
+          normalizedSearch.length >= 2 && (
+            <p className="mb-3 text-sm text-zinc-500">
+              Searching…
+            </p>
+          )}
+
+        {showNoResults && (
+          <p className="mb-3 text-sm text-zinc-500">
+            No Nendoroids found.
+          </p>
+        )}
+      </div>
+
       <SearchResults nendoroids={quickResults} />
+
+      {normalizedSearch.length >= 2 && (
+        <Link
+          href={`/catalog?search=${encodeURIComponent(
+            normalizedSearch,
+          )}`}
+          className="mb-6 block text-center text-sm text-zinc-400 underline-offset-4 hover:text-zinc-200 hover:underline"
+        >
+          View all results
+        </Link>
+      )}
 
       <ExploreCatalogButton />
 
