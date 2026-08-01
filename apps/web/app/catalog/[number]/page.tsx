@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "@/auth";
 
 import {
   addToCollection,
@@ -11,9 +10,9 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "@/app/actions/wishlist";
+import { auth } from "@/auth";
 import { getUserCollectionItem } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
-
 
 type Props = {
   params: Promise<{
@@ -21,12 +20,24 @@ type Props = {
   }>;
 };
 
-export default async function NendoroidDetailPage({ params }: Props) {
+export default async function NendoroidDetailPage({
+  params,
+}: Props) {
   const { number } = await params;
 
   const nendoroid = await prisma.nendoroid.findUnique({
     where: {
       number,
+    },
+    include: {
+      editions: {
+        select: {
+          officialUrl: true,
+        },
+        orderBy: {
+          id: "asc",
+        },
+      },
     },
   });
 
@@ -41,52 +52,69 @@ export default async function NendoroidDetailPage({ params }: Props) {
         </Link>
 
         <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
-          <h1 className="text-xl font-bold">Nendoroid not found</h1>
+          <h1 className="text-xl font-bold">
+            Nendoroid not found
+          </h1>
 
           <p className="mt-2 text-sm text-zinc-400">
-            The requested Nendoroid does not exist in the catalog.
+            The requested Nendoroid does not exist in the
+            catalog.
           </p>
         </section>
       </main>
     );
   }
 
+  const officialUrl = nendoroid.editions.find(
+    (edition) => edition.officialUrl,
+  )?.officialUrl;
+
   const session = await auth();
   const userId = session?.user?.id;
 
   const collectionItem = userId
-  ? await getUserCollectionItem(userId, nendoroid.id)
-  : null;
+    ? await getUserCollectionItem(
+        userId,
+        nendoroid.id,
+      )
+    : null;
+
+  const wishlistItem = userId
+    ? await prisma.wishlistItem.findUnique({
+        where: {
+          userId_nendoroidId: {
+            userId,
+            nendoroidId: nendoroid.id,
+          },
+        },
+      })
+    : null;
 
   const addCurrentNendoroid = addToCollection.bind(
     null,
     nendoroid.number,
   );
-  const wishlistItem = userId
-  ? await prisma.wishlistItem.findUnique({
-      where: {
-        userId_nendoroidId: {
-          userId,
-          nendoroidId: nendoroid.id,
-        },
-      },
-    })
-  : null;
-  const addCurrentNendoroidToWishlist = addToWishlist.bind(
-  null,
-  nendoroid.number,
-);
-
-const removeCurrentNendoroidFromWishlist =
-  removeFromWishlist.bind(null, nendoroid.number);
 
   const increaseCurrentNendoroid =
     increaseCollectionQuantity.bind(
       null,
       nendoroid.number,
     );
+
   const decreaseCurrentNendoroid =
     decreaseCollectionQuantity.bind(
+      null,
+      nendoroid.number,
+    );
+
+  const addCurrentNendoroidToWishlist =
+    addToWishlist.bind(
+      null,
+      nendoroid.number,
+    );
+
+  const removeCurrentNendoroidFromWishlist =
+    removeFromWishlist.bind(
       null,
       nendoroid.number,
     );
@@ -122,9 +150,23 @@ const removeCurrentNendoroidFromWishlist =
         #{nendoroid.number}
       </p>
 
-      <p className="mt-1 text-zinc-500">
-        {nendoroid.series}
-      </p>
+      {nendoroid.series && (
+        <p className="mt-1 text-zinc-500">
+          {nendoroid.series}
+        </p>
+      )}
+
+      {officialUrl && (
+        <a
+          href={officialUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-flex items-center gap-1 text-sm text-zinc-400 underline-offset-4 hover:text-zinc-200 hover:underline"
+        >
+          View official Good Smile page
+          <span aria-hidden="true">↗</span>
+        </a>
+      )}
 
       {collectionItem ? (
         <section className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
@@ -163,7 +205,10 @@ const removeCurrentNendoroidFromWishlist =
           </div>
         </section>
       ) : (
-        <form action={addCurrentNendoroid} className="mt-6">
+        <form
+          action={addCurrentNendoroid}
+          className="mt-6"
+        >
           <button
             type="submit"
             className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200"
@@ -172,6 +217,7 @@ const removeCurrentNendoroidFromWishlist =
           </button>
         </form>
       )}
+
       {wishlistItem ? (
         <form
           action={removeCurrentNendoroidFromWishlist}
