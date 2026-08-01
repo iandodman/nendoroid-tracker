@@ -30,6 +30,11 @@ interface RestoredEdition {
   name: string;
 }
 
+interface RestoredNumber {
+  base: number;
+  suffix?: string;
+}
+
 const PRODUCTS_DIRECTORY = path.resolve(
   process.cwd(),
   "data/catalog/products",
@@ -82,6 +87,30 @@ function deriveEdition(name: string): RestoredEdition {
   return {
     slug: "standard",
     name: "Standard",
+  };
+}
+
+function normalizeNendoroidNumber(
+  number: string,
+): RestoredNumber {
+  const normalizedNumber = number.trim();
+  const match = normalizedNumber.match(/^(\d+)(.*)$/);
+
+  if (!match) {
+    throw new Error(
+      `Invalid Nendoroid number: "${number}".`,
+    );
+  }
+
+  const base = Number.parseInt(match[1], 10);
+
+  const suffix = match[2]
+    .replace(/^[\s\-‐-‒–—―・]+/, "")
+    .trim();
+
+  return {
+    base,
+    suffix: suffix || undefined,
   };
 }
 
@@ -143,6 +172,9 @@ async function main(): Promise<void> {
 
       const edition = getEdition(product);
 
+      const normalizedNumber =
+        normalizeNendoroidNumber(product.number);
+
       const result = await prisma.$transaction(
         async (transaction) => {
           const nendoroid =
@@ -151,6 +183,9 @@ async function main(): Promise<void> {
                 number: product.number,
               },
               update: {
+                numberBase: normalizedNumber.base,
+                numberSuffix:
+                  normalizedNumber.suffix,
                 name: normalizeNendoroidName(
                   product.name,
                 ),
@@ -162,6 +197,9 @@ async function main(): Promise<void> {
               },
               create: {
                 number: product.number,
+                numberBase: normalizedNumber.base,
+                numberSuffix:
+                  normalizedNumber.suffix,
                 name: normalizeNendoroidName(
                   product.name,
                 ),

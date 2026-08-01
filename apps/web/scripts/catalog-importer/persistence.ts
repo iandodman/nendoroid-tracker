@@ -11,6 +11,8 @@ function buildNendoroidData(
 ) {
   return {
     name: product.name,
+    numberBase: product.numberBase,
+    numberSuffix: product.numberSuffix,
     series: product.series,
     manufacturer: product.manufacturer,
     imageUrl: product.imageUrl,
