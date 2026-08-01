@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import AuthStatus from "@/components/auth/AuthStatus";
 import HomeClient from "@/components/home/HomeClient";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { getUserCollectionCount } from "@/lib/collection";
@@ -22,8 +21,6 @@ export default async function Home() {
 
   return (
     <>
-      <AuthStatus />
-
       <PageHeader
         title="Home"
         description="Search and manage your Nendoroids."
