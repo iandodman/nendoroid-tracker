@@ -8,6 +8,11 @@ type NormalizedEdition = {
   name: string;
 };
 
+type NormalizedNendoroidNumber = {
+  base: number;
+  suffix?: string;
+};
+
 function hasBonusEdition(name: string): boolean {
   return /\bbonus\b/i.test(name);
 }
@@ -27,7 +32,9 @@ function normalizeProductName(name: string): string {
     .trim();
 }
 
-function normalizeEdition(name: string): NormalizedEdition {
+function normalizeEdition(
+  name: string,
+): NormalizedEdition {
   const isBonus = hasBonusEdition(name);
   const isDx = hasDxEdition(name);
 
@@ -58,14 +65,45 @@ function normalizeEdition(name: string): NormalizedEdition {
   };
 }
 
+function normalizeNendoroidNumber(
+  number: string,
+): NormalizedNendoroidNumber {
+  const normalizedNumber = number.trim();
+
+  const match = normalizedNumber.match(
+    /^(\d+)(.*)$/,
+  );
+
+  if (!match) {
+    throw new Error(
+      `Invalid Nendoroid number: "${number}".`,
+    );
+  }
+
+  const base = Number.parseInt(match[1], 10);
+
+  const suffix = match[2]
+    .replace(/^[\s\-‐-‒–—―・]+/, "")
+    .trim();
+
+  return {
+    base,
+    suffix: suffix || undefined,
+  };
+}
+
 export function normalizeGoodSmileProduct(
   product: RawGoodSmileProduct,
 ): NormalizedCatalogProduct {
   const initialRelease = product.releaseDates.find(
-    (releaseDate) => releaseDate.type === "initial",
+    (releaseDate) =>
+      releaseDate.type === "initial",
   );
 
   const edition = normalizeEdition(product.name);
+
+  const normalizedNumber =
+    normalizeNendoroidNumber(product.number);
 
   return {
     source: product.source,
@@ -73,6 +111,9 @@ export function normalizeGoodSmileProduct(
     officialUrl: product.officialUrl,
 
     number: product.number,
+    numberBase: normalizedNumber.base,
+    numberSuffix: normalizedNumber.suffix,
+
     name: normalizeProductName(product.name),
     series: product.series,
     manufacturer: product.manufacturer,

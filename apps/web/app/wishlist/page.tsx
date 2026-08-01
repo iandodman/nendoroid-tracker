@@ -58,6 +58,8 @@ export default async function WishlistPage() {
     wishlistItems.map(({ nendoroid }) => ({
       id: nendoroid.id,
       number: nendoroid.number,
+      numberBase: nendoroid.numberBase,
+      numberSuffix: nendoroid.numberSuffix,
       name: nendoroid.name,
       series: nendoroid.series,
       manufacturer: nendoroid.manufacturer,

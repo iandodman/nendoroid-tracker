@@ -26,6 +26,7 @@ interface SuccessfulProductImport {
 }
 
 const DEFAULT_PRODUCT_DELAY_MS = 400;
+const DEFAULT_IMPORT_CONCURRENCY = 2;
 
 function getMaxPages(): number | undefined {
   const rawValue = process.argv[2]?.trim();
@@ -70,6 +71,28 @@ function getProductDelayMs(): number {
   return delayMs;
 }
 
+function getImportConcurrency(): number {
+  const rawValue =
+    process.env.CATALOG_IMPORT_CONCURRENCY?.trim();
+
+  if (!rawValue) {
+    return DEFAULT_IMPORT_CONCURRENCY;
+  }
+
+  const concurrency = Number(rawValue);
+
+  if (
+    !Number.isInteger(concurrency) ||
+    concurrency <= 0
+  ) {
+    throw new Error(
+      `Invalid catalog import concurrency: "${rawValue}".`,
+    );
+  }
+
+  return concurrency;
+}
+
 function sleep(milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, milliseconds);
@@ -79,12 +102,16 @@ function sleep(milliseconds: number): Promise<void> {
 async function main(): Promise<void> {
   const maxPages = getMaxPages();
   const productDelayMs = getProductDelayMs();
+  const importConcurrency = getImportConcurrency();
 
   console.log(
     "Discovering Good Smile catalog...",
   );
   console.log(
     `Product request delay: ${productDelayMs} ms.`,
+  );
+  console.log(
+    `Import concurrency: ${importConcurrency}.`,
   );
   console.log("");
 
@@ -119,73 +146,106 @@ async function main(): Promise<void> {
   const failedProducts:
     FailedProductImport[] = [];
 
-  for (
-    let index = 0;
-    index < discovery.productIds.length;
-    index += 1
-  ) {
-    const productId =
-      discovery.productIds[index];
+  let nextProductIndex = 0;
+  let completedCount = 0;
 
-    console.log(
-      `[${index + 1}/${discovery.productIds.length}] Importing product ${productId}...`,
-    );
+  async function importNextProduct(
+    workerId: number,
+  ): Promise<void> {
+    while (true) {
+      const currentIndex = nextProductIndex;
 
-    try {
-      const result = await importProduct(
-        productId,
-        {
-          artifactMode: "failed",
-        },
+      if (
+        currentIndex >=
+        discovery.productIds.length
+      ) {
+        return;
+      }
+
+      nextProductIndex += 1;
+
+      const productId =
+        discovery.productIds[currentIndex];
+
+      console.log(
+        `[worker ${workerId}] [${currentIndex + 1}/${discovery.productIds.length}] Importing product ${productId}...`,
       );
 
-      if (result.status === "skipped") {
-        skippedProducts.push({
-          productId: result.productId,
-          reason: result.reason,
-          productType: result.productType,
-        });
-
-        console.log(
-          `Skipped: ${result.productId} - ${result.reason}`,
+      try {
+        const result = await importProduct(
+          productId,
+          {
+            artifactMode: "failed",
+          },
         );
-      } else {
-        successfulProducts.push({
-          productId: result.productId,
-          number: result.number,
-          name: result.name,
-          operation: result.operation,
+
+        if (result.status === "skipped") {
+          skippedProducts.push({
+            productId: result.productId,
+            reason: result.reason,
+            productType: result.productType,
+          });
+
+          console.log(
+            `[worker ${workerId}] Skipped: ${result.productId} - ${result.reason}`,
+          );
+        } else {
+          successfulProducts.push({
+            productId: result.productId,
+            number: result.number,
+            name: result.name,
+            operation: result.operation,
+          });
+
+          console.log(
+            `[worker ${workerId}] ${result.operation}: Nendoroid #${result.number} - ${result.name}`,
+          );
+        }
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "An unknown error occurred.";
+
+        failedProducts.push({
+          productId,
+          message,
         });
 
-        console.log(
-          `${result.operation}: Nendoroid #${result.number} - ${result.name}`,
+        console.error(
+          `[worker ${workerId}] Failed to import product ${productId}: ${message}`,
         );
       }
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "An unknown error occurred.";
 
-      failedProducts.push({
-        productId,
-        message,
-      });
+      completedCount += 1;
 
-      console.error(
-        `Failed to import product ${productId}: ${message}`,
+      console.log(
+        `Progress: ${completedCount}/${discovery.productIds.length}`,
       );
-    }
+      console.log("");
 
-    console.log("");
-
-    if (
-      productDelayMs > 0 &&
-      index < discovery.productIds.length - 1
-    ) {
-      await sleep(productDelayMs);
+      if (
+        productDelayMs > 0 &&
+        completedCount <
+          discovery.productIds.length
+      ) {
+        await sleep(productDelayMs);
+      }
     }
   }
+
+  const workers = Array.from(
+    {
+      length: Math.min(
+        importConcurrency,
+        discovery.productIds.length,
+      ),
+    },
+    (_, index) =>
+      importNextProduct(index + 1),
+  );
+
+  await Promise.all(workers);
 
   const operationCounts =
     successfulProducts.reduce(
@@ -232,6 +292,9 @@ async function main(): Promise<void> {
         failed:
           failedProducts.length,
 
+        concurrency: importConcurrency,
+        productDelayMs,
+
         operations: operationCounts,
 
         successfulProducts,
@@ -261,6 +324,12 @@ async function main(): Promise<void> {
   );
   console.log(
     `- Failed: ${failedProducts.length}`,
+  );
+  console.log(
+    `- Concurrency: ${importConcurrency}`,
+  );
+  console.log(
+    `- Product delay: ${productDelayMs} ms`,
   );
   console.log(
     "- Report: data/catalog/full-catalog-import-report.json",

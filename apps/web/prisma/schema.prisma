@@ -17,6 +17,9 @@ model Nendoroid {
   number String @unique
   name   String
 
+  numberBase   Int
+  numberSuffix String?
+
   series       String?
   manufacturer String?
   imageUrl     String?
@@ -33,6 +36,8 @@ model Nendoroid {
   editions        NendoroidEdition[]
   collectionItems CollectionItem[]
   wishlistItems   WishlistItem[]
+
+  @@index([numberBase, numberSuffix])
 }
 
 model NendoroidEdition {

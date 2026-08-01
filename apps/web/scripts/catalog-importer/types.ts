@@ -44,12 +44,15 @@ export type NormalizedCatalogProduct = {
   officialUrl: string;
 
   number: string;
+  numberBase: number;
+  numberSuffix?: string;
+
   name: string;
   series?: string;
   manufacturer?: string;
   imageUrl?: string;
 
-    releaseYear?: number;
+  releaseYear?: number;
   releaseMonth?: number;
 
   // Stable internal identifier for the imported edition.

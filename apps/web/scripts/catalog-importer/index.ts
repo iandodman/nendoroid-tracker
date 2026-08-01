@@ -1,22 +1,47 @@
 import "dotenv/config";
 
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+
 import { importProduct } from "./import-product";
 
-function getProductIds(): string[] {
-  const productIds = process.argv
-    .slice(2)
-    .map((productId) => productId.trim())
-    .filter(Boolean);
+const DEFAULT_PRODUCT_DELAY_MS = 400;
 
-  if (productIds.length === 0) {
-    throw new Error(
-      "At least one Good Smile product ID is required. Example: npm run import:product -- 56111 56112",
-    );
-  }
-
-  const invalidProductId = productIds.find(
-    (productId) => !/^[a-zA-Z0-9]+$/.test(productId),
+async function readProductIdsFromFile(
+  filePath: string,
+): Promise<string[]> {
+  const resolvedPath = path.resolve(
+    process.cwd(),
+    filePath,
   );
+
+  const content = await readFile(
+    resolvedPath,
+    "utf8",
+  );
+
+  return content
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(
+      (line) =>
+        line.length > 0 &&
+        !line.startsWith("#"),
+    );
+}
+
+function validateProductIds(
+  productIds: string[],
+): string[] {
+  const uniqueProductIds = [
+    ...new Set(productIds),
+  ];
+
+  const invalidProductId =
+    uniqueProductIds.find(
+      (productId) =>
+        !/^[a-zA-Z0-9]+$/.test(productId),
+    );
 
   if (invalidProductId) {
     throw new Error(
@@ -24,11 +49,76 @@ function getProductIds(): string[] {
     );
   }
 
-  return productIds;
+  return uniqueProductIds;
+}
+
+async function getProductIds(): Promise<string[]> {
+  const arguments_ = process.argv
+    .slice(2)
+    .map((argument) => argument.trim())
+    .filter(Boolean);
+
+  if (arguments_.length === 0) {
+    throw new Error(
+      "Provide one or more Good Smile product IDs or the path to a .txt file.",
+    );
+  }
+
+  if (
+    arguments_.length === 1 &&
+    arguments_[0].toLowerCase().endsWith(".txt")
+  ) {
+    const productIds =
+      await readProductIdsFromFile(
+        arguments_[0],
+      );
+
+    if (productIds.length === 0) {
+      throw new Error(
+        `No product IDs were found in "${arguments_[0]}".`,
+      );
+    }
+
+    return validateProductIds(productIds);
+  }
+
+  return validateProductIds(arguments_);
+}
+
+function getProductDelayMs(): number {
+  const rawValue =
+    process.env.CATALOG_IMPORT_DELAY_MS?.trim();
+
+  if (!rawValue) {
+    return DEFAULT_PRODUCT_DELAY_MS;
+  }
+
+  const delayMs = Number(rawValue);
+
+  if (
+    !Number.isInteger(delayMs) ||
+    delayMs < 0
+  ) {
+    throw new Error(
+      `Invalid catalog import delay: "${rawValue}".`,
+    );
+  }
+
+  return delayMs;
+}
+
+function sleep(
+  milliseconds: number,
+): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 }
 
 async function main(): Promise<void> {
-  const productIds = getProductIds();
+  const productIds = await getProductIds();
+  const productDelayMs =
+    getProductDelayMs();
 
   const successfulProductIds: string[] = [];
 
@@ -43,17 +133,30 @@ async function main(): Promise<void> {
     message: string;
   }> = [];
 
-  for (const productId of productIds) {
+  console.log(
+    `Preparing to import ${productIds.length} products.`,
+  );
+  console.log(
+    `Product request delay: ${productDelayMs} ms.`,
+  );
+
+  for (
+    let index = 0;
+    index < productIds.length;
+    index += 1
+  ) {
+    const productId = productIds[index];
+
     try {
       console.log("");
       console.log(
-        `Importing Good Smile product ${productId}...`,
+        `[${index + 1}/${productIds.length}] Importing Good Smile product ${productId}...`,
       );
 
       const result = await importProduct(
         productId,
         {
-          artifactMode: "all",
+          artifactMode: "failed",
         },
       );
 
@@ -67,15 +170,15 @@ async function main(): Promise<void> {
         console.log(
           `Skipped product ${result.productId}: ${result.reason}`,
         );
+      } else {
+        successfulProductIds.push(
+          result.productId,
+        );
 
-        continue;
+        console.log(
+          `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
+        );
       }
-
-      successfulProductIds.push(result.productId);
-
-      console.log(
-        `${result.operation}: Nendoroid #${result.number} — ${result.name}`,
-      );
     } catch (error: unknown) {
       const message =
         error instanceof Error
@@ -90,6 +193,13 @@ async function main(): Promise<void> {
       console.error(
         `Failed to import product ${productId}: ${message}`,
       );
+    }
+
+    if (
+      productDelayMs > 0 &&
+      index < productIds.length - 1
+    ) {
+      await sleep(productDelayMs);
     }
   }
 
@@ -109,9 +219,10 @@ async function main(): Promise<void> {
     console.log("- Skipped products:");
 
     for (const skipped of skippedProducts) {
-      const productType = skipped.productType
-        ? ` [${skipped.productType}]`
-        : "";
+      const productType =
+        skipped.productType
+          ? ` [${skipped.productType}]`
+          : "";
 
       console.log(
         `  - ${skipped.productId}${productType}: ${skipped.message}`,
@@ -138,6 +249,9 @@ main().catch((error: unknown) => {
       ? error.message
       : "An unknown error occurred.";
 
-  console.error(`Catalog importer failed: ${message}`);
+  console.error(
+    `Catalog importer failed: ${message}`,
+  );
+
   process.exitCode = 1;
 });
