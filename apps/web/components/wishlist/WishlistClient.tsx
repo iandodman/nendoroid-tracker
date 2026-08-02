@@ -13,6 +13,7 @@ import {
 } from "next/navigation";
 
 import { removeFromWishlist } from "@/app/actions/wishlist";
+import ActionForm from "@/components/actions/ActionForm";
 import NendoroidCard, {
   type CatalogNendoroid,
 } from "@/components/catalog/NendoroidCard";
@@ -75,8 +76,7 @@ export default function WishlistClient({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] =
-    useState(initialSearch);
+  const [search, setSearch] = useState(initialSearch);
   const [sort, setSort] =
     useState<WishlistSort>(initialSort);
   const [filter, setFilter] =
@@ -230,16 +230,16 @@ export default function WishlistClient({
                   key={nendoroid.id}
                   nendoroid={nendoroid}
                   footer={
-                    <form
+                    <ActionForm
                       action={removeCurrentNendoroid}
                     >
                       <button
                         type="submit"
-                        className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-red-500 hover:bg-red-500/15 hover:text-red-400 active:border-red-500 active:bg-red-500/25 active:text-red-300"
+                        className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:border-red-500 hover:bg-red-500/15 hover:text-red-400 active:border-red-500 active:bg-red-500/25 active:text-red-300 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         Remove
                       </button>
-                    </form>
+                    </ActionForm>
                   }
                 />
               );
