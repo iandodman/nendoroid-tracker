@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import NendoroidImage from "@/components/images/NendoroidImage";import Link from "next/link";
 
 import type { QuickSearchResult } from "@/app/actions/search";
 
@@ -22,11 +21,8 @@ export default function SearchResults({
           href={`/catalog/${nendoroid.number}`}
           className="flex items-center gap-3 rounded-2xl bg-zinc-900 px-3 py-3 transition hover:bg-zinc-800"
         >
-          <Image
-            src={
-              nendoroid.imageUrl ??
-              "/images/nendoroids/placeholder.png"
-            }
+          <NendoroidImage
+            src={nendoroid.imageUrl}
             alt={nendoroid.name}
             width={56}
             height={56}
