@@ -1,4 +1,4 @@
-import Image from "next/image";
+import NendoroidImage from "@/components/images/NendoroidImage";
 import Link from "next/link";
 
 import {
@@ -121,26 +121,14 @@ export default async function NendoroidDetailPage({
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 pb-24 pt-6 text-zinc-50">
-      <Link
-        href="/catalog"
-        className="text-sm text-zinc-400 hover:text-zinc-200"
-      >
-        ← Back to catalog
-      </Link>
-
-      {nendoroid.imageUrl ? (
-        <Image
-          src={nendoroid.imageUrl}
-          alt={nendoroid.name}
-          width={500}
-          height={500}
-          className="mt-6 aspect-square w-full rounded-2xl object-cover"
-        />
-      ) : (
-        <div className="mt-6 flex aspect-square w-full items-center justify-center rounded-2xl bg-zinc-900 text-zinc-500">
-          No image
-        </div>
-      )}
+      <NendoroidImage
+        src={nendoroid.imageUrl}
+        alt={nendoroid.name}
+        width={500}
+        height={500}
+        preload
+        className="mt-6 aspect-square w-full rounded-2xl object-cover"
+      />
 
       <h1 className="mt-6 text-3xl font-bold">
         {nendoroid.name}

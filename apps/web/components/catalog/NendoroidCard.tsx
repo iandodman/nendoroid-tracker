@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import NendoroidImage from "@/components/images/NendoroidImage";import Link from "next/link";
 import { Heart } from "lucide-react";
 
 import type { Nendoroid } from "@/app/generated/prisma/client";
@@ -27,11 +26,8 @@ export default function NendoroidCard({
         className="block"
       >
         <div className="relative aspect-square bg-zinc-800">
-          <Image
-            src={
-              nendoroid.imageUrl ??
-              "/images/nendoroids/placeholder.png"
-            }
+          <NendoroidImage
+            src={nendoroid.imageUrl}
             alt={nendoroid.name}
             fill
             sizes="(max-width: 640px) 50vw, 33vw"
