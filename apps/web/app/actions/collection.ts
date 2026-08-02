@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import type { ActionResult } from "@/types/action-result";
 
 async function getAuthenticatedUserAndNendoroid(
   nendoroidNumber: string,
@@ -22,7 +23,9 @@ async function getAuthenticatedUserAndNendoroid(
   });
 
   if (!nendoroid) {
-    throw new Error(`Nendoroid #${nendoroidNumber} not found.`);
+    throw new Error(
+      `Nendoroid #${nendoroidNumber} not found.`,
+    );
   }
 
   return {
@@ -31,100 +34,174 @@ async function getAuthenticatedUserAndNendoroid(
   };
 }
 
-function revalidateCollectionPages(nendoroidNumber: string) {
+function revalidateCollectionPages(
+  nendoroidNumber: string,
+): void {
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidatePath("/collection");
-  revalidatePath(`/catalog/${nendoroidNumber}`);
+  revalidatePath(
+    `/catalog/${nendoroidNumber}`,
+  );
 }
 
 export async function addToCollection(
   nendoroidNumber: string,
-): Promise<void> {
-  const { userId, nendoroid } =
-    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
+): Promise<ActionResult> {
+  try {
+    const { userId, nendoroid } =
+      await getAuthenticatedUserAndNendoroid(
+        nendoroidNumber,
+      );
 
-  await prisma.collectionItem.upsert({
-    where: {
-      userId_nendoroidId: {
+    const existingItem =
+      await prisma.collectionItem.findUnique({
+        where: {
+          userId_nendoroidId: {
+            userId,
+            nendoroidId: nendoroid.id,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+    if (existingItem) {
+      return {
+        success: true,
+        message: "Already in your collection.",
+      };
+    }
+
+    await prisma.collectionItem.create({
+      data: {
         userId,
         nendoroidId: nendoroid.id,
+        quantity: 1,
       },
-    },
-    update: {},
-    create: {
-      userId,
-      nendoroidId: nendoroid.id,
-      quantity: 1,
-    },
-  });
+    });
 
-  revalidateCollectionPages(nendoroid.number);
+    revalidateCollectionPages(
+      nendoroid.number,
+    );
+
+    return {
+      success: true,
+      message: "Added to collection.",
+    };
+  } catch (error: unknown) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Could not add this Nendoroid to your collection.",
+    };
+  }
 }
 
 export async function increaseCollectionQuantity(
   nendoroidNumber: string,
-): Promise<void> {
-  const { userId, nendoroid } =
-    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
+): Promise<ActionResult> {
+  try {
+    const { userId, nendoroid } =
+      await getAuthenticatedUserAndNendoroid(
+        nendoroidNumber,
+      );
 
-  const collectionItem = await prisma.collectionItem.findUnique({
-    where: {
-      userId_nendoroidId: {
-        userId,
-        nendoroidId: nendoroid.id,
+    const collectionItem =
+      await prisma.collectionItem.findUnique({
+        where: {
+          userId_nendoroidId: {
+            userId,
+            nendoroidId: nendoroid.id,
+          },
+        },
+      });
+
+    if (!collectionItem) {
+      return {
+        success: false,
+        message:
+          "This Nendoroid is not in your collection.",
+      };
+    }
+
+    await prisma.collectionItem.update({
+      where: {
+        id: collectionItem.id,
       },
-    },
-  });
+      data: {
+        quantity: {
+          increment: 1,
+        },
+      },
+    });
 
-  if (!collectionItem) {
-    throw new Error(
-      `Nendoroid #${nendoroidNumber} is not in the user's collection.`,
+    revalidateCollectionPages(
+      nendoroid.number,
     );
+
+    return {
+      success: true,
+      message: "Quantity increased.",
+    };
+  } catch (error: unknown) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Could not update the collection quantity.",
+    };
   }
-
-  await prisma.collectionItem.update({
-    where: {
-      id: collectionItem.id,
-    },
-    data: {
-      quantity: {
-        increment: 1,
-      },
-    },
-  });
-
-  revalidateCollectionPages(nendoroid.number);
 }
 
 export async function decreaseCollectionQuantity(
   nendoroidNumber: string,
-): Promise<void> {
-  const { userId, nendoroid } =
-    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
+): Promise<ActionResult> {
+  try {
+    const { userId, nendoroid } =
+      await getAuthenticatedUserAndNendoroid(
+        nendoroidNumber,
+      );
 
-  const collectionItem = await prisma.collectionItem.findUnique({
-    where: {
-      userId_nendoroidId: {
-        userId,
-        nendoroidId: nendoroid.id,
-      },
-    },
-  });
+    const collectionItem =
+      await prisma.collectionItem.findUnique({
+        where: {
+          userId_nendoroidId: {
+            userId,
+            nendoroidId: nendoroid.id,
+          },
+        },
+      });
 
-  if (!collectionItem) {
-    throw new Error(
-      `Nendoroid #${nendoroidNumber} is not in the user's collection.`,
-    );
-  }
+    if (!collectionItem) {
+      return {
+        success: false,
+        message:
+          "This Nendoroid is not in your collection.",
+      };
+    }
 
-  if (collectionItem.quantity === 1) {
-    await prisma.collectionItem.delete({
-      where: {
-        id: collectionItem.id,
-      },
-    });
-  } else {
+    if (collectionItem.quantity === 1) {
+      await prisma.collectionItem.delete({
+        where: {
+          id: collectionItem.id,
+        },
+      });
+
+      revalidateCollectionPages(
+        nendoroid.number,
+      );
+
+      return {
+        success: true,
+        message: "Removed from collection.",
+      };
+    }
+
     await prisma.collectionItem.update({
       where: {
         id: collectionItem.id,
@@ -135,7 +212,22 @@ export async function decreaseCollectionQuantity(
         },
       },
     });
-  }
 
-  revalidateCollectionPages(nendoroid.number);
+    revalidateCollectionPages(
+      nendoroid.number,
+    );
+
+    return {
+      success: true,
+      message: "Quantity decreased.",
+    };
+  } catch (error: unknown) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Could not update the collection quantity.",
+    };
+  }
 }

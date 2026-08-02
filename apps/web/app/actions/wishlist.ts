@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import type { ActionResult } from "@/types/action-result";
 
 async function getAuthenticatedUserAndNendoroid(
   nendoroidNumber: string,
@@ -22,7 +23,9 @@ async function getAuthenticatedUserAndNendoroid(
   });
 
   if (!nendoroid) {
-    throw new Error(`Nendoroid #${nendoroidNumber} not found.`);
+    throw new Error(
+      `Nendoroid #${nendoroidNumber} not found.`,
+    );
   }
 
   return {
@@ -31,48 +34,112 @@ async function getAuthenticatedUserAndNendoroid(
   };
 }
 
-function revalidateWishlistPages(nendoroidNumber: string) {
+function revalidateWishlistPages(
+  nendoroidNumber: string,
+): void {
   revalidatePath("/");
   revalidatePath("/catalog");
   revalidatePath("/wishlist");
-  revalidatePath(`/catalog/${nendoroidNumber}`);
+  revalidatePath(
+    `/catalog/${nendoroidNumber}`,
+  );
 }
 
 export async function addToWishlist(
   nendoroidNumber: string,
-): Promise<void> {
-  const { userId, nendoroid } =
-    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
+): Promise<ActionResult> {
+  try {
+    const { userId, nendoroid } =
+      await getAuthenticatedUserAndNendoroid(
+        nendoroidNumber,
+      );
 
-  await prisma.wishlistItem.upsert({
-    where: {
-      userId_nendoroidId: {
+    const existingItem =
+      await prisma.wishlistItem.findUnique({
+        where: {
+          userId_nendoroidId: {
+            userId,
+            nendoroidId: nendoroid.id,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+    if (existingItem) {
+      return {
+        success: true,
+        message: "Already in your wishlist.",
+      };
+    }
+
+    await prisma.wishlistItem.create({
+      data: {
         userId,
         nendoroidId: nendoroid.id,
       },
-    },
-    update: {},
-    create: {
-      userId,
-      nendoroidId: nendoroid.id,
-    },
-  });
+    });
 
-  revalidateWishlistPages(nendoroid.number);
+    revalidateWishlistPages(
+      nendoroid.number,
+    );
+
+    return {
+      success: true,
+      message: "Added to wishlist.",
+    };
+  } catch (error: unknown) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Could not add this Nendoroid to your wishlist.",
+    };
+  }
 }
 
 export async function removeFromWishlist(
   nendoroidNumber: string,
-): Promise<void> {
-  const { userId, nendoroid } =
-    await getAuthenticatedUserAndNendoroid(nendoroidNumber);
+): Promise<ActionResult> {
+  try {
+    const { userId, nendoroid } =
+      await getAuthenticatedUserAndNendoroid(
+        nendoroidNumber,
+      );
 
-  await prisma.wishlistItem.deleteMany({
-    where: {
-      userId,
-      nendoroidId: nendoroid.id,
-    },
-  });
+    const result =
+      await prisma.wishlistItem.deleteMany({
+        where: {
+          userId,
+          nendoroidId: nendoroid.id,
+        },
+      });
 
-  revalidateWishlistPages(nendoroid.number);
+    if (result.count === 0) {
+      return {
+        success: true,
+        message:
+          "This Nendoroid was not in your wishlist.",
+      };
+    }
+
+    revalidateWishlistPages(
+      nendoroid.number,
+    );
+
+    return {
+      success: true,
+      message: "Removed from wishlist.",
+    };
+  } catch (error: unknown) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Could not remove this Nendoroid from your wishlist.",
+    };
+  }
 }

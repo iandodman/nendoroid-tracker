@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
+import { Toaster } from "sonner";
 import Header from "@/components/layout/Header";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 
@@ -38,6 +38,13 @@ export default function RootLayout({
 
           <main>{children}</main>
         </div>
+
+        <Toaster
+          position="top-center"
+          theme="dark"
+          closeButton
+        />
+
 
         <BottomNavigation />
       </body>

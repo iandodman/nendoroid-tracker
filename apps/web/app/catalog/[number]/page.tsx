@@ -1,4 +1,3 @@
-import NendoroidImage from "@/components/images/NendoroidImage";
 import Link from "next/link";
 
 import {
@@ -11,6 +10,8 @@ import {
   removeFromWishlist,
 } from "@/app/actions/wishlist";
 import { auth } from "@/auth";
+import ActionForm from "@/components/actions/ActionForm";
+import NendoroidImage from "@/components/images/NendoroidImage";
 import { getUserCollectionItem } from "@/lib/collection";
 import { prisma } from "@/lib/prisma";
 
@@ -167,69 +168,69 @@ export default async function NendoroidDetailPage({
           </p>
 
           <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-            <form action={decreaseCurrentNendoroid}>
+            <ActionForm action={decreaseCurrentNendoroid}>
               <button
                 type="submit"
                 aria-label="Decrease quantity"
-                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800"
+                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 −
               </button>
-            </form>
+            </ActionForm>
 
             <span className="min-w-10 text-center text-xl font-bold text-zinc-50">
               {collectionItem.quantity}
             </span>
 
-            <form action={increaseCurrentNendoroid}>
+            <ActionForm action={increaseCurrentNendoroid}>
               <button
                 type="submit"
                 aria-label="Increase quantity"
-                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800"
+                className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-xl font-semibold text-zinc-50 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 +
               </button>
-            </form>
+            </ActionForm>
           </div>
         </section>
       ) : (
-        <form
+        <ActionForm
           action={addCurrentNendoroid}
           className="mt-6"
         >
           <button
             type="submit"
-            className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200"
+            className="w-full rounded-xl bg-zinc-50 px-4 py-3 font-semibold text-zinc-950 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Add to collection
           </button>
-        </form>
+        </ActionForm>
       )}
 
       {wishlistItem ? (
-        <form
+        <ActionForm
           action={removeCurrentNendoroidFromWishlist}
           className="mt-4"
         >
           <button
             type="submit"
-            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
+            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Remove from wishlist
           </button>
-        </form>
+        </ActionForm>
       ) : (
-        <form
+        <ActionForm
           action={addCurrentNendoroidToWishlist}
           className="mt-4"
         >
           <button
             type="submit"
-            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800"
+            className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-semibold text-zinc-50 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Add to wishlist
           </button>
-        </form>
+        </ActionForm>
       )}
     </main>
   );
