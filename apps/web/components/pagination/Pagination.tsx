@@ -1,11 +1,15 @@
 import Link from "next/link";
 
-type CollectionPaginationProps = {
+type PaginationProps = {
   currentPage: number;
   totalPages: number;
-  search: string;
-  sort: string;
-  filter: string;
+  pathname: string;
+  search?: string;
+  sort?: string;
+  filter?: string;
+  defaultSort?: string;
+  defaultFilter?: string;
+  ariaLabel: string;
 };
 
 function getVisiblePages(
@@ -44,16 +48,22 @@ function getVisiblePages(
   return pages;
 }
 
-function buildCollectionUrl({
+function buildPageUrl({
+  pathname,
   page,
   search,
   sort,
   filter,
+  defaultSort,
+  defaultFilter,
 }: {
+  pathname: string;
   page: number;
-  search: string;
-  sort: string;
-  filter: string;
+  search?: string;
+  sort?: string;
+  filter?: string;
+  defaultSort?: string;
+  defaultFilter?: string;
 }): string {
   const params = new URLSearchParams();
 
@@ -65,28 +75,30 @@ function buildCollectionUrl({
     params.set("search", search);
   }
 
-  if (sort !== "recently-added") {
+  if (sort && sort !== defaultSort) {
     params.set("sort", sort);
   }
 
-  if (filter !== "all") {
+  if (filter && filter !== defaultFilter) {
     params.set("filter", filter);
   }
 
   const query = params.toString();
 
-  return query
-    ? `/collection?${query}`
-    : "/collection";
+  return query ? `${pathname}?${query}` : pathname;
 }
 
-export default function CollectionPagination({
+export default function Pagination({
   currentPage,
   totalPages,
+  pathname,
   search,
   sort,
   filter,
-}: CollectionPaginationProps) {
+  defaultSort,
+  defaultFilter,
+  ariaLabel,
+}: PaginationProps) {
   if (totalPages <= 1) {
     return null;
   }
@@ -101,16 +113,19 @@ export default function CollectionPagination({
 
   return (
     <nav
-      aria-label="Collection pages"
+      aria-label={ariaLabel}
       className="mt-8 flex flex-wrap items-center justify-center gap-2"
     >
       {currentPage > 1 && (
         <Link
-          href={buildCollectionUrl({
+          href={buildPageUrl({
+            pathname,
             page: currentPage - 1,
             search,
             sort,
             filter,
+            defaultSort,
+            defaultFilter,
           })}
           className={`${buttonClasses} border-zinc-700 bg-zinc-900 text-zinc-100`}
         >
@@ -135,11 +150,14 @@ export default function CollectionPagination({
         return (
           <Link
             key={page}
-            href={buildCollectionUrl({
+            href={buildPageUrl({
+              pathname,
               page,
               search,
               sort,
               filter,
+              defaultSort,
+              defaultFilter,
             })}
             aria-current={
               isCurrent ? "page" : undefined
@@ -157,11 +175,14 @@ export default function CollectionPagination({
 
       {currentPage < totalPages && (
         <Link
-          href={buildCollectionUrl({
+          href={buildPageUrl({
+            pathname,
             page: currentPage + 1,
             search,
             sort,
             filter,
+            defaultSort,
+            defaultFilter,
           })}
           className={`${buttonClasses} border-zinc-700 bg-zinc-900 text-zinc-100`}
         >
