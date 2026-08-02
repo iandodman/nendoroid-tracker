@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import SignInRequired from "@/components/auth/SignInRequired";
 import { auth } from "@/auth";
 import CollectionClient from "@/components/collection/CollectionClient";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -12,13 +13,16 @@ export default async function CollectionPage() {
   if (!userId) {
     return (
       <>
-        <PageHeader title="Collection" />
+        <PageHeader
+          title="Collection"
+          description="Your saved Nendoroids."
+        />
 
-        <section>
-          <p className="text-zinc-400">
-            Sign in to view your collection.
-          </p>
-        </section>
+        <SignInRequired
+          title="Sign in to view your collection"
+          description="Your collection is linked to your account so it stays available across devices."
+          redirectTo="/collection"
+        />
       </>
     );
   }

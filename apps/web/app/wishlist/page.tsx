@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import SignInRequired from "@/components/auth/SignInRequired";
 import { auth } from "@/auth";
 import type { CatalogNendoroid } from "@/components/catalog/NendoroidCard";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -18,15 +19,11 @@ export default async function WishlistPage() {
           description="Your saved Nendoroids."
         />
 
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
-          <h2 className="font-semibold">
-            Sign in to view your wishlist
-          </h2>
-
-          <p className="mt-2 text-sm text-zinc-400">
-            Your saved Nendoroids are linked to your account.
-          </p>
-        </section>
+        <SignInRequired
+          title="Sign in to view your wishlist"
+          description="Sign in to save the Nendoroids you want and access them from any device."
+          redirectTo="/wishlist"
+        />
       </>
     );
   }
