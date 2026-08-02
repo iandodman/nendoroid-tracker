@@ -8,8 +8,11 @@ node_modules/
 out/
 
 # Environment variables
+!.env.example
+.env
 .env.local
 .env.*.local
+
 
 # Logs
 npm-debug.log*
