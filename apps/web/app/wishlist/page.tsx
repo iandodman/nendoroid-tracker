@@ -1,13 +1,153 @@
 import Link from "next/link";
 
-import SignInRequired from "@/components/auth/SignInRequired";
+import type { Prisma } from "@/app/generated/prisma/client";
 import { auth } from "@/auth";
+import SignInRequired from "@/components/auth/SignInRequired";
 import type { CatalogNendoroid } from "@/components/catalog/NendoroidCard";
 import { PageHeader } from "@/components/layout/PageHeader";
-import WishlistClient from "@/components/wishlist/WishlistClient";
+import WishlistClient, {
+  type WishlistSort,
+} from "@/components/wishlist/WishlistClient";
+import type { WishlistFilter } from "@/components/wishlist/WishlistToolbar";
 import { prisma } from "@/lib/prisma";
 
-export default async function WishlistPage() {
+const WISHLIST_PAGE_SIZE = 24;
+
+type WishlistPageProps = {
+  searchParams: Promise<{
+    page?: string;
+    search?: string;
+    sort?: string;
+    filter?: string;
+  }>;
+};
+
+function parsePage(
+  value: string | undefined,
+): number {
+  const page = Number(value);
+
+  if (!Number.isInteger(page) || page < 1) {
+    return 1;
+  }
+
+  return page;
+}
+
+function parseSort(
+  value: string | undefined,
+): WishlistSort {
+  switch (value) {
+    case "recently-added":
+    case "number-asc":
+    case "number-desc":
+    case "name-asc":
+    case "name-desc":
+      return value;
+
+    default:
+      return "recently-added";
+  }
+}
+
+function parseFilter(
+  value: string | undefined,
+): WishlistFilter {
+  switch (value) {
+    case "all":
+    case "not-owned":
+    case "owned":
+      return value;
+
+    default:
+      return "all";
+  }
+}
+
+function getWishlistOrderBy(
+  sort: WishlistSort,
+): Prisma.WishlistItemOrderByWithRelationInput[] {
+  switch (sort) {
+    case "number-asc":
+      return [
+        {
+          nendoroid: {
+            numberBase: "asc",
+          },
+        },
+        {
+          nendoroid: {
+            numberSuffix: {
+              sort: "asc",
+              nulls: "first",
+            },
+          },
+        },
+        {
+          id: "asc",
+        },
+      ];
+
+    case "number-desc":
+      return [
+        {
+          nendoroid: {
+            numberBase: "desc",
+          },
+        },
+        {
+          nendoroid: {
+            numberSuffix: {
+              sort: "desc",
+              nulls: "last",
+            },
+          },
+        },
+        {
+          id: "asc",
+        },
+      ];
+
+    case "name-asc":
+      return [
+        {
+          nendoroid: {
+            name: "asc",
+          },
+        },
+        {
+          id: "asc",
+        },
+      ];
+
+    case "name-desc":
+      return [
+        {
+          nendoroid: {
+            name: "desc",
+          },
+        },
+        {
+          id: "asc",
+        },
+      ];
+
+    case "recently-added":
+    default:
+      return [
+        {
+          createdAt: "desc",
+        },
+        {
+          id: "desc",
+        },
+      ];
+  }
+}
+
+export default async function WishlistPage({
+  searchParams,
+}: WishlistPageProps) {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -28,31 +168,136 @@ export default async function WishlistPage() {
     );
   }
 
-  const wishlistItems = await prisma.wishlistItem.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      nendoroid: {
-        include: {
-          collectionItems: {
-            where: {
-              userId,
+  const params = await searchParams;
+
+  const search = params.search?.trim() ?? "";
+  const requestedPage = parsePage(params.page);
+  const sort = parseSort(params.sort);
+  const filter = parseFilter(params.filter);
+
+  const where: Prisma.WishlistItemWhereInput = {
+    userId,
+
+    ...(filter === "owned"
+      ? {
+          nendoroid: {
+            collectionItems: {
+              some: {
+                userId,
+              },
             },
-            select: {
-              quantity: true,
+          },
+        }
+      : filter === "not-owned"
+        ? {
+            nendoroid: {
+              collectionItems: {
+                none: {
+                  userId,
+                },
+              },
+            },
+          }
+        : {}),
+
+    ...(search
+      ? {
+          nendoroid: {
+            ...(filter === "owned"
+              ? {
+                  collectionItems: {
+                    some: {
+                      userId,
+                    },
+                  },
+                }
+              : filter === "not-owned"
+                ? {
+                    collectionItems: {
+                      none: {
+                        userId,
+                      },
+                    },
+                  }
+                : {}),
+
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                series: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                number: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
+        }
+      : {}),
+  };
+
+  const [wishlistCount, totalResults] =
+    await Promise.all([
+      prisma.wishlistItem.count({
+        where: {
+          userId,
+        },
+      }),
+
+      prisma.wishlistItem.count({
+        where,
+      }),
+    ]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      totalResults / WISHLIST_PAGE_SIZE,
+    ),
+  );
+
+  const currentPage = Math.min(
+    requestedPage,
+    totalPages,
+  );
+
+  const wishlistItems =
+    await prisma.wishlistItem.findMany({
+      where,
+      orderBy: getWishlistOrderBy(sort),
+      skip:
+        (currentPage - 1) *
+        WISHLIST_PAGE_SIZE,
+      take: WISHLIST_PAGE_SIZE,
+      include: {
+        nendoroid: {
+          include: {
+            collectionItems: {
+              where: {
+                userId,
+              },
+              select: {
+                quantity: true,
+              },
             },
           },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+    });
 
-  const wishlistNendoroids: CatalogNendoroid[] =
-    wishlistItems.map(({ nendoroid }) => ({
+  const wishlistNendoroids:
+    CatalogNendoroid[] = wishlistItems.map(
+    ({ nendoroid }) => ({
       id: nendoroid.id,
       number: nendoroid.number,
       numberBase: nendoroid.numberBase,
@@ -66,14 +311,16 @@ export default async function WishlistPage() {
       createdAt: nendoroid.createdAt,
       updatedAt: nendoroid.updatedAt,
       collectionQuantity:
-        nendoroid.collectionItems[0]?.quantity ?? 0,
+        nendoroid.collectionItems[0]?.quantity ??
+        0,
       isWishlisted: true,
-    }));
+    }),
+  );
 
   const wishlistDescription =
-    wishlistNendoroids.length === 1
+    wishlistCount === 1
       ? "1 saved Nendoroid"
-      : `${wishlistNendoroids.length} saved Nendoroids`;
+      : `${wishlistCount} saved Nendoroids`;
 
   return (
     <>
@@ -82,14 +329,15 @@ export default async function WishlistPage() {
         description={wishlistDescription}
       />
 
-      {wishlistNendoroids.length === 0 ? (
+      {wishlistCount === 0 ? (
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
           <h2 className="text-lg font-semibold">
             Your wishlist is empty
           </h2>
 
           <p className="mt-2 text-sm text-zinc-400">
-            Browse the catalog and save the Nendoroids you want.
+            Browse the catalog and save the Nendoroids
+            you want.
           </p>
 
           <Link
@@ -100,7 +348,15 @@ export default async function WishlistPage() {
           </Link>
         </section>
       ) : (
-        <WishlistClient nendoroids={wishlistNendoroids} />
+        <WishlistClient
+          nendoroids={wishlistNendoroids}
+          initialSearch={search}
+          initialSort={sort}
+          initialFilter={filter}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalResults={totalResults}
+        />
       )}
     </>
   );

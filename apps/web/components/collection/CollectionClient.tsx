@@ -14,8 +14,7 @@ import {
 
 import type { CatalogNendoroid } from "@/components/catalog/NendoroidCard";
 import NendoroidCard from "@/components/catalog/NendoroidCard";
-import CollectionPagination from "@/components/collection/CollectionPagination";
-import CollectionToolbar, {
+import Pagination from "@/components/pagination/Pagination";import CollectionToolbar, {
   type CollectionFilter,
 } from "@/components/collection/CollectionToolbar";
 import type { SortOption } from "@/components/sorting/SortSelect";
@@ -231,12 +230,16 @@ export default function CollectionClient({
           </div>
         )}
 
-        <CollectionPagination
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
+          pathname="/collection"
           search={initialSearch}
           sort={initialSort}
           filter={initialFilter}
+          defaultSort="recently-added"
+          defaultFilter="all"
+          ariaLabel="Collection pages"
         />
       </div>
     </>
