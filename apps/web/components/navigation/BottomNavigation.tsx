@@ -27,6 +27,12 @@ const navigationItems = [
     isActive: (pathname: string) =>
       pathname.startsWith("/wishlist"),
   },
+  {
+    label: "Profile",
+    href: "/profile",
+    isActive: (pathname: string) =>
+      pathname.startsWith("/profile"),
+  },
 ];
 
 export default function BottomNavigation() {
@@ -56,14 +62,6 @@ export default function BottomNavigation() {
             </Link>
           );
         })}
-
-        <button
-          type="button"
-          disabled
-          className="cursor-not-allowed text-zinc-700"
-        >
-          Profile
-        </button>
       </div>
     </nav>
   );
