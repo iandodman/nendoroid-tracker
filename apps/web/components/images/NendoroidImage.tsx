@@ -23,6 +23,7 @@ export default function NendoroidImage({
   return (
     <Image
       {...props}
+      unoptimized
       src={src || PLACEHOLDER_IMAGE}
       alt={alt}
       onError={(event) => {
