@@ -17,7 +17,8 @@
     "audit:catalog": "tsx scripts/catalog-audit/index.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "sync:production-catalog": "tsx scripts/catalog-sync/sync-production-catalog.ts"
+    "sync:production-catalog": "tsx scripts/catalog-sync/sync-production-catalog.ts",
+    "import:manual": "tsx scripts/catalog-importer/import-manual.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.3",

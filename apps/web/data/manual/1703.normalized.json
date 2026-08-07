@@ -1,0 +1,21 @@
+{
+  "number": "1703",
+  "numberBase": 1703,
+  "numberSuffix": null,
+  "name": "Soraru",
+  "series": "Utaite",
+  "manufacturer": "Good Smile Company",
+  "imageUrl": "https://images.goodsmile.info/cgm/images/product/20210909/11762/89683/large/176b35d8586f24d79b9d2a51c0e0abcb.jpg",
+  "releaseYear": 2022,
+  "releaseMonth": 4,
+  "editions": [
+    {
+      "slug": "standard",
+      "name": "Standard Edition",
+      "notes": null,
+      "source": "good-smile",
+      "externalId": "11762",
+      "officialUrl": "https://www.goodsmile.info/en/product/11762/Nendoroid+Soraru.html"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "number": "1329",
+  "numberBase": 1329,
+  "numberSuffix": null,
+  "name": "Mafumafu (Hikikomori Set)",
+  "series": "Utaite",
+  "manufacturer": "Good Smile Company",
+  "imageUrl": "https://images.goodsmile.info/cgm/images/product/20200422/9440/69157/large/33e04805107134278e463b1c182b1b0d.jpg",
+  "releaseYear": 2020,
+  "releaseMonth": 11,
+  "editions": [
+    {
+      "slug": "standard",
+      "name": "Standard Edition",
+      "notes": null,
+      "source": "good-smile",
+      "externalId": "9440",
+      "officialUrl": "https://www.goodsmile.info/en/product/9440/Nendoroid+Mafumafu+Hikikomori+Set.html"
+    }
+  ]
+}
